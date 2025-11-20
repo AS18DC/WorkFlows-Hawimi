@@ -1,0 +1,190 @@
+{
+  "createdAt": "2025-08-21T04:29:01.046Z",
+  "updatedAt": "2025-11-08T15:50:20.000Z",
+  "id": "QiIWghqEkIOt9qae",
+  "name": "editor",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "getFile"
+      },
+      "id": "2a180cbd-d1d7-455a-bc6a-d4cbd092db07",
+      "name": "Telegram Get File",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -80
+      ],
+      "webhookId": "9ba91386-db7e-4695-92b2-4fb57f38b601"
+    },
+    {
+      "parameters": {
+        "url": "={{\"https://api.telegram.org/file/bot\" + $env.TELEGRAM_BOT_TOKEN + \"/\" + $json[\"result\"][\"file_path\"]}}",
+        "options": {}
+      },
+      "id": "6d74c46f-287b-4259-9018-469d3730227d",
+      "name": "Download File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        752,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.captions.ai/api/translate/submit",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "id": "80659a77-e37a-4ece-8142-4a56b80e6602",
+      "name": "Captions Submit",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1232,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.captions.ai/api/translate/poll",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "id": "ef9d3448-ff34-4442-9db4-d707458cbf2b",
+      "name": "Captions Poll",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1472,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{$json[\"message\"][\"chat\"][\"id\"]}}",
+        "text": "={{$json[\"url\"] ? \"Video traducido listo: \" + $json[\"url\"] : \"Procesando...\"}}",
+        "additionalFields": {}
+      },
+      "id": "ec972418-2909-4cab-960b-f21d3498ccaa",
+      "name": "Telegram Send Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        -80
+      ],
+      "webhookId": "263683c4-580d-4534-89f1-36a0bc0914a5"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "bf46448b-f88a-41d3-9f31-1f4e871ecc37",
+      "name": "Telegram Trigger1",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -80
+      ],
+      "webhookId": "6e8368f4-02b4-44d9-b986-95732be1f3ce"
+    }
+  ],
+  "connections": {
+    "Telegram Get File": {
+      "main": [
+        [
+          {
+            "node": "Download File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Captions Submit": {
+      "main": [
+        [
+          {
+            "node": "Captions Poll",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Captions Poll": {
+      "main": [
+        [
+          {
+            "node": "Telegram Send Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Telegram Get File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download File": {
+      "main": [
+        [
+          {
+            "node": "Captions Submit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "87239d4c-3cb2-4246-8792-c214bc59e8a8",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-21T04:29:01.051Z",
+      "updatedAt": "2025-08-21T04:29:01.051Z",
+      "role": "workflow:owner",
+      "workflowId": "QiIWghqEkIOt9qae",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
