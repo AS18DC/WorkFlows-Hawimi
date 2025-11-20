@@ -1,0 +1,211 @@
+{
+  "createdAt": "2025-10-21T02:11:58.689Z",
+  "updatedAt": "2025-11-08T15:48:34.000Z",
+  "id": "6QjYoURvSKH7wOw0",
+  "name": "crear contacto",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "nombre"
+            },
+            {
+              "name": "urlInstagram"
+            },
+            {
+              "name": "urlfacebook"
+            },
+            {
+              "name": "tlf"
+            },
+            {
+              "name": "email"
+            },
+            {
+              "name": "urltwitter"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "19ba35f2-a159-44fd-99c2-93f1ee7afa12",
+              "name": "response",
+              "value": "ok",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1168,
+        352
+      ],
+      "id": "03c5c8f3-e00f-413d-af7e-ccdf55a17455",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/contacts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"inbox_id\": 2,\n  \"name\": \"{{ $json.nombre }}\",\n  \"email\": \"{{ $json.email }}\",\n  \"blocked\": false,\n  \"phone_number\": \"{{ $json.tlf }}\",\n  \"avatar_url\": \"https://example.com/avatar.png\",\n  \"identifier\": \"{{ $json.random }}\",\n  \"additional_attributes\": {\n    \"social_profiles\": \n    {\n      \"twitter\": \"{{ $json.urltwitter }}\",\n      \"facebook\": \"{{ $json.urlfacebook }}\",\n      \"instagram\": \"{{ $json.urlInstagram }}\" \n    }\n  },\n  \"custom_attributes\": {}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        352
+      ],
+      "id": "5b11a1d5-c6d4-4331-8de7-aa34faf2a2c7",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "jsCode": "if ($input.first().json.tlf) {\n  return {tlf: $input.first().json.tlf,       \n        nombre: $input.first().json.nombre,\n       urlInstagram: $input.first().json.urlInstagram,\n       urlfacebook: $input.first().json.urlfacebook,\n       email: $input.first().json.email,\n       urltwitter: $input.first().json.urltwitter,\n        random: Math.floor(Math.random() * (10000000 - 3 + 1))}\n}\n\n\nreturn {tlf: \"\",\n       nombre: $input.first().json.nombre,\n       urlInstagram: $input.first().json.urlInstagram,\n       urlfacebook: $input.first().json.urlfacebook,\n       email: $input.first().json.email,\n       urltwitter: $input.first().json.urltwitter,\n        random: Math.floor(Math.random() * (10000000 - 3 + 1))\n       }\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        496,
+        352
+      ],
+      "id": "2bc670e7-7014-47be-8077-a9f708b81d9c",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/contacts/{{ $json.payload.contact.id }}/labels",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"labels\": [\n    \"por_contactar\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        944,
+        352
+      ],
+      "id": "88211638-6843-49e3-a617-e80ef9402044",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "nombre": "The Chicago Diner",
+          "urlInstagram": "https://www.instagram.com/chicagodiner/",
+          "urlfacebook": "https://www.facebook.com/TheChicagoDiner",
+          "tlf": "+17739356696",
+          "email": "",
+          "urltwitter": "https://twitter.com/chicagodiner"
+        }
+      }
+    ]
+  },
+  "versionId": "0c812e70-bc72-4d5f-aee1-79940f3d47ad",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-10-21T02:11:58.695Z",
+      "updatedAt": "2025-10-21T02:11:58.695Z",
+      "role": "workflow:owner",
+      "workflowId": "6QjYoURvSKH7wOw0",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
