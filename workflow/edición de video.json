@@ -1,0 +1,479 @@
+{
+  "createdAt": "2025-08-28T04:35:09.435Z",
+  "updatedAt": "2025-11-08T15:49:44.000Z",
+  "id": "P1A9XgBupr7MQEbK",
+  "name": "edición de video",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "videoID"
+            },
+            {
+              "name": "Titulo"
+            },
+            {
+              "name": "chatID"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        -144
+      ],
+      "id": "1966ddd3-c278-4f21-ad3c-9827185911de",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Genere texto para un video breve en las redes sociales sobre Hola. Crea una lista numerada con 5 datos breves (F1-F5), rodea las palabras más importantes con [color #f1c40f] y [/color] e incluye emojis en cada oración. Además, cree un título para publicar el video en las redes sociales (C).\n\nDevuelve solo JSON válido con la siguiente estructura. Elimine cualquier formato JSON, para que la salida esté en una sola línea y en su forma más compacta, de la siguiente manera:\n\n{\"F1\":\"\", \"F2\":\"\", \"F3\":\"\", \"F4\":\"\", \"F5\":\"\", \"C\":\"}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        176,
+        -144
+      ],
+      "id": "120c4210-1685-4995-86a6-13f6084d17f6",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.creatomate.com/v2/renders",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer e57d6fb735f2422bb0f28acc4f44f6838b7e88c888e50c7bb3a2751fb16e9cdc0aac55d373b9d4927cbc4e5e79b45a56"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"template_id\": \"6dea5b39-e338-4d9e-8fc8-1992dc80e75e\",\n  \"modifications\": {\n    \"Video-1.source\": \"{{ $json.URL }}\",\n    \"Intro-Text.text\": \"{{ $('When Executed by Another Workflow').item.json.Titulo }}\",\n    \"Fact-1.text\": \"{{ $('Message a model').item.json.message.content.F1 }}\",\n    \"Fact-2.text\": \"{{ $('Message a model').item.json.message.content.F2 }}\",\n    \"Fact-3.text\": \"{{ $('Message a model').item.json.message.content.F3 }}\",\n    \"Fact-4.text\": \"{{ $('Message a model').item.json.message.content.F4 }}\",\n    \"Fact-5.text\": \"{{ $('Message a model').item.json.message.content.F5 }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        896,
+        -144
+      ],
+      "id": "ebfa4c48-6de2-49a5-adfb-54dcf25100a0",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('When Executed by Another Workflow').item.json.videoID }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        -144
+      ],
+      "id": "846e9cb6-b928-4527-9a51-64a376e0b749",
+      "name": "descarga el video",
+      "webhookId": "769ec03f-21c0-4f3a-899d-7cdb6bb04322",
+      "credentials": {
+        "telegramApi": {
+          "id": "TxFzwqGSIzTNfHDW",
+          "name": "Editor de video"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0a449ca7-5924-48f4-892e-03844af8fa43",
+              "name": "URL",
+              "value": "=https://api.telegram.org/file/bot8390180177:AAEF-sKXOG_Vnaf0M6ntZoZv0STGCTBKnDk/{{ $json.result.file_path }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        688,
+        -144
+      ],
+      "id": "1cc28c29-5c19-437b-8a9b-7c5e1acf268b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "amount": 24
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1136,
+        -144
+      ],
+      "id": "895cbeec-526d-4361-b4cf-79112f3535d9",
+      "name": "Wait",
+      "webhookId": "1ff8f0a1-42fe-4255-a6f0-68a83ae6e754"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.creatomate.com/v2/renders/{{ $json.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer e57d6fb735f2422bb0f28acc4f44f6838b7e88c888e50c7bb3a2751fb16e9cdc0aac55d373b9d4927cbc4e5e79b45a56"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1376,
+        -144
+      ],
+      "id": "94590920-5df0-4059-94e1-9c314e3ac07e",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "succeeded",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9bc07be6-01e4-4bbd-b20f-9543991b4e25"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "succeeded"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bc00c691-9aab-40f3-8daf-efb5bbc44f9f",
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "failed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "faliled"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3b3bc0ad-6f44-4d06-be32-6a3ed17bf84e",
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "(planned|transcribing|waiting|rendering)",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "retry"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1600,
+        -160
+      ],
+      "id": "369f0f53-f9dc-4380-b9a6-17b2c149869b",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "sendVideo",
+        "chatId": "={{ $('When Executed by Another Workflow').item.json.chatID }}",
+        "file": "={{ $json.url }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1840,
+        -176
+      ],
+      "id": "9513cd02-b749-4669-83ae-a7cf345536ca",
+      "name": "Send a video1",
+      "webhookId": "a269549b-ffbf-4458-ab38-e7a79029d495",
+      "credentials": {
+        "telegramApi": {
+          "id": "TxFzwqGSIzTNfHDW",
+          "name": "Editor de video"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ce49987-9f95-46f2-892f-b490c6759358",
+              "name": "response",
+              "value": "succeed",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2256,
+        -144
+      ],
+      "id": "03a744a7-f79e-4688-88ce-620c3e0074f8",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ce49987-9f95-46f2-892f-b490c6759358",
+              "name": "response",
+              "value": "failed",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2080,
+        16
+      ],
+      "id": "a94c2c98-05fc-4b5d-811a-bcd80d5893b5",
+      "name": "Edit Fields2"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "descarga el video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "descarga el video": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a video1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a video1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "videoID": "AgACAgEAAxkBAAMYaK_Ml6P6vgw2fxBp39VxKGQFOnUAAnavMRvetHlFuf6vEuzzA_gBAAMCAAN5AAM2BA",
+          "Titulo": "Hola",
+          "chatID": "397721851"
+        }
+      }
+    ]
+  },
+  "versionId": "54fbdf89-8754-4857-b0e2-77e7e60369e6",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-28T04:35:09.441Z",
+      "updatedAt": "2025-08-28T04:35:09.441Z",
+      "role": "workflow:owner",
+      "workflowId": "P1A9XgBupr7MQEbK",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
