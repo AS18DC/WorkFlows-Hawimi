@@ -1,0 +1,472 @@
+{
+  "createdAt": "2025-11-05T20:31:29.837Z",
+  "updatedAt": "2025-11-06T23:27:49.000Z",
+  "id": "OsEol6m6kLdIEi2u",
+  "name": "celebration agent copy",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {},
+        "path": "f16259e6-d714-4ed2-8883-4953f66c4573"
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a52c7ea7-7a74-4169-94ce-c2bf9bfb661d",
+      "name": "Telegram Trigger",
+      "webhookId": "f16259e6-d714-4ed2-8883-4953f66c4573",
+      "credentials": {
+        "telegramApi": {
+          "id": "CkTlqQbItRiJ4WZt",
+          "name": "celebration agent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.inputUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "={{ $json.userAgent }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "0f9f2765-8acc-4f21-9599-45037fc29e9d",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "links",
+              "cssSelector": "a",
+              "returnValue": "attribute",
+              "attribute": "href"
+            },
+            {
+              "key": "body_text",
+              "cssSelector": "body"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "a6ef03b2-51f9-46ef-98b8-5e02d6d12294",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "daa0df63-225d-40aa-bbc5-3e234fbbb4ef",
+              "name": "inputUrl",
+              "value": "={{ $json.message.link_preview_options.url }}",
+              "type": "string"
+            },
+            {
+              "id": "5c951bbd-b348-4ba5-8b72-7a35363615b6",
+              "name": "userAgent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123 Safari/537.36",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6d86aad8-55a5-464a-8e5d-7baed85668b4",
+      "name": "Set Defaults"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Eres un agente orquestador dedicado a la extraccion de informacion de contacto de una empesa que debe usar sus 2 herramientas, las cuales son agentes tambien, tu no buscas informacion, tus herramientas te son los que revisan el codigo html y hacen la busqueda en la pagina para buscar toda la informacion de contacto. necesitas usar las 2 herramientas y consolidar sus respuestas para dar una respuesta final de la informacion completa. Al final debes usar tu herramienta crearContacto añadiendo todo lo que extragiste, si te falta algo dejalo vacio",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        832,
+        0
+      ],
+      "id": "a7e10d3a-12db-4a4d-b402-1381c98d06b3",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        640,
+        432
+      ],
+      "id": "286336fd-9ab2-4feb-a2b3-1e147552b4ad",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "agente extractor de html",
+        "text": "={{ $json.body_text }}",
+        "options": {
+          "systemMessage": "Eres un extractor de redes sociales, emails y numeros de telefono, recibes un body_text de un html y debes devolver los link que sean de tiktok, instagram, facebook, etc, a demas de los correos electronicos y numeros de telefono"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        224
+      ],
+      "id": "85245ff4-8638-49a9-8807-11bd7061c309",
+      "name": "AI Agent Tool"
+    },
+    {
+      "parameters": {
+        "toolDescription": "agente buscador de informacion",
+        "text": "=necesito que extraigas la informacion de contacto del siguiente link {{ $('Set Defaults').item.json.inputUrl }} . Extrae redes sociales, emails y numeros de telefono",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        1264,
+        208
+      ],
+      "id": "e3a7f7fb-5475-4549-a4de-99bf39135902",
+      "name": "AI Agent Tool1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        416
+      ],
+      "id": "05fce815-d4e3-4878-b3de-38f3cf6bb823",
+      "name": "SerpAPI",
+      "credentials": {
+        "serpApi": {
+          "id": "l6zroHtSyDRQjH5P",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        },
+        "path": "d1a07aa3-0af8-4826-b8ca-1b5506ebe30d"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1184,
+        0
+      ],
+      "id": "1d644570-0c36-4d59-a401-72123948c602",
+      "name": "Send a text message",
+      "webhookId": "d1a07aa3-0af8-4826-b8ca-1b5506ebe30d",
+      "credentials": {
+        "telegramApi": {
+          "id": "CkTlqQbItRiJ4WZt",
+          "name": "celebration agent"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "crearContacto: con esta herramienta puedes crear un contacto con toda la informacion que obtuviste y subirlo a nuestro crm",
+        "workflowId": {
+          "__rl": true,
+          "value": "6QjYoURvSKH7wOw0",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/6QjYoURvSKH7wOw0",
+          "cachedResultName": "crear contacto"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nombre": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nombre', `pon el nombre de la empresa aqui`, 'string') }}",
+            "urlInstagram": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urlInstagram', `pon la url del instagram`, 'string') }}",
+            "urlfacebook": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urlfacebook', `pon la url del facebook`, 'string') }}",
+            "tlf": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tlf', `pon el numero de telefono`, 'string') }}",
+            "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `pon el email`, 'string') }}",
+            "urltwitter": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urltwitter', `pon la url del twitter`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nombre",
+              "displayName": "nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "urlInstagram",
+              "displayName": "urlInstagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "urlfacebook",
+              "displayName": "urlfacebook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "tlf",
+              "displayName": "tlf",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "urltwitter",
+              "displayName": "urltwitter",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        432
+      ],
+      "id": "56c15c11-f749-4f35-890e-8e0c64d178ce",
+      "name": "Call 'crear contacto'"
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Defaults",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Defaults": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent Tool",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent Tool1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent Tool1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'crear contacto'": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "78bccdc5-ec8c-4cb3-b102-789d50a0b674",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-11-05T20:31:29.844Z",
+      "updatedAt": "2025-11-05T20:31:29.844Z",
+      "role": "workflow:owner",
+      "workflowId": "OsEol6m6kLdIEi2u",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
