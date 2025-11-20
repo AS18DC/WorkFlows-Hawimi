@@ -1,0 +1,3009 @@
+{
+  "createdAt": "2025-11-07T23:52:23.021Z",
+  "updatedAt": "2025-11-11T03:25:14.000Z",
+  "id": "qoMrs7x0a8FzW2ny",
+  "name": "we love feedback for circles agent",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "feedbackforcircles",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3504,
+        608
+      ],
+      "id": "49f92d30-9276-4966-8494-7d9e5760923a",
+      "name": "Webhook",
+      "webhookId": "fec9b0a7-2713-4702-84ae-6ea7fedc37f1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8d2178dc-2b78-49aa-acfc-ae49d3200ecb",
+              "name": "labels",
+              "value": "={{ $json.body.conversation.labels[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "ce9da550-bf9b-4790-b811-43448f2f0081",
+              "name": "content",
+              "value": "={{ $json.body.conversation.messages[0].content }}",
+              "type": "string"
+            },
+            {
+              "id": "f297f823-4963-4286-9396-3bf7f8534669",
+              "name": "conversation_id",
+              "value": "={{ $json.body.conversation.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1488,
+        320
+      ],
+      "id": "8faa617a-eae7-4181-b83d-42c63cdd3705",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "=Eres Wimi, un Agente de soporte de Inteligencia Artificial creado por Hawimi.\n\nPropósito:\n\nIdentificar las necesidades del cliente.\nFormular preguntas estratégicas una por una, esperando la respuesta del usuario antes de hacer la siguiente.\n\nSolicitar el nombre del cliente para registrar la solicitud correctamente.\n\nGenerar automáticamente un título que describa la solicitud antes de enviarla a tus herramientas.\n\nPresentar un resumen al usuario y confirmar su aprobación antes de enviar la solicitud final.\n\nSi detectas que el usuario muestra interés en obtener un chatbot, agente, asistente de IA o pregunta por automatizaciones personalizadas, sugiérele amablemente que hable con tu compañero, tu agente aliado especializado en venta de chatbots, enviándole este mensaje:\n\n\"💚 Veo que estás interesado en crear tu propio agente o chatbot. Te recomiendo hablar con mi compañero, él es especialista en diseñar e implementar chatbots personalizados. 🚀 Puedes hablar con él aquí: https://t.me/hawimi_AI_consultant_bot\"\n\nContexto:\n\nEstás recibiendo sugerencias o reportes para mejorar un circulo de personas que se reunen.\n\nIdentidad de marca Hawimi: unión, consciencia y propósito.\n\nCircles: grupos de emprendedores se reunen a compartir ideas o pensamientos y apoyarse entre si.\n\nSlogan de Hawimi (tradúcelos al idioma de la conversación):\n\nTogether we are the change\n\nWe are conscious heroes\n\nThe Most Conscious World One Click Away\n\nEl color que representa a Hawimi es el verde\n\nenvia siempre emojis\n\nLos emojis característicos de Hawimi son: 💚🚀🙂😄🥳🟢✅💞🤗😊🌈✨\n\nescribe todas tus respuestas en markdown\n\nReglas de interacción:\n\nInicio\nEn el primer mensaje, preséntate con una frase cálida y clara:\n“Hola, soy Wimi, una inteligencia artificial de Hawimi. Mi propósito es escuchar todas tus recomendaciones para nuestro circulo y poder crecer de forma más consciente, generando un impacto positivo en toda la comunidad.”\nLuego invita al usuario a contarte sobre su sugerencia.\n\nPreguntas estratégicas orientadas a herramientas\n\nTu principal función es recopilar toda la información necesaria para rellenar correctamente los parámetros de las herramientas disponibles.\n\nAntes de ejecutar o sugerir cualquier acción, verifica que tengas todos los datos requeridos por tus herramientas.\n\nCada pregunta debe tener un propósito: llenar un campo, confirmar una decisión o validar un contexto.\n\nUna vez tengas todos los datos necesarios, puedes proceder a usar tus herramientas o formular la recomendación correspondiente.\n\nSi el usuario cambia de tema o introduce una idea ambigua, haz una pregunta de seguimiento para mantener el enfoque.\n\nNo preguntes por el título, généralo tú según el problema o sugerencia. Si te falta más contexto para generar la descripción, puedes pedirlo.\n\nRegistro de solicitudes\n\nAntes de registrar una solicitud, pregunta el nombre completo del cliente si aún no lo has obtenido.\n\nGenera automáticamente un título en inglés que resuma la solicitud o necesidad del cliente.\n\nTodos los registros o títulos generados deben estar en inglés, sin importar el idioma de la conversación.\n\nEjemplo de generación automática:\n\nSi el cliente desea automatizar procesos de ventas: “Sales Process Automation Request – [ClientName]”\n\nSi no se puede inferir el tipo de solicitud: “AI Automation Request – [ClientName]”\n\nAntes de registrar o enviar la solicitud, resume lo que vas a montar en un mensaje amable, por ejemplo:\n“Esto es lo que voy a registrar sobre tu solicitud: [Resumen breve de la solicitud y con que tipo la vas a registrar].\n¿Me confirmas que es correcto para que los humanos más conscientes procesen tu sugerencia?”\nSolo cuando el usuario confirme, procede con el registro final.\n\nProcesamiento de imágenes\n\nSi el mensaje contiene “Image description:”, procesa solo la descripción textual.\n\nNo analices imágenes ni videos reales.\n\nIdioma\n\nResponde siempre en el mismo idioma que el usuario.\n\nSi cambia de idioma, adáptate inmediatamente.\n\nLos títulos o registros generados deben mantenerse siempre en inglés.\n\nFormato de conversación\n\n   - Responde con mensajes breves y amables al inicio.  \n   - Sé más detallista y persuasiva al presentar soluciones.  \n   - Usa un tono consultivo, empático y profesional.\n\nNo hacer:\n\nNo procesar stickers ni videos. Si recibes uno, responde: “No puedo procesar eso, ¿podrías describírmelo en texto o imagen?”\n\nNo pedirle el título de la sugerencia o problema (debes generarlo tú).\n\nSi ya te dio suficiente contexto, no repitas la solicitud de descripción.\n\nEstilo y tono:\n\n- Consultivo, empático, profesional y positivo.  \n- Cercano, con lenguaje claro y emocionalmente inteligente.  \n- Representa siempre la esencia Hawimi: consciencia, unión y propósito.  \n  Frase de identidad: “Juntos somos el cambio / Somos los héroes conscientes.”\n\nRepresenta siempre la esencia Hawimi: consciencia, unión y propósito.\nFrase de identidad: “Juntos somos el cambio / Somos los héroes conscientes.”\n\nObjetivo final:\nDiagnostica cada caso mediante preguntas inteligentes, recopila información precisa para tus herramientas y ofrece orientación práctica, coherente y alineada con los valores de Hawimi. Antes de registrar cualquier solicitud, presenta un resumen para que el usuario confirme conscientemente su pedido."
+        }
+      },
+      "id": "da889ca0-b0e3-4359-bf41-5b570bd58a59",
+      "name": "AI Agent1",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        -416,
+        624
+      ],
+      "typeVersion": 1.8
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=memory_{{ $json.conversation_id }}",
+        "contextWindowLength": 50
+      },
+      "id": "f9266177-24fc-4865-bb42-234b4633869e",
+      "name": "Simple Memory1",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        -320,
+        784
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c53cd9f9-77c1-4331-98ff-bfc9bdf95a3c",
+              "name": "text",
+              "type": "string",
+              "value": "={{ $json.content }}"
+            },
+            {
+              "id": "aaeec2b0-181e-4ccc-939f-f28e08394887",
+              "name": "=conversation_id",
+              "value": "={{ $json.conversation_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bc62e213-e7f0-4eb4-aeea-be9ab130e340",
+      "name": "Text",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -1040,
+        320
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "id": "56ff677d-cfaa-4050-8b92-bfff24a90e9b",
+      "name": "Download Image",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -1488,
+        704
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "=You are an advanced image description AI assistant . Your primary function is to provide detailed, accurate descriptions of images submitted through WhatsApp.\n\nCORE FUNCTIONALITY:\n- When presented with an image, you will analyze it thoroughly and provide a comprehensive description in English.\n- Your descriptions should capture both the obvious and subtle elements within the image.\n\nIMAGE DESCRIPTION GUIDELINES:\n- Begin with a broad overview of what the image contains\n- Describe key subjects, people, objects, and their relationships\n- Note significant visual elements such as colors, lighting, composition, and perspective\n- Identify any text visible in the image\n- Describe the setting or environment\n- Mention any notable actions or events taking place\n- Comment on mood, tone, or atmosphere when relevant\n- If applicable, identify landmarks, famous people, or cultural references\n\nRESPONSE FORMAT:\n- Start with \"Image Description:\" followed by your analysis\n- Structure your description in a logical manner (general to specific)\n- Use clear, precise language appropriate for visual description\n- Format longer descriptions with paragraphs to enhance readability\n- End with any notable observations that might require special attention\n\nLIMITATIONS:\n- If the image is blurry, low resolution, or difficult to interpret, acknowledge these limitations\n- If an image contains potentially sensitive content, provide a factual description without judgment\n- Do not make assumptions about elements that cannot be clearly determined\n\nYour descriptions should be informative, objective, and thorough, enabling someone who cannot see the image to form an accurate mental picture of its contents.",
+        "inputType": "base64",
+        "options": {
+          "detail": "auto"
+        }
+      },
+      "id": "6a52b5a1-4cd7-4412-b568-7efd9e3aff60",
+      "name": "Analyze Image",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "position": [
+        -1264,
+        704
+      ],
+      "typeVersion": 1.8,
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.str }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "1952d941-2654-44ac-a7db-7d77b3de5365",
+      "name": "Download Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -1488,
+        512
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "EaTYSKoX0hYQ90Yk",
+          "name": "whatsapp"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "09d8d8bd-cbd4-4f76-a226-be68ecb5f801",
+      "name": "Transcribe Audio",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "position": [
+        -1264,
+        512
+      ],
+      "typeVersion": 1.8,
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "219577d5-b028-48fc-90be-980f4171ab68",
+              "name": "text",
+              "type": "string",
+              "value": "={{ $json.text }}"
+            },
+            {
+              "id": "7c6fcbe8-ce9f-44d3-93c1-97e9c60b9ba9",
+              "name": "conversation_id",
+              "value": "={{ $('Edit Fields3').item.json.conversation_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f98eb3a7-4657-49d8-9cd7-25400be51245",
+      "name": "Audio",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -1040,
+        512
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "67552183-de2e-494a-878e-c2948e8cb6bb",
+              "name": "text",
+              "type": "string",
+              "value": "=User request on the image:\n{{ $('Webhook').item.json.body.conversation.messages[0].content }}\n\nImage description:\n{{ $json.content }}"
+            },
+            {
+              "id": "3133d0ee-d672-45ae-af0c-a018131b58ab",
+              "name": "conversation_id",
+              "value": "={{ $('Edit Fields3').item.json.conversation_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e79dd374-f3a1-4c86-b22a-f640f92deea7",
+      "name": "Image",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -1040,
+        704
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ce6ab5b8-d223-440b-ad91-90330ba55754",
+              "name": "url",
+              "value": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].data_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1936,
+        512
+      ],
+      "id": "ea8e7339-2c13-46a4-9a74-f997dbd5543a",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2059ee12-fc94-43a8-b599-62cdd33e90c9",
+              "name": "url",
+              "value": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].data_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1936,
+        704
+      ],
+      "id": "9000cfaf-27a0-47bd-bc52-9a31a9327d1e",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7831f595-a4fb-415e-a878-0688941c7281",
+              "leftValue": "={{ $json.labels }}",
+              "rightValue": "we_love_feedback_agent",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1264,
+        320
+      ],
+      "id": "71fb13b6-b0bd-4936-ac2e-c4b34e804d15",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "let url = $input.first().json.url;\nurl = url.slice(52)\nurl = 'http://funnel_ventas_chatwoot:3000' + url\nreturn {url};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1712,
+        704
+      ],
+      "id": "3e00583a-4e5a-4493-97d9-d5b7590c3038",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "let str = $input.first().json.url;\nstr = str.slice(52)\nstr = 'http://funnel_ventas_chatwoot:3000' + str\nreturn {str};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1712,
+        512
+      ],
+      "id": "283ba7d2-fc2d-459d-aa5a-393b9b84cd19",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8d2178dc-2b78-49aa-acfc-ae49d3200ecb",
+              "name": "labels",
+              "value": "={{ $json.body.conversation.labels[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "f297f823-4963-4286-9396-3bf7f8534669",
+              "name": "conversation_id",
+              "value": "={{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2832,
+        608
+      ],
+      "id": "70aed964-7d83-43d7-a55b-37c14b478dd9",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.conversation.messages[0].attachments }}",
+                    "rightValue": "=image",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "4fd26877-8f92-4e5e-bdb4-8a99658de37c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "437826be-4018-4f1d-87b6-ac3c07811611",
+                    "leftValue": "={{ $json.body.content }}",
+                    "rightValue": "=text",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "allMatchingOutputs": false
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -3056,
+        512
+      ],
+      "id": "ebed0cf4-858b-4b8f-9f39-242d9811f3a5",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "43705b74-e745-4a1c-9c19-b6e2b718395e",
+                    "leftValue": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].file_type }}",
+                    "rightValue": "audio",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].file_type }}",
+                    "rightValue": "=image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4fd26877-8f92-4e5e-bdb4-8a99658de37c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -2160,
+        608
+      ],
+      "id": "630129b0-790f-426e-a57f-dc881267b788",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7831f595-a4fb-415e-a878-0688941c7281",
+              "leftValue": "={{ $json.labels }}",
+              "rightValue": "we_love_feedback_agent",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2608,
+        608
+      ],
+      "id": "4d023953-0779-4daf-8b9b-94066e198d13",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f297f823-4963-4286-9396-3bf7f8534669",
+              "name": "conversation_id",
+              "value": "={{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3056,
+        704
+      ],
+      "id": "64ea7b7d-0ce7-417c-a65f-b68dd00b18f7",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -416,
+        784
+      ],
+      "id": "ee8b3282-f3eb-42c2-b66d-1d616a3525ec",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ec969df-0df2-4072-8f53-9f953c02a3d3",
+              "leftValue": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].file_type }}",
+              "rightValue": "audio",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -64,
+        608
+      ],
+      "id": "0f944922-11d0-4f5c-9a93-40013e25c636",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.text }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "cambio de operador",
+              "description": "quiero cambiar a un especialista/humano/persona"
+            },
+            {
+              "category": "whatsapp",
+              "description": "el usuario quiere hablar por whatsapp"
+            },
+            {
+              "category": "otro",
+              "description": "aqui es para una secuencia normal de chatbot"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -816,
+        512
+      ],
+      "id": "b1f70383-955f-4d95-ad5b-eece72689415",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=🌟 ¡Un heroe conciente ya fue informado, pronto se va a poner en contacto contigo 🌟"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -384,
+        256
+      ],
+      "id": "ec31ede0-30c7-414d-9d93-754259cc8a74",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $json.conversation_id }}/labels",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"labels\": [\n    \"humano\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        80,
+        0
+      ],
+      "id": "5f8ecd08-8458-46d1-a039-b718ce6066dd",
+      "name": "HTTP Request4",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ghazJYlCzZBPngtY",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d892e887-98c7-4fbe-9754-8e27eda75562",
+              "leftValue": "={{ $json.body.conversation.messages[0].sender_type }}",
+              "rightValue": "User",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -3280,
+        608
+      ],
+      "id": "dcecffca-c339-4217-b476-acfba9840aaf",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/3/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=🔸 {{ $('Webhook').item.json.body.conversation.messages[0].sender.name }} solicito hablar contigo 🔸"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        336,
+        0
+      ],
+      "id": "18b9e62d-6a57-4566-a088-a956bdf87b11",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -816,
+        704
+      ],
+      "id": "539626a4-d82e-498a-a497-45ba4ca29d59",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=¡Procesando tu imagen/audio! 🤔 Dame un segundito y te respondo. ⏳"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2384,
+        608
+      ],
+      "id": "ed791e22-d822-4958-a5cd-ed61b7e72daf",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=¡Listo! Un momento y hablarás con alguien del equipo. ⏳🤝"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -176,
+        0
+      ],
+      "id": "80313f8c-799d-471f-99d5-e8635cdc1707",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=🗓️ Si prefieres agendar una cita gratuita para conversar con un especialista con calma, haz clic en este enlace: \nhttps://cal.com/hawimi.ai/booking"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -208,
+        256
+      ],
+      "id": "2df09eb6-a4fa-4d94-a1cb-56904e11a4cb",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=📲 ¡Aquí tienes nuestro número de WhatsApp! Escríbenos cuando quieras: wa.me/584122126081\n💬 ¡Te esperamos!"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -384,
+        432
+      ],
+      "id": "bf23d6c6-7f69-41a1-a732-46a3b2e887cc",
+      "name": "HTTP Request8"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=🗓️ Si prefieres agendar una cita gratuita para conversar con un especialista con calma, haz clic en este enlace: \nhttps://cal.com/hawimi.ai/booking"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -208,
+        432
+      ],
+      "id": "707cf872-f604-44cb-8115-804cf1ad15a6",
+      "name": "HTTP Request9"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        624
+      ],
+      "id": "328ca375-f618-4d57-a78f-4377b6702d53",
+      "name": "HTTP Request10"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "attachments[]",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        576,
+        496
+      ],
+      "id": "4b3a7a8a-2d48-4557-87d8-fea7b667ea5f",
+      "name": "HTTP Request11"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  if (item.binary) {\n    const binaryPropertyNames = Object.keys(item.binary);\n    for (const propName of binaryPropertyNames) {\n      if (item.binary[propName].mimeType === 'audio/mp3') {\n        item.binary[propName].mimeType = 'audio/mpeg';\n      }\n    }\n  }\n}\n\nreturn $input.all();"
+      },
+      "id": "b5872586-f346-48e0-80b6-7ef0b6bfa041",
+      "name": "Fix mimeType for Audio",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        384,
+        496
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "input": "={{ $json.output }}",
+        "voice": "nova",
+        "options": {
+          "speed": 1.1
+        }
+      },
+      "id": "ce42f5e2-0134-480e-9d73-dc07af998c85",
+      "name": "Generate Audio Response",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "position": [
+        160,
+        496
+      ],
+      "typeVersion": 1.8,
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "registra una sugerencia para el circulo en persona",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appMOC0BStHPt0I9g",
+          "mode": "list",
+          "cachedResultName": "Circle's Database at Airtable ",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhv5jIN0UrOfMl9",
+          "mode": "list",
+          "cachedResultName": "Requests",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g/tblhv5jIN0UrOfMl9"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Impact": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Impact', ``, 'number') }}",
+            "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('title', ``, 'string') }}",
+            "type": "In Person Circle",
+            "status": "pending",
+            "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('description', ``, 'string') }}",
+            "classification_reasoning": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('classification_reasoning', ``, 'string') }}",
+            "comments": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('comments', ``, 'string') }}",
+            "submitted_by": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('submitted_by', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "bug",
+                  "value": "bug"
+                },
+                {
+                  "name": "change",
+                  "value": "change"
+                },
+                {
+                  "name": "feature",
+                  "value": "feature"
+                },
+                {
+                  "name": "Online Group",
+                  "value": "Online Group"
+                },
+                {
+                  "name": "In Person Circle",
+                  "value": "In Person Circle"
+                },
+                {
+                  "name": "Online Circle",
+                  "value": "Online Circle"
+                },
+                {
+                  "name": "Becoming Facilitator",
+                  "value": "Becoming Facilitator"
+                },
+                {
+                  "name": "Circles Organisation",
+                  "value": "Circles Organisation"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "pending",
+                  "value": "pending"
+                },
+                {
+                  "name": "in-progress",
+                  "value": "in-progress"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "archived",
+                  "value": "archived"
+                },
+                {
+                  "name": "backlog",
+                  "value": "backlog"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Impact",
+              "displayName": "Impact",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Uncertainty",
+              "displayName": "Uncertainty",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Complexity",
+              "displayName": "Complexity",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Effort",
+              "displayName": "Effort",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Work Points",
+              "displayName": "Work Points",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "classification_reasoning",
+              "displayName": "classification_reasoning",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "comments",
+              "displayName": "comments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "files",
+              "displayName": "files",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "submitted_by",
+              "displayName": "submitted_by",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "approved",
+              "displayName": "approved",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "original_feedback_number",
+              "displayName": "original_feedback_number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        -448,
+        992
+      ],
+      "id": "c0965682-657c-4979-9752-0fa1c16058f4",
+      "name": "in personal circle",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LPDVHWNhHQqVrX8I",
+          "name": "aharonguedezdev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "registra una sugerencia para el circulo online",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appMOC0BStHPt0I9g",
+          "mode": "list",
+          "cachedResultName": "Circle's Database at Airtable ",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhv5jIN0UrOfMl9",
+          "mode": "list",
+          "cachedResultName": "Requests",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g/tblhv5jIN0UrOfMl9"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Impact": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Impact', ``, 'number') }}",
+            "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('title', ``, 'string') }}",
+            "type": "Online Circle",
+            "status": "pending",
+            "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('description', ``, 'string') }}",
+            "classification_reasoning": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('classification_reasoning', ``, 'string') }}",
+            "comments": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('comments', ``, 'string') }}",
+            "submitted_by": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('submitted_by', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "bug",
+                  "value": "bug"
+                },
+                {
+                  "name": "change",
+                  "value": "change"
+                },
+                {
+                  "name": "feature",
+                  "value": "feature"
+                },
+                {
+                  "name": "Online Group",
+                  "value": "Online Group"
+                },
+                {
+                  "name": "In Person Circle",
+                  "value": "In Person Circle"
+                },
+                {
+                  "name": "Online Circle",
+                  "value": "Online Circle"
+                },
+                {
+                  "name": "Becoming Facilitator",
+                  "value": "Becoming Facilitator"
+                },
+                {
+                  "name": "Circles Organisation",
+                  "value": "Circles Organisation"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "pending",
+                  "value": "pending"
+                },
+                {
+                  "name": "in-progress",
+                  "value": "in-progress"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "archived",
+                  "value": "archived"
+                },
+                {
+                  "name": "backlog",
+                  "value": "backlog"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Impact",
+              "displayName": "Impact",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Uncertainty",
+              "displayName": "Uncertainty",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Complexity",
+              "displayName": "Complexity",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Effort",
+              "displayName": "Effort",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Work Points",
+              "displayName": "Work Points",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "classification_reasoning",
+              "displayName": "classification_reasoning",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "comments",
+              "displayName": "comments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "files",
+              "displayName": "files",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "submitted_by",
+              "displayName": "submitted_by",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "approved",
+              "displayName": "approved",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "original_feedback_number",
+              "displayName": "original_feedback_number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        -320,
+        1024
+      ],
+      "id": "b0224141-9f31-4404-a0ca-29bea8d897ab",
+      "name": "online circle",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LPDVHWNhHQqVrX8I",
+          "name": "aharonguedezdev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "registra una sugerencia para el grupo online",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appMOC0BStHPt0I9g",
+          "mode": "list",
+          "cachedResultName": "Circle's Database at Airtable ",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhv5jIN0UrOfMl9",
+          "mode": "list",
+          "cachedResultName": "Requests",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g/tblhv5jIN0UrOfMl9"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Impact": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Impact', ``, 'number') }}",
+            "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('title', ``, 'string') }}",
+            "type": "Online Group",
+            "status": "pending",
+            "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('description', ``, 'string') }}",
+            "classification_reasoning": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('classification_reasoning', ``, 'string') }}",
+            "comments": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('comments', ``, 'string') }}",
+            "submitted_by": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('submitted_by', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "bug",
+                  "value": "bug"
+                },
+                {
+                  "name": "change",
+                  "value": "change"
+                },
+                {
+                  "name": "feature",
+                  "value": "feature"
+                },
+                {
+                  "name": "Online Group",
+                  "value": "Online Group"
+                },
+                {
+                  "name": "In Person Circle",
+                  "value": "In Person Circle"
+                },
+                {
+                  "name": "Online Circle",
+                  "value": "Online Circle"
+                },
+                {
+                  "name": "Becoming Facilitator",
+                  "value": "Becoming Facilitator"
+                },
+                {
+                  "name": "Circles Organisation",
+                  "value": "Circles Organisation"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "pending",
+                  "value": "pending"
+                },
+                {
+                  "name": "in-progress",
+                  "value": "in-progress"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "archived",
+                  "value": "archived"
+                },
+                {
+                  "name": "backlog",
+                  "value": "backlog"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Impact",
+              "displayName": "Impact",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Uncertainty",
+              "displayName": "Uncertainty",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Complexity",
+              "displayName": "Complexity",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Effort",
+              "displayName": "Effort",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Work Points",
+              "displayName": "Work Points",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "classification_reasoning",
+              "displayName": "classification_reasoning",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "comments",
+              "displayName": "comments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "files",
+              "displayName": "files",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "submitted_by",
+              "displayName": "submitted_by",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "approved",
+              "displayName": "approved",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "original_feedback_number",
+              "displayName": "original_feedback_number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        -192,
+        1008
+      ],
+      "id": "9b6c8648-e34a-48da-a9cf-6e8c44758f9b",
+      "name": "online group",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LPDVHWNhHQqVrX8I",
+          "name": "aharonguedezdev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "registra una sugerencia para volverse un facilitador",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appMOC0BStHPt0I9g",
+          "mode": "list",
+          "cachedResultName": "Circle's Database at Airtable ",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhv5jIN0UrOfMl9",
+          "mode": "list",
+          "cachedResultName": "Requests",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g/tblhv5jIN0UrOfMl9"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Impact": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Impact', ``, 'number') }}",
+            "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('title', ``, 'string') }}",
+            "type": "Becoming Facilitator",
+            "status": "pending",
+            "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('description', ``, 'string') }}",
+            "classification_reasoning": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('classification_reasoning', ``, 'string') }}",
+            "comments": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('comments', ``, 'string') }}",
+            "submitted_by": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('submitted_by', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "bug",
+                  "value": "bug"
+                },
+                {
+                  "name": "change",
+                  "value": "change"
+                },
+                {
+                  "name": "feature",
+                  "value": "feature"
+                },
+                {
+                  "name": "Online Group",
+                  "value": "Online Group"
+                },
+                {
+                  "name": "In Person Circle",
+                  "value": "In Person Circle"
+                },
+                {
+                  "name": "Online Circle",
+                  "value": "Online Circle"
+                },
+                {
+                  "name": "Becoming Facilitator",
+                  "value": "Becoming Facilitator"
+                },
+                {
+                  "name": "Circles Organisation",
+                  "value": "Circles Organisation"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "pending",
+                  "value": "pending"
+                },
+                {
+                  "name": "in-progress",
+                  "value": "in-progress"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "archived",
+                  "value": "archived"
+                },
+                {
+                  "name": "backlog",
+                  "value": "backlog"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Impact",
+              "displayName": "Impact",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Uncertainty",
+              "displayName": "Uncertainty",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Complexity",
+              "displayName": "Complexity",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Effort",
+              "displayName": "Effort",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Work Points",
+              "displayName": "Work Points",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "classification_reasoning",
+              "displayName": "classification_reasoning",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "comments",
+              "displayName": "comments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "files",
+              "displayName": "files",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "submitted_by",
+              "displayName": "submitted_by",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "approved",
+              "displayName": "approved",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "original_feedback_number",
+              "displayName": "original_feedback_number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        -48,
+        992
+      ],
+      "id": "82dc8958-0a08-4a44-981e-475c3a8517f7",
+      "name": "becoming facilitator",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LPDVHWNhHQqVrX8I",
+          "name": "aharonguedezdev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "registra una sugerencia para la organizacion del circulo",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appMOC0BStHPt0I9g",
+          "mode": "list",
+          "cachedResultName": "Circle's Database at Airtable ",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhv5jIN0UrOfMl9",
+          "mode": "list",
+          "cachedResultName": "Requests",
+          "cachedResultUrl": "https://airtable.com/appMOC0BStHPt0I9g/tblhv5jIN0UrOfMl9"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Impact": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Impact', ``, 'number') }}",
+            "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('title', ``, 'string') }}",
+            "type": "Circles Organisation",
+            "status": "pending",
+            "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('description', ``, 'string') }}",
+            "classification_reasoning": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('classification_reasoning', ``, 'string') }}",
+            "comments": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('comments', ``, 'string') }}",
+            "submitted_by": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('submitted_by', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "bug",
+                  "value": "bug"
+                },
+                {
+                  "name": "change",
+                  "value": "change"
+                },
+                {
+                  "name": "feature",
+                  "value": "feature"
+                },
+                {
+                  "name": "Online Group",
+                  "value": "Online Group"
+                },
+                {
+                  "name": "In Person Circle",
+                  "value": "In Person Circle"
+                },
+                {
+                  "name": "Online Circle",
+                  "value": "Online Circle"
+                },
+                {
+                  "name": "Becoming Facilitator",
+                  "value": "Becoming Facilitator"
+                },
+                {
+                  "name": "Circles Organisation",
+                  "value": "Circles Organisation"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "pending",
+                  "value": "pending"
+                },
+                {
+                  "name": "in-progress",
+                  "value": "in-progress"
+                },
+                {
+                  "name": "complete",
+                  "value": "complete"
+                },
+                {
+                  "name": "archived",
+                  "value": "archived"
+                },
+                {
+                  "name": "backlog",
+                  "value": "backlog"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Impact",
+              "displayName": "Impact",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Uncertainty",
+              "displayName": "Uncertainty",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Complexity",
+              "displayName": "Complexity",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Effort",
+              "displayName": "Effort",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Work Points",
+              "displayName": "Work Points",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "classification_reasoning",
+              "displayName": "classification_reasoning",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "comments",
+              "displayName": "comments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "files",
+              "displayName": "files",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "submitted_by",
+              "displayName": "submitted_by",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "approved",
+              "displayName": "approved",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "original_feedback_number",
+              "displayName": "original_feedback_number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        64,
+        992
+      ],
+      "id": "b118433c-ddb8-4c70-812d-c0c8227cb602",
+      "name": "becoming facilitator1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "LPDVHWNhHQqVrX8I",
+          "name": "aharonguedezdev"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Image": {
+      "main": [
+        [
+          {
+            "node": "Analyze Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Image": {
+      "main": [
+        [
+          {
+            "node": "Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Audio": {
+      "main": [
+        [
+          {
+            "node": "Transcribe Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe Audio": {
+      "main": [
+        [
+          {
+            "node": "Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audio": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Download Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Download Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request8": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fix mimeType for Audio": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio Response": {
+      "main": [
+        [
+          {
+            "node": "Fix mimeType for Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "in personal circle": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "online circle": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "online group": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "becoming facilitator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "becoming facilitator1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "1f98cbe1-d29d-479d-8624-e9707921231a",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-11-07T23:52:23.025Z",
+      "updatedAt": "2025-11-07T23:52:23.025Z",
+      "role": "workflow:owner",
+      "workflowId": "qoMrs7x0a8FzW2ny",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
