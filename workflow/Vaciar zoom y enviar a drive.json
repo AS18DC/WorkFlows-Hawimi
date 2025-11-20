@@ -1,0 +1,1007 @@
+{
+  "createdAt": "2025-08-08T18:37:12.576Z",
+  "updatedAt": "2025-11-08T15:50:07.000Z",
+  "id": "Q3Enc5NtmFtJ3St3",
+  "name": "Vaciar zoom y enviar a drive",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://api.zoom.us/v2/users/me/recordings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "zoomOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "from",
+              "value": "={{ $('Date & Time1').item.json.formattedDate }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        496
+      ],
+      "id": "0fd1ae5a-2c20-4400-b0b4-273d1ed73d99",
+      "name": "get records",
+      "credentials": {
+        "zoomOAuth2Api": {
+          "id": "YpUy9iMG5TzCaqIx",
+          "name": "Zoom account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json.formattedDate }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1EKF38SAVivL_Yj_W-7xS7C2RUff4nKVx",
+          "mode": "list",
+          "cachedResultName": "Grabaciones  de Zoom 2025",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1EKF38SAVivL_Yj_W-7xS7C2RUff4nKVx"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        176,
+        496
+      ],
+      "id": "32441339-a7f1-4204-9a17-5723c9a744ca",
+      "name": "Create folder",
+      "executeOnce": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cQtQaYbK7aXi37sv",
+          "name": "lotovazquez@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "meetings",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        624,
+        736
+      ],
+      "id": "8c312354-58b1-4556-b851-c600140b472f",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        848,
+        208
+      ],
+      "id": "6b439d4e-3485-47c2-a18f-8645819e5ed7",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        848,
+        736
+      ],
+      "id": "b8eeb26c-c5f5-4f6c-85f2-8f2566f440a6",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['recording_files[0]'].download_url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "zoomOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "="
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2544,
+        -80
+      ],
+      "id": "748f8c29-78c1-4e20-96cb-54021321ffa5",
+      "name": "download records",
+      "credentials": {
+        "zoomOAuth2Api": {
+          "id": "YpUy9iMG5TzCaqIx",
+          "name": "Zoom account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "=https://api.zoom.us/v2/meetings/{{ $json.uuid }}/recordings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "zoomOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "action",
+              "value": "trash"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1136,
+        784
+      ],
+      "id": "deea6bb4-4a15-47f2-b886-709127091816",
+      "name": "Delete records",
+      "executeOnce": false,
+      "credentials": {
+        "zoomOAuth2Api": {
+          "id": "YpUy9iMG5TzCaqIx",
+          "name": "Zoom account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-3.5-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Crea un mensaje saludando a loto avisandole que sus grabaciones de zoom ya fueron subidas a drive. Recuerda usar emojis"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1072,
+        592
+      ],
+      "id": "0e435d24-2770-4f8e-820e-3ff71efef798",
+      "name": "Message a model",
+      "executeOnce": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "1102936680",
+        "text": "={{ $json.message.content }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1424,
+        592
+      ],
+      "id": "2df6967f-32f6-4443-aff7-a39e5b0e3f79",
+      "name": "Send a text message",
+      "webhookId": "5240b7a4-1894-4ffd-9fcd-9663cdc01eaf",
+      "credentials": {
+        "telegramApi": {
+          "id": "3xO8Y9U51vrrK4uF",
+          "name": "Anastasia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 23
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -496,
+        496
+      ],
+      "id": "ec467259-3a8c-472b-91eb-6c0f75b82c5e",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        496
+      ],
+      "id": "57fb7646-1f4d-43ff-be65-93ad440285c6",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.currentDate }}",
+        "format": "yyyy-MM-dd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        496
+      ],
+      "id": "78628715-ff3b-42c7-a357-abb11a54a229",
+      "name": "Date & Time1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "meetings",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        624,
+        208
+      ],
+      "id": "e5c1a0d6-9096-4f86-ac07-d048f7a9ea78",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['recording_files[0]'].download_url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "zoomOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2544,
+        112
+      ],
+      "id": "6cfb4dd4-354d-4927-a105-617d24727f91",
+      "name": "download transcript",
+      "credentials": {
+        "zoomOAuth2Api": {
+          "id": "YpUy9iMG5TzCaqIx",
+          "name": "Zoom account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Edit Fields').item.json.topic }}.mp4",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Create folder1').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2768,
+        -80
+      ],
+      "id": "d6029aea-4532-4991-b7e3-d1a3953a1d44",
+      "name": "Upload record",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cQtQaYbK7aXi37sv",
+          "name": "lotovazquez@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Edit Fields').item.json.topic }} transcript",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Create folder1').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2768,
+        112
+      ],
+      "id": "a86b774a-2bfb-435e-a71c-a1f04f393a71",
+      "name": "Upload transcript",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cQtQaYbK7aXi37sv",
+          "name": "lotovazquez@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "recording_files[0]",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "folderID[0], topic[0]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2096,
+        112
+      ],
+      "id": "b78c4a1f-5d41-48b4-9414-2eb351e6eafe",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "dd05b58f-26ac-428f-be3e-72e9e91d69b3",
+                    "leftValue": "={{ $json['recording_files[0]'].file_type }}",
+                    "rightValue": "MP4",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "MP4"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6cabee3c-6167-4c7b-9153-a84cceabba7f",
+                    "leftValue": "={{ $json['recording_files[0]'].file_type }}",
+                    "rightValue": "TRANSCRIPT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "TRANSCRIPT"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['recording_files[0]'].file_type }}",
+                    "rightValue": "M4A",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f2e8beaa-c1c4-4fd8-a0a0-6ad2ff816338"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2320,
+        96
+      ],
+      "id": "59420a87-8992-41af-be9c-843350ac97ac",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "98b82d41-e6b7-4bbb-9560-ac70a0629d6d",
+              "name": "recording_files",
+              "value": "={{ $json.recording_files }}",
+              "type": "array"
+            },
+            {
+              "id": "23c920ca-511f-459a-9765-bf09045d8035",
+              "name": "topic",
+              "value": "={{ $json.topic }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1424,
+        8
+      ],
+      "id": "fff9583c-89ce-4eea-8f31-c99aeb1af229",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json.topic }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Create folder').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1136,
+        296
+      ],
+      "id": "cb834bdc-1580-4455-aafe-3340a6b536ae",
+      "name": "Create folder1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cQtQaYbK7aXi37sv",
+          "name": "lotovazquez@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['recording_files[0]'].download_url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "zoomOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2544,
+        304
+      ],
+      "id": "ef7b3263-c8af-4bd5-b7b0-137e1f896f54",
+      "name": "download transcript1",
+      "credentials": {
+        "zoomOAuth2Api": {
+          "id": "YpUy9iMG5TzCaqIx",
+          "name": "Zoom account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Edit Fields').item.json.topic }} audio",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Create folder1').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2768,
+        376
+      ],
+      "id": "c2d5e1ed-8577-4cc5-b1e3-7a90de9605c4",
+      "name": "Upload transcript1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cQtQaYbK7aXi37sv",
+          "name": "lotovazquez@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1648,
+        112
+      ],
+      "id": "bc542402-c239-4f82-9de1-84244d3547c9",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d2de22b7-28bc-48fa-a26f-6486d09bf4b8",
+              "name": "folderID",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1424,
+        296
+      ],
+      "id": "08f80f60-5d9f-46b3-ac97-8188495a20e9",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "recording_files"
+            },
+            {
+              "fieldToAggregate": "folderID"
+            },
+            {
+              "fieldToAggregate": "topic"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1872,
+        112
+      ],
+      "id": "4d404d5f-5a40-4d77-a8e3-137dfbe41f00",
+      "name": "Aggregate"
+    }
+  ],
+  "connections": {
+    "get records": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create folder": {
+      "main": [
+        [
+          {
+            "node": "get records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create folder1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "download records": {
+      "main": [
+        [
+          {
+            "node": "Upload record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete records": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "Create folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "download transcript": {
+      "main": [
+        [
+          {
+            "node": "Upload transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload record": {
+      "main": [
+        []
+      ]
+    },
+    "Upload transcript": {
+      "main": [
+        []
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "download records",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "download transcript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "download transcript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create folder1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "download transcript1": {
+      "main": [
+        [
+          {
+            "node": "Upload transcript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload transcript1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Makassar",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "493ff43e-ef26-40a2-b599-a18a51301fec",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-08-08T18:37:12.584Z",
+      "updatedAt": "2025-08-08T18:37:12.584Z",
+      "role": "workflow:owner",
+      "workflowId": "Q3Enc5NtmFtJ3St3",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
