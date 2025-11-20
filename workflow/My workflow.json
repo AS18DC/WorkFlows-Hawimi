@@ -1,0 +1,242 @@
+{
+  "createdAt": "2025-09-16T02:40:42.732Z",
+  "updatedAt": "2025-09-19T05:16:11.000Z",
+  "id": "hfDGvG2XWyEk7wbZ",
+  "name": "My workflow",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "odoo18-change-product",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Webhook: Odoo Ticket Alert",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -2288,
+        96
+      ],
+      "id": "83142eef-cc3e-4d93-a61a-2cdc805007c4",
+      "webhookId": "5492f755-5242-4262-a8b2-f9d40bbb7a0a"
+    },
+    {
+      "parameters": {},
+      "name": "FN: Init (Config + ticket_id)",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 2,
+      "position": [
+        -2048,
+        96
+      ],
+      "id": "e3f942d3-efbf-4d98-8a0c-3c881659b73a"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: Auth (Cookie Jar)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        -1792,
+        96
+      ],
+      "id": "6f389407-5d8d-416a-b48b-ff2b37d36ce1"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: Get Ticket",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        -1552,
+        96
+      ],
+      "id": "bab3370e-4551-47d3-9100-2232a0cf80ec"
+    },
+    {
+      "parameters": {},
+      "name": "FN: Parse Ticket",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 2,
+      "position": [
+        -1312,
+        96
+      ],
+      "id": "77a131ef-cfa2-4624-adcd-0b02ef4a7b89"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: SO by Name",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        -1072,
+        96
+      ],
+      "id": "047cdf74-7515-4284-9110-284df503dce6"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: Último Picking Enviado",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        -832,
+        96
+      ],
+      "id": "043a9e68-e5de-4bf2-b8de-00a71df53d2c"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [],
+          "string": [],
+          "boolean": [
+            {
+              "value1": "={{Array.isArray($json.result) ? $json.result.length === 0 : !$json.result?.length}}"
+            }
+          ]
+        }
+      },
+      "name": "IF: ¿Hay picking done?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        96
+      ],
+      "id": "2fb1c335-d043-48ba-8027-69170d783e78"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: Chatter (sin retorno)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        -352,
+        224
+      ],
+      "id": "c8a9b153-7d21-457f-bbf4-179ee4ebf1cf"
+    },
+    {
+      "parameters": {},
+      "name": "FN: Build Return Payload",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 2,
+      "position": [
+        -352,
+        -48
+      ],
+      "id": "e6008d78-1bd3-408e-b207-63ac90cf9f3c"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: Crear Wizard Retorno",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        -112,
+        -48
+      ],
+      "id": "55354003-4380-49f8-97f9-a3e0f2536ac3"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: Ejecutar Retorno",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        128,
+        -48
+      ],
+      "id": "9170127c-5338-46f2-95d4-86f2c42503e9"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: Buscar Factura de la SO",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        -832,
+        304
+      ],
+      "id": "05eb746b-6ed4-4d2e-a614-3899f7c990a9"
+    },
+    {
+      "parameters": {},
+      "name": "FN: Check Invoice",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        304
+      ],
+      "id": "a2c30405-4dee-4b0f-b56b-08e74f185909"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: Crear Reversal Wizard",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        -352,
+        304
+      ],
+      "id": "4d9ffa9a-8f3d-4552-9724-d3940b90c4ff"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: reverse_moves()",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        -112,
+        304
+      ],
+      "id": "0d581e85-51b1-469d-be83-d11842f995c9"
+    },
+    {
+      "parameters": {},
+      "name": "Odoo: Chatter message_post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 5,
+      "position": [
+        128,
+        304
+      ],
+      "id": "eba6e50e-6b07-42f6-b317-936c1ff648d4"
+    },
+    {
+      "parameters": {},
+      "name": "FN: Webhook Response",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 2,
+      "position": [
+        368,
+        192
+      ],
+      "id": "1fefaeaa-559a-4c79-a13a-a2b5709328d3"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "2d769c82-ad96-4ca3-b33e-d87fd2aa2e38",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-16T02:40:42.747Z",
+      "updatedAt": "2025-09-16T02:40:42.747Z",
+      "role": "workflow:owner",
+      "workflowId": "hfDGvG2XWyEk7wbZ",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
