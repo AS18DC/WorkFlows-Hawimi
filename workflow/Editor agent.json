@@ -1,0 +1,808 @@
+{
+  "createdAt": "2025-08-21T03:07:35.374Z",
+  "updatedAt": "2025-11-08T15:49:40.000Z",
+  "id": "xKuC3UKBfgCm6WOV",
+  "name": "Editor agent",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {
+          "download": false
+        }
+      },
+      "name": "recibir mensaje",
+      "position": [
+        256,
+        -128
+      ],
+      "type": "n8n-nodes-base.telegramTrigger",
+      "id": "59a8583e-ac8b-41e9-9802-a1717e511fd0",
+      "webhookId": "3aeb6b1b-96f3-4e2a-926a-ccac645167f8",
+      "typeVersion": 1.2,
+      "credentials": {
+        "telegramApi": {
+          "id": "TxFzwqGSIzTNfHDW",
+          "name": "Editor de video"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message }}",
+        "options": {
+          "systemMessage": "=# ROL\nEres PicassoAI un editor de videos que tiene 5 años de experiencia trabajando con loto vazquez y sus redes sociales. Te encargas de usar tus herramientas cuando loto te envia un video para editarlo y avisarle que fue editado segun las indicaciones que quiere loto. Eres la pieza mas importante para loto ya que sus redes sociales funcionan gracias a ti y si no lo haces bien perdera todas sus ventas y no podra pagarte.\n\n# TAREA\n- recibir el mensaje del usuario\n- Saluda a loto y preguntarle sobre que necesitas que hagas por el si no te lo ha dicho aun\n- Espera a que te diga que necesita\n- guarda el titulo del video y el ID que se va a usar\n- si te enviaron una imagen usa tu herramienta AnimarImagen()\n- si te enviaron un video usa tu herramienta EditarVideo()\n- revisa la respuesta de tu herramienta, si fue exitosa avisale a loto que fue exitosa, si hubo un error intenta de nuevo y si da error de nuevo avisale a loto\n\n\n\n# ESPECIFICACIONES\n## GENERALES\n- Cuando te digan loto ha ennviado un video asume que ya tu herramienta tiene el video\n- Usa estos emojis en tus respuestas para mantener el estilo: 🤔🤩🌅😢🙌🏼🙏🏼🌈💛🌏🏃🏽‍♀️📣👈🏼🚀🎁⏰🪷♾️🐯✨💪💯🪄🌟💥💩👀✅.\n\n## HERRAMIENTAS DISPONIBLES\n- buscar informacion en internet\n- AnimarImagenQuickPromo(): Con esta herramienta puedes animar una imagen que el loto te envio\n- AnimarImagenPhotoSlide(): Con esta herramienta puedes animar una imagen que el loto te envio\n- EditarVideo5Facts(): Con esta herramienta puedes editar un video que loto haya enviado, con el titulo y el id\n- EditarVideoStorytelling(): Con esta herramienta puedes editar un video que loto haya enviado, con el titulo y el id\n- EditarVideoTwitterNotification(): Con esta herramienta puedes editar un video que loto haya enviado, con el titulo y el id\n\n\n## ESTILOS DE EDICION\n- 5 facts: este estilo necesita 3 videos de fondo que dice 5 caracteristicas de un tema especifico, a demas necesita un titulo que tu mismo puedes sugerir.\n- story telling: este estilo puedes poner una historia corta, necesita un titulo, 3 parrafos cortos, 2 imagenes y 2 videos cortos.\n- twitter notification: este estilo es una frase como una notificacion de twitter, necesitas la frase y el background\n\n## ESTILOS DE ANIMACION\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1776,
+        -336
+      ],
+      "id": "0d3865aa-b193-461f-ba12-5ad7f739f24f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "7f8d5f76-1aa2-41b1-9e28-ee0a5633c882"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Mensajes"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "69132c7d-e875-4b7e-94e1-4327caca10de",
+                    "leftValue": "={{ $json.message.voice.mime_type }}",
+                    "rightValue": "audio/ogg",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Audios"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a1d0e14b-8684-4cd5-a16b-1b3556e4bda8",
+                    "leftValue": "={{ $json.message.photo }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Imagenes"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "fc776594-4440-476b-a489-048e6093a9c1",
+                    "leftValue": "={{ $json.message.video }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        480,
+        -160
+      ],
+      "id": "8798f50f-16b8-4a1f-b3f8-d92f3e1f1b94",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+              "name": "=message",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1152,
+        -416
+      ],
+      "id": "ebc1c807-8d2f-40fd-991f-7b600e7dbfa0",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "Entiende que tiene esta imagen y describelo detalladamente y no preguntes nunca si necesito algo mas",
+        "inputType": "base64",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        928,
+        -32
+      ],
+      "id": "11e91a35-d2b2-4699-b9c8-e041ddaee260",
+      "name": "Analyze image1",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        704,
+        -224
+      ],
+      "id": "f8c64d30-a91e-4d6f-981f-b16dabc21c38",
+      "name": "Get a file2",
+      "webhookId": "06daf5bb-deb6-4bcf-83ed-c70aa5b063fd",
+      "credentials": {
+        "telegramApi": {
+          "id": "TxFzwqGSIzTNfHDW",
+          "name": "Editor de video"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.photo[3].file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        704,
+        -32
+      ],
+      "id": "e04b0831-337e-44c2-a241-4ac0d7ed8122",
+      "name": "Get a file3",
+      "webhookId": "06daf5bb-deb6-4bcf-83ed-c70aa5b063fd",
+      "credentials": {
+        "telegramApi": {
+          "id": "TxFzwqGSIzTNfHDW",
+          "name": "Editor de video"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+              "name": "=message",
+              "value": "=Loto te acaba de enviar una imagen {{ $if($('recibir mensaje').item.json.message.caption,( \"con estas instucciones: \" +$('recibir mensaje').item.json.message.caption), \"\" ) }}. esta es la descripcion de la imagen que realizo una IA:\n{{ $json.content }}\n\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1152,
+        -32
+      ],
+      "id": "bc2112a1-26f3-40d3-9d9c-4c2e7d85d8b8",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        928,
+        -224
+      ],
+      "id": "2a31d3e3-231b-4c1c-921a-91495f7606b4",
+      "name": "Transcribe a recording1",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+              "name": "=message",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1152,
+        -224
+      ],
+      "id": "fbe3f1f6-9cd9-4de4-b5d2-3c065dd67bb9",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1584,
+        -112
+      ],
+      "id": "c2dd16c8-37db-46d2-9e7c-9a87310276a5",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+              "name": "=videoID",
+              "value": "={{ $json.message.video.file_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        976,
+        160
+      ],
+      "id": "abb81ec6-f2d5-40fe-9fe0-491f5c86518d",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('recibir mensaje').item.json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1712,
+        -112
+      ],
+      "id": "0c71f321-f290-484a-8136-8accf77241cd",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        -112
+      ],
+      "id": "2f27cd5f-fe05-40d3-bb8f-797a8f29bdfd",
+      "name": "SerpAPI1",
+      "credentials": {
+        "serpApi": {
+          "id": "l6zroHtSyDRQjH5P",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('recibir mensaje').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2496,
+        -240
+      ],
+      "id": "a5926893-10ff-407c-b838-f057628956de",
+      "name": "Send a text message2",
+      "webhookId": "b7f9e566-2fa6-4d8f-af05-16934f01f7a3",
+      "credentials": {
+        "telegramApi": {
+          "id": "TxFzwqGSIzTNfHDW",
+          "name": "Editor de video"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "AnimarImagen(): Con esta herramienta puedes animar una imagen que el loto te envio",
+        "workflowId": {
+          "__rl": true,
+          "value": "9EH78Vfs768BI4uu",
+          "mode": "list",
+          "cachedResultName": "Animacion de imagen"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Titulo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Titulo', ``, 'string') }}",
+            "chatID": "={{ $('recibir mensaje').item.json.message.chat.id }}",
+            "imagenID": "={{ $('recibir mensaje').item.json.message.photo[3].file_id }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "imagenID",
+              "displayName": "imagenID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Titulo",
+              "displayName": "Titulo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "chatID",
+              "displayName": "chatID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1968,
+        -80
+      ],
+      "id": "db0174e0-fb94-4399-a1cf-6d725780abeb",
+      "name": "animar imagen"
+    },
+    {
+      "parameters": {
+        "description": "EditarVideo(): Con esta herramienta puedes editar un video que loto haya enviado, con el titulo y el id\n",
+        "workflowId": {
+          "__rl": true,
+          "value": "P1A9XgBupr7MQEbK",
+          "mode": "list",
+          "cachedResultName": "edición de video"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Titulo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Titulo', ``, 'string') }}",
+            "chatID": "={{ $('recibir mensaje').item.json.message.chat.id }}",
+            "videoID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('videoID', `aqui pondras el id del video`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "videoID",
+              "displayName": "videoID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Titulo",
+              "displayName": "Titulo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "chatID",
+              "displayName": "chatID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2368,
+        -112
+      ],
+      "id": "e898071c-44bd-4f69-9dce-17c7866b98a6",
+      "name": "editar video"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e7ee0524-ea81-418f-9cf6-d6e7170f9093",
+              "name": "message",
+              "value": "=loto te envio un video con el siguiente ID:  {{ $json.videoID }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1184,
+        160
+      ],
+      "id": "f8d9bc2e-7239-4855-9bbd-ea0017ab043b",
+      "name": "Edit Fields1"
+    }
+  ],
+  "connections": {
+    "recibir mensaje": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get a file2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get a file3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file2": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file3": {
+      "main": [
+        [
+          {
+            "node": "Analyze image1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "animar imagen": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "editar video": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "c922f8ad-f466-4368-9495-21ddbba2d6af",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-08-21T03:07:35.380Z",
+      "updatedAt": "2025-08-21T03:07:35.380Z",
+      "role": "workflow:owner",
+      "workflowId": "xKuC3UKBfgCm6WOV",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
