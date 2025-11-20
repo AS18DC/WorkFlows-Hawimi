@@ -1,0 +1,511 @@
+{
+  "createdAt": "2025-08-28T04:18:15.571Z",
+  "updatedAt": "2025-11-08T15:49:47.000Z",
+  "id": "9EH78Vfs768BI4uu",
+  "name": "Animacion de imagen",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "imagenID"
+            },
+            {
+              "name": "Titulo"
+            },
+            {
+              "name": "chatID"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -224,
+        -48
+      ],
+      "id": "180c7961-215e-4285-9743-2937c27b2868",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.creatomate.com/v2/renders",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer e57d6fb735f2422bb0f28acc4f44f6838b7e88c888e50c7bb3a2751fb16e9cdc0aac55d373b9d4927cbc4e5e79b45a56"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"template_id\": \"9e3ad770-a822-4e91-9800-228cebea880e\",\n  \"modifications\": {\n    \"Video.source\": \"{{ $json.URL }}\",\n    \"Text-1.text\": \"{{ $json['text-1'] }}\",\n    \"Text-2.text\": \"{{ $json['text-2'] }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        768,
+        -48
+      ],
+      "id": "768db3ed-5dbe-4284-88bf-df4ddbc0dfe2",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('When Executed by Another Workflow').item.json.imagenID }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        -48
+      ],
+      "id": "6f7bab69-3546-4ee8-9e2b-8eb37b0faa0b",
+      "name": "descarga el video",
+      "webhookId": "769ec03f-21c0-4f3a-899d-7cdb6bb04322",
+      "credentials": {
+        "telegramApi": {
+          "id": "TxFzwqGSIzTNfHDW",
+          "name": "Editor de video"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0a449ca7-5924-48f4-892e-03844af8fa43",
+              "name": "URL",
+              "value": "=https://api.telegram.org/file/bot8390180177:AAEF-sKXOG_Vnaf0M6ntZoZv0STGCTBKnDk/{{ $json.result.file_path }}",
+              "type": "string"
+            },
+            {
+              "id": "43c3f7ac-222f-4c4e-90fc-473ef1ca71b3",
+              "name": "text-1",
+              "value": "={{ $('When Executed by Another Workflow').item.json.Titulo }}",
+              "type": "string"
+            },
+            {
+              "id": "309a07df-9c23-4189-b5d6-75161d66ecc0",
+              "name": "text-2",
+              "value": "={{ $('crea un 2do text').item.json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        -48
+      ],
+      "id": "3632ff04-818c-40ef-80b8-de6a4540c563",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "amount": 24
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1008,
+        -48
+      ],
+      "id": "098c48e1-376e-4f98-b99e-3030722e30af",
+      "name": "Wait",
+      "webhookId": "1ff8f0a1-42fe-4255-a6f0-68a83ae6e754"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.creatomate.com/v2/renders/{{ $json.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer e57d6fb735f2422bb0f28acc4f44f6838b7e88c888e50c7bb3a2751fb16e9cdc0aac55d373b9d4927cbc4e5e79b45a56"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1232,
+        -112
+      ],
+      "id": "a33e2615-9ff1-4194-b8b7-aa7958252b2d",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "succeeded",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9bc07be6-01e4-4bbd-b20f-9543991b4e25"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "succeeded"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bc00c691-9aab-40f3-8daf-efb5bbc44f9f",
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "failed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "faliled"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3b3bc0ad-6f44-4d06-be32-6a3ed17bf84e",
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "(planned|transcribing|waiting|rendering)",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "retry"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1456,
+        -64
+      ],
+      "id": "d465248a-24b8-4b77-ac38-b67e3214a283",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=crea una oracion muy corta asociada a este titulo: {{ $json.Titulo }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        16,
+        -64
+      ],
+      "id": "82cdc334-ac74-44ac-ba19-c8e7734d9e2c",
+      "name": "crea un 2do text"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-3.5-turbo",
+          "mode": "list",
+          "cachedResultName": "gpt-3.5-turbo"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        128
+      ],
+      "id": "d8dc4d7a-b357-4b7c-b1d9-0b0e7180ffbb",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendVideo",
+        "chatId": "={{ $('When Executed by Another Workflow').item.json.chatID }}",
+        "file": "={{ $json.url }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1664,
+        -176
+      ],
+      "id": "39117a14-2665-4fc7-b062-8009fa2a2f14",
+      "name": "Send a video",
+      "webhookId": "a269549b-ffbf-4458-ab38-e7a79029d495",
+      "credentials": {
+        "telegramApi": {
+          "id": "TxFzwqGSIzTNfHDW",
+          "name": "Editor de video"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ce49987-9f95-46f2-892f-b490c6759358",
+              "name": "response",
+              "value": "succeed",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1872,
+        -176
+      ],
+      "id": "b7cf3bef-5fec-4635-946a-8ee9bf7106b4",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ce49987-9f95-46f2-892f-b490c6759358",
+              "name": "response",
+              "value": "failed",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1696,
+        -16
+      ],
+      "id": "45d44375-ac0c-4405-a670-a8d48a5be050",
+      "name": "Edit Fields2"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "crea un 2do text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "descarga el video": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "crea un 2do text": {
+      "main": [
+        [
+          {
+            "node": "descarga el video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "crea un 2do text",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a video": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "imagenID": "AgACAgEAAxkBAAMYaK_Ml6P6vgw2fxBp39VxKGQFOnUAAnavMRvetHlFuf6vEuzzA_gBAAMCAAN5AAM2BA",
+          "chatID": "397721851",
+          "Titulo": "Hola"
+        }
+      }
+    ]
+  },
+  "versionId": "6495a179-26ea-4808-8535-2aae3eccfc3c",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-08-28T04:18:15.578Z",
+      "updatedAt": "2025-08-28T04:18:15.578Z",
+      "role": "workflow:owner",
+      "workflowId": "9EH78Vfs768BI4uu",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
