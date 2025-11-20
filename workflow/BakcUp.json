@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-11-20T21:16:32.950Z",
-  "updatedAt": "2025-11-20T23:00:32.000Z",
+  "updatedAt": "2025-11-20T23:03:54.000Z",
   "id": "NVsH2fdeFvnBMNNQ",
   "name": "BakcUp",
   "active": false,
@@ -12,7 +12,7 @@
       "typeVersion": 1,
       "position": [
         0,
-        160
+        256
       ],
       "id": "6ed23707-c990-4c72-ad00-bb8709f61f8f",
       "name": "When clicking ‘Execute workflow’"
@@ -53,7 +53,7 @@
       "typeVersion": 3.4,
       "position": [
         224,
-        160
+        352
       ],
       "id": "c4ef29e6-593a-426b-830a-b99cdaacb8a7",
       "name": "Variables"
@@ -67,7 +67,7 @@
       "typeVersion": 1,
       "position": [
         448,
-        160
+        352
       ],
       "id": "4b974387-7837-4764-a9ef-fde422b1e690",
       "name": "Get many workflows",
@@ -86,7 +86,7 @@
       "typeVersion": 3,
       "position": [
         672,
-        160
+        352
       ],
       "id": "19c7ce04-006f-44fa-ae78-2f78225e2ad2",
       "name": "Loop Over Items"
@@ -132,7 +132,7 @@
       "typeVersion": 3.2,
       "position": [
         1120,
-        184
+        200
       ],
       "id": "eda713a3-3de2-4456-91a8-c4a350f00b21",
       "name": "Merge"
@@ -145,7 +145,7 @@
       "typeVersion": 2,
       "position": [
         1344,
-        184
+        200
       ],
       "id": "73f0b61d-307f-455a-9a01-0885313b24ef",
       "name": "Code in JavaScript"
@@ -170,8 +170,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2016,
-        616
+        1792,
+        664
       ],
       "id": "6ecfc5f4-2df6-4089-818c-b4c2e80e23b3",
       "name": "Create a file",
@@ -206,7 +206,7 @@
       "typeVersion": 1.2,
       "position": [
         0,
-        352
+        448
       ],
       "id": "17c43e30-46e6-445a-93f8-4c64e8c949dc",
       "name": "1dia"
@@ -289,7 +289,7 @@
       "typeVersion": 3.3,
       "position": [
         1568,
-        168
+        184
       ],
       "id": "d1765189-faa0-4eec-9bfe-9bfa0e163a16",
       "name": "Status"
@@ -301,31 +301,9 @@
       "typeVersion": 1,
       "position": [
         1792,
-        -32
+        280
       ],
       "id": "ab34d0b1-6ab3-4527-8ef7-833c035889e6"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "name": "diferente",
-      "typeVersion": 1,
-      "position": [
-        1792,
-        160
-      ],
-      "id": "d0987a8c-254f-40fe-abf2-a8b1adc668f8"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "name": "nuevo",
-      "typeVersion": 1,
-      "position": [
-        1792,
-        352
-      ],
-      "id": "514b5a4c-af77-4239-b564-b3a811d5ffc5"
     },
     {
       "parameters": {
@@ -348,8 +326,8 @@
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        2016,
-        424
+        1792,
+        472
       ],
       "id": "40df4683-bd22-4aca-8d25-b27c82eb4283",
       "name": "Edit a file",
@@ -479,33 +457,11 @@
         ],
         [
           {
-            "node": "diferente",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "nuevo",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "diferente": {
-      "main": [
-        [
-          {
             "node": "Edit a file",
             "type": "main",
             "index": 0
           }
-        ]
-      ]
-    },
-    "nuevo": {
-      "main": [
+        ],
         [
           {
             "node": "Create a file",
@@ -575,7 +531,7 @@
       }
     ]
   },
-  "versionId": "aeff3195-dcdc-4f9f-9215-50c0f091b354",
+  "versionId": "f19e51b9-3403-412d-97df-57290fe770a8",
   "triggerCount": 0,
   "shared": [
     {
