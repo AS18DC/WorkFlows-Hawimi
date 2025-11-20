@@ -1,0 +1,52 @@
+{
+  "createdAt": "2025-10-03T21:59:14.254Z",
+  "updatedAt": "2025-10-04T18:13:00.000Z",
+  "id": "2B2SDV974dmhmUjT",
+  "name": "conexion_Chatwood",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "776zgMr1LT5jS7AN2goX9XyQ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7652b393-0e5b-4f4f-9a5b-36665e5aeca5",
+      "name": "Webhook",
+      "webhookId": "3a76e1fd-a103-4fbf-b829-298cb23e7a7f",
+      "alwaysOutputData": false
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "bd15da67-7a56-4764-a1c0-d99f4e66c291",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "createdAt": "2025-10-03T21:59:14.258Z",
+      "updatedAt": "2025-10-03T21:59:14.258Z",
+      "role": "workflow:owner",
+      "workflowId": "2B2SDV974dmhmUjT",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
