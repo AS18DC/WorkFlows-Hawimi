@@ -1,0 +1,2160 @@
+{
+  "createdAt": "2025-09-15T01:14:57.687Z",
+  "updatedAt": "2025-09-19T02:40:45.000Z",
+  "id": "bYwE3toJFDMTWTYc",
+  "name": "gestion de ticket",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "ticket",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -48,
+        -192
+      ],
+      "id": "25fd351c-2324-485d-8cef-50f52a09d7f0",
+      "name": "Webhook",
+      "webhookId": "b167223a-672d-499f-b2f5-64d64aa97d57"
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "helpdesk.ticket",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        176,
+        -32
+      ],
+      "id": "de6a3833-c0c2-41f0-9749-2ea844634369",
+      "name": "Get many items",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.description }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Cambio de dirección",
+              "description": "=entra en esta categoria si la opcion seleccionada fue Cambio de dirección"
+            },
+            {
+              "category": "Cancelación o reembolso",
+              "description": "=entra en esta categoria si la opcion seleccionada fue Cancelación o reembolso"
+            },
+            {
+              "category": "Cambio de producto",
+              "description": "=entra en esta categoria si la opcion seleccionada fue Cambio de producto"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        -32
+      ],
+      "id": "23f80f2e-48aa-4eb0-b13a-0138dcddd765",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "respondWith": "redirect",
+        "redirectURL": "https://demo169.odoo.com/your-ticket-has-been-submitted",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        176,
+        -224
+      ],
+      "id": "2350a512-5259-438b-a0c2-36db6f2ea0e0",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        352
+      ],
+      "id": "42bcdb16-919a-4d5d-ab0c-156d9d4f71b4",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "sale.order",
+        "operation": "get",
+        "customResourceId": "={{ $json.output.numero_de_pedido }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        -240
+      ],
+      "id": "7dacf085-1eb5-4efa-a31f-d93e298ebbd3",
+      "name": "Get an item",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=extrae toda esta informacion en un json\nnombre: {{ $json.partner_name }}\nCorreo: {{ $json.partner_email }}\ntelefono: {{ $json.partner_phone }}\ntitulo: {{ $json.display_name }}\n{{ $json.description }}",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        752,
+        -336
+      ],
+      "id": "01ea3fef-eab6-40de-a0eb-1341f4ba00bf",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"nombre\": \"Manuel Perez\",\n  \"Correo\": \"manuelp@gmail.com\",\n  \"titulo\": \"Cambio de direccion (#06)\",\n  \"telefono\": \"+584241301718\",\n  \"numero_de_pedido\": \"0008\",\n  \"opciones_seleccionadas\": \"Cambio de dirección\",\n  \"codigopais\": \"VE\",\n  \"estado\": \"distrito capital\",\n  \"ciudad\": \"miranda\",\n  \"calle1\": \"av la salle\",\n  \"calle2\": \"av andres bello\",\n  \"zip\": \"1050\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        896,
+        -112
+      ],
+      "id": "26607a28-7996-4aa0-ab4d-5beb00a283c0",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "res.partner",
+        "operation": "update",
+        "customResourceId": "={{ $('If').item.json.partner_id[0] }}",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "street",
+              "fieldValue": "={{ $('Basic LLM Chain').item.json.output.calle1 }}"
+            },
+            {
+              "fieldName": "street2",
+              "fieldValue": "={{ $('Basic LLM Chain').item.json.output.calle2 }}"
+            },
+            {
+              "fieldName": "country_id",
+              "fieldValue": "={{ $('Edit Fields').item.json.country_id }}"
+            },
+            {
+              "fieldName": "state_id",
+              "fieldValue": "={{ $('Edit Fields').item.json.state_id }}"
+            },
+            {
+              "fieldName": "country_code",
+              "fieldValue": "={{ $('Basic LLM Chain').item.json.output.codigopais }}"
+            },
+            {
+              "fieldName": "zip",
+              "fieldValue": "={{ $('Basic LLM Chain').item.json.output.zip }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        2672,
+        -256
+      ],
+      "id": "0ff8a9c2-12e2-45ef-b0fa-166d97cede7b",
+      "name": "Update an item",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "res.country",
+        "operation": "getAll",
+        "limit": 500,
+        "options": {},
+        "filterRequest": {
+          "filter": [
+            {
+              "fieldName": "code",
+              "value": "={{ $('Basic LLM Chain').item.json.output.codigopais }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        -256
+      ],
+      "id": "61ea63d5-ef67-4235-aa11-23a095c3b392",
+      "name": "Get many items1",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "res.country.state",
+        "operation": "getAll",
+        "limit": 500,
+        "options": {},
+        "filterRequest": {
+          "filter": [
+            {
+              "fieldName": "country_id",
+              "value": "={{ $json.id }}"
+            },
+            {
+              "fieldName": "display_name",
+              "operator": "like",
+              "value": "={{ $('Basic LLM Chain').item.json.output.estado }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        -256
+      ],
+      "id": "115a1007-96bf-447a-b11c-e6ad3612767f",
+      "name": "Get many items2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "33676765-12d7-4b3b-aee8-b5ae4cbd0594",
+              "name": "country_id",
+              "value": "={{ $('Get many items1').item.json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "fdaae5b0-80ea-4572-b1f4-9db0cb378953",
+              "name": "state_id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2448,
+        -256
+      ],
+      "id": "18832587-6cf0-44db-9fb9-f9b84f70cbc0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bd4d85d4-17de-4185-9357-5a45f4b75ca9",
+              "leftValue": "={{ $json.display_name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2000,
+        -256
+      ],
+      "id": "464b304d-e3d5-42a9-b5b3-7bcb2db89c35",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "res.country.state",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "display_name",
+              "fieldValue": "={{ $('Basic LLM Chain').item.json.output.estado + \" (\"+$('Basic LLM Chain').item.json.output.codigopais +\")\"}}"
+            },
+            {
+              "fieldName": "country_id",
+              "fieldValue": "={{ $('Get many items1').item.json.id }}"
+            },
+            {
+              "fieldName": "name",
+              "fieldValue": "={{ $('Basic LLM Chain').item.json.output.estado }}"
+            },
+            {
+              "fieldName": "code",
+              "fieldValue": "={{ $('Basic LLM Chain').item.json.output.zip }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        2224,
+        -160
+      ],
+      "id": "d4b660fb-e002-4784-8d10-a80344222b64",
+      "name": "Create an item",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "sale.order",
+        "operation": "get",
+        "customResourceId": "={{ $json.output.numero_de_pedido }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        176
+      ],
+      "id": "d0c7bc16-29c9-4135-ab7b-24e9da44bcc7",
+      "name": "Get an item1",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=extrae toda esta informacion en un json\nnombre: {{ $json.partner_name }}\nCorreo: {{ $json.partner_email }}\ntelefono: {{ $json.partner_phone }}\ntitulo: {{ $json.display_name }}\n{{ $json.description }}",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        752,
+        64
+      ],
+      "id": "dba56fc5-bd51-49f5-bf99-e82d810f1c28",
+      "name": "Basic LLM Chain1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"nombre\": \"Manuel Perez\",\n  \"Correo\": \"manuelp@gmail.com\",\n  \"titulo\": \"Cambio de direccion (#06)\",\n  \"telefono\": \"+584241301718\",\n  \"numero_de_pedido\": \"0008\",\n  \"opciones_seleccionadas\": \"Cambio de dirección\",\n  \"codigopais\": \"VE\",\n  \"estado\": \"distrito capital\",\n  \"ciudad\": \"miranda\",\n  \"calle1\": \"av la salle\",\n  \"calle2\": \"av andres bello\",\n  \"zip\": \"1050\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        832,
+        288
+      ],
+      "id": "6df5663a-ee5b-4741-906e-81a441e7781e",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "sale.order",
+        "operation": "get",
+        "customResourceId": "=000014",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        592
+      ],
+      "id": "575226f5-9425-4f89-a204-fab5a19142d3",
+      "name": "Get an item2",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=extrae toda esta informacion en un json\nnombre: {{ $json.partner_name }}\nCorreo: {{ $json.partner_email }}\ntelefono: {{ $json.partner_phone }}\ntitulo: {{ $json.display_name }}\n{{ $json.description }}",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        752,
+        592
+      ],
+      "id": "3bb43b5e-52db-4bde-9dad-3c0e2b77749f",
+      "name": "Basic LLM Chain2"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"nombre\": \"Manuel Perez\",\n  \"Correo\": \"manuelp@gmail.com\",\n  \"titulo\": \"Cambio de direccion (#06)\",\n  \"telefono\": \"+584241301718\",\n  \"numero_de_pedido\": \"0008\",\n  \"opciones_seleccionadas\": \"Cambio de dirección\",\n  \"codigopais\": \"VE\",\n  \"estado\": \"distrito capital\",\n  \"ciudad\": \"miranda\",\n  \"calle1\": \"av la salle\",\n  \"calle2\": \"av andres bello\",\n  \"zip\": \"1050\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        832,
+        816
+      ],
+      "id": "dfda9749-b3a3-4400-bb0d-a0176534b02f",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2b987fc6-7c70-479d-ba52-ce576845e648",
+              "leftValue": "={{ $json.delivery_status.toString() }}",
+              "rightValue": "pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "6d53c263-1412-4fdc-ab26-d3ba913f41d4",
+              "leftValue": "={{ $json.delivery_status.toString() }}",
+              "rightValue": "false",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1328,
+        592
+      ],
+      "id": "700382cd-76f9-4557-b54d-74775a05cb64",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "contactId": "={{ $('Get an item').item.json.partner_id[0] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        2896,
+        -256
+      ],
+      "id": "d2002f5b-2246-41d1-a9c2-7924985a1d84",
+      "name": "Get a contact",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "invoice_ids",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        656
+      ],
+      "id": "60f13e70-6987-4e01-a4c2-6185cf91a71f",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "61609df0-ee60-4b01-a394-a6613015f318",
+              "leftValue": "={{ $json.payment_state }}",
+              "rightValue": "paid",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2224,
+        656
+      ],
+      "id": "dd2ca6b8-1825-4a84-8b4c-fae70d604476",
+      "name": "If4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31b7331e-5a1a-44ef-b523-9647aa880acc",
+              "name": "quantity",
+              "value": "={{ $json.quantity }}",
+              "type": "number"
+            },
+            {
+              "id": "20ae04ed-9965-4ded-9078-8c8924163492",
+              "name": "product_id",
+              "value": "={{ $json.product_id }}",
+              "type": "array"
+            },
+            {
+              "id": "8e777fdd-df46-4004-a123-318fa8a33d81",
+              "name": "price_total",
+              "value": "={{ $json.price_total }}",
+              "type": "number"
+            },
+            {
+              "id": "1d512590-dc41-4fc6-bb13-31ee754b56fc",
+              "name": "partner_id",
+              "value": "={{ $json.partner_id }}",
+              "type": "array"
+            },
+            {
+              "id": "143b1e14-06eb-4901-a369-97c2f55c10ab",
+              "name": "journal_id",
+              "value": "={{ $json.journal_id }}",
+              "type": "array"
+            },
+            {
+              "id": "8497d664-597c-4773-a97a-345bd7edf00e",
+              "name": "move_id",
+              "value": "={{ $json.move_id }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2448,
+        496
+      ],
+      "id": "2d590d73-877c-4cdc-adad-1ec87069f21d",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        3872,
+        720
+      ],
+      "id": "74cf7ffe-4158-468b-9fdb-eeadf4f18ebd",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "sale.order.line",
+        "operation": "getAll",
+        "options": {},
+        "filterRequest": {
+          "filter": [
+            {
+              "fieldName": "display_name",
+              "operator": "like",
+              "value": "={{ $('If2').item.json.display_name }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        656
+      ],
+      "id": "a1b076f2-846e-4847-96d9-5fe4fdd361ac",
+      "name": "Get many items4",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "account.invoice.report",
+        "operation": "get",
+        "customResourceId": "={{ $json.invoice_lines[0] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        656
+      ],
+      "id": "bb22a3af-5b18-4a86-a845-0685be26edb5",
+      "name": "Get an item4",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "sale.order",
+        "operation": "update",
+        "customResourceId": "={{ $('Get an item2').item.json.id }}",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "state",
+              "fieldValue": "cancel"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        3120,
+        496
+      ],
+      "id": "4b103908-335e-4d6c-8652-e39d8d1043e5",
+      "name": "Update an item2",
+      "executeOnce": true,
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "stock.move",
+        "operation": "getAll",
+        "options": {},
+        "filterRequest": {
+          "filter": [
+            {
+              "fieldName": "origin",
+              "value": "={{ $('If2').item.json.display_name }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        3344,
+        496
+      ],
+      "id": "b021c9de-ade6-41c3-aa42-2b812ec036c5",
+      "name": "Get many items3",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "stock.move",
+        "operation": "update",
+        "customResourceId": "={{ $json.id }}",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "state",
+              "fieldValue": "cancel"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        3568,
+        496
+      ],
+      "id": "dbc00ba5-d2ae-4999-a4f5-e23b185d0db1",
+      "name": "Update an item3",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "account.move",
+        "operation": "update",
+        "customResourceId": "={{ $json.move_id[0][0] }}",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "state",
+              "fieldValue": "cancel"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        2896,
+        496
+      ],
+      "id": "44a1c17a-8b09-407e-b557-864f7dcc0e13",
+      "name": "Update an item4",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "quantity"
+            },
+            {
+              "fieldToAggregate": "product_id"
+            },
+            {
+              "fieldToAggregate": "price_total"
+            },
+            {
+              "fieldToAggregate": "move_id"
+            },
+            {
+              "fieldToAggregate": "journal_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2672,
+        496
+      ],
+      "id": "9e3f0e73-5d32-41d3-b59a-e6556227ea8d",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "invoice_ids",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        272
+      ],
+      "id": "91781f08-de61-4601-a9df-0c48d7e4d431",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "61609df0-ee60-4b01-a394-a6613015f318",
+              "leftValue": "={{ $json.payment_state }}",
+              "rightValue": "paid",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2224,
+        272
+      ],
+      "id": "fca963bf-22c9-4b36-8e4d-a1339b3a6dce",
+      "name": "If5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31b7331e-5a1a-44ef-b523-9647aa880acc",
+              "name": "quantity",
+              "value": "={{ $json.quantity }}",
+              "type": "number"
+            },
+            {
+              "id": "20ae04ed-9965-4ded-9078-8c8924163492",
+              "name": "product_id",
+              "value": "={{ $json.product_id }}",
+              "type": "array"
+            },
+            {
+              "id": "8e777fdd-df46-4004-a123-318fa8a33d81",
+              "name": "price_total",
+              "value": "={{ $json.price_total }}",
+              "type": "number"
+            },
+            {
+              "id": "1d512590-dc41-4fc6-bb13-31ee754b56fc",
+              "name": "partner_id",
+              "value": "={{ $json.partner_id }}",
+              "type": "array"
+            },
+            {
+              "id": "143b1e14-06eb-4901-a369-97c2f55c10ab",
+              "name": "journal_id",
+              "value": "={{ $json.journal_id }}",
+              "type": "array"
+            },
+            {
+              "id": "8497d664-597c-4773-a97a-345bd7edf00e",
+              "name": "move_id",
+              "value": "={{ $json.move_id }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2448,
+        48
+      ],
+      "id": "28257e06-cefd-4a82-a1a3-2efed890bbf2",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "sale.order.line",
+        "operation": "getAll",
+        "options": {},
+        "filterRequest": {
+          "filter": [
+            {
+              "fieldName": "display_name",
+              "operator": "like",
+              "value": "={{ $('If1').item.json.display_name }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        272
+      ],
+      "id": "4268c2af-ee88-4668-83ec-edfb688de464",
+      "name": "Get many items5",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "account.invoice.report",
+        "operation": "get",
+        "customResourceId": "={{ $json.invoice_lines[0] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        272
+      ],
+      "id": "e6a9d706-d0c7-4cd0-8406-bb87af8d6bb1",
+      "name": "Get an item5",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "sale.order",
+        "operation": "update",
+        "customResourceId": "={{ $('Get an item1').item.json.id }}",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "state",
+              "fieldValue": "cancel"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        3120,
+        48
+      ],
+      "id": "e2ce9efa-9379-4705-b4c0-6ac6cf25c88f",
+      "name": "Update an item5",
+      "executeOnce": true,
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "stock.move",
+        "operation": "getAll",
+        "options": {},
+        "filterRequest": {
+          "filter": [
+            {
+              "fieldName": "origin",
+              "value": "={{ $('If1').item.json.display_name }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        3344,
+        48
+      ],
+      "id": "5f073429-c618-4eec-be7f-1248c259dc97",
+      "name": "Get many items6",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "stock.move",
+        "operation": "update",
+        "customResourceId": "={{ $json.id }}",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "state",
+              "fieldValue": "cancel"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        3568,
+        48
+      ],
+      "id": "8e1a3cc6-e3b9-4785-9479-45f273692a21",
+      "name": "Update an item6",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "account.move",
+        "operation": "update",
+        "customResourceId": "={{ $json.move_id[0][0] }}",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "state",
+              "fieldValue": "cancel"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        2896,
+        48
+      ],
+      "id": "dd3ae379-4fc2-43d7-993a-ced397de4ca7",
+      "name": "Update an item7",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "quantity"
+            },
+            {
+              "fieldToAggregate": "product_id"
+            },
+            {
+              "fieldToAggregate": "price_total"
+            },
+            {
+              "fieldToAggregate": "move_id"
+            },
+            {
+              "fieldToAggregate": "journal_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2672,
+        48
+      ],
+      "id": "26eac8f7-0df8-4bc9-b7ab-fce17a5c1055",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=debes hacer un cambio de la orden de venta que vas a recibir segun el pedido del usuario.\n\npeticion del usuario: \n\n<h4>Otra información</h4>Numero de pedido : 00006<br>\nSeleccione una o varias de las opciones : Cambio de producto<br>\nProducto a cambiar : 3 computadoras<br>\nProducto deseado : 4 monitores\n\norden de venta actual:\ncantidades: {{ $('Aggregate').item.json.quantity }}\nproductos: {{ $('Aggregate').item.json.product_id }} (el numero es el id y lo que le sigue el nombre)\nmontosTotales: {{ $('Aggregate').item.json.price_total }}\ncliente: {{ $('Edit Fields2').first().json.partner_id }} (el numero es el id y lo que le sigue el nombre)\n\n\ny debes espificar como quedara la compra, por ejemplo\n\nclienteId: 6\nCliente: Manuel Perez\nnumeroOrden: 00006\nproductos: [0001] Monitores -> 4 unid\n[0002] Teclados -> 5 unid",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        3792,
+        496
+      ],
+      "id": "24e48ee8-ae6d-4f4e-8e01-903ad733ec7a",
+      "name": "Basic LLM Chain3",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "aharonguedezdev@gmail.com",
+        "subject": "Confirmacion de reembolso realizado a la orden #",
+        "message": "hola, se necesita hacer un reembolso al cliente: .\nPor su factura",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3824,
+        48
+      ],
+      "id": "0c927680-dec2-4ba1-85b2-2101c005b148",
+      "name": "Send a message",
+      "webhookId": "7e88e7c8-dcc6-4153-ba6d-cd532f8fa53d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "T1obqSA51w6I58aY",
+          "name": "lotovazquezsimon@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "aharonguedezdev@gmail.com",
+        "subject": "=Cambio de producto para el cliente:  {{ $('Get many items').first().json.partner_name }}",
+        "message": "=hola, un cliente solicito un cambio de producto, necesitamos crear una nueva factura con el detalle de la compra.\n\n {{ $json.text }}",
+        "approvalOptions": {
+          "values": {
+            "approveLabel": "Realizado"
+          }
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        4144,
+        496
+      ],
+      "id": "67f8fb10-ae5b-409c-90b0-42445cb23de5",
+      "name": "Send a message1",
+      "webhookId": "7e88e7c8-dcc6-4153-ba6d-cd532f8fa53d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "T1obqSA51w6I58aY",
+          "name": "lotovazquezsimon@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "aharonguedezdev@gmail.com",
+        "subject": "Tu cambio ha sido realizado correctamente",
+        "emailType": "text",
+        "message": "=Hola, se ha realizado el cambio de tu pedido, puedes ver la factura y hacer el pago",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        4368,
+        496
+      ],
+      "id": "5c968732-4905-4c23-abba-f6a196f60f1b",
+      "name": "Send a message2",
+      "webhookId": "793dd403-5bf5-4b51-b133-89e8780222f9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "T1obqSA51w6I58aY",
+          "name": "lotovazquezsimon@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "aharonguedezdev@gmail.com",
+        "subject": "Rechazo de ticket",
+        "emailType": "text",
+        "message": "=hola {{ $('Get many items').item.json.partner_id[1] }}, Lo sentimos mucho pero tu ticket ha sido rechazado ya que el pedido que pusiste no puede ser modificado debido a que esta siendo enviado",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1552,
+        80
+      ],
+      "id": "c7cac274-5489-4719-9311-b63c5a94722d",
+      "name": "Send a message3",
+      "webhookId": "85994b41-e338-4380-8d5f-df48b4977512",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "T1obqSA51w6I58aY",
+          "name": "lotovazquezsimon@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "aharonguedezdev@gmail.com",
+        "subject": "Rechazo de ticket",
+        "emailType": "text",
+        "message": "=hola {{ $('Get many items').item.json.partner_id[1] }}, Lo sentimos mucho pero tu ticket ha sido rechazado ya que el pedido que pusiste no puede ser reembolsado ya que aun no se encuentra pagado",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2448,
+        304
+      ],
+      "id": "f701cb3e-a9d5-4e18-adb5-56cd9a26f8de",
+      "name": "Send a message4",
+      "webhookId": "85994b41-e338-4380-8d5f-df48b4977512",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "T1obqSA51w6I58aY",
+          "name": "lotovazquezsimon@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "aharonguedezdev@gmail.com",
+        "subject": "Rechazo de ticket",
+        "emailType": "text",
+        "message": "=hola {{ $('Get many items').item.json.partner_id[1] }}, Lo sentimos mucho pero tu ticket ha sido rechazado ya que el pedido que pusiste no puede ser cambiado ya que este fue pagado",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2448,
+        688
+      ],
+      "id": "282fa341-de14-4f5f-8400-25e125816fe2",
+      "name": "Send a message5",
+      "webhookId": "85994b41-e338-4380-8d5f-df48b4977512",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "T1obqSA51w6I58aY",
+          "name": "lotovazquezsimon@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2b987fc6-7c70-479d-ba52-ce576845e648",
+              "leftValue": "={{ $json.delivery_status.toString() }}",
+              "rightValue": "pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "6d53c263-1412-4fdc-ab26-d3ba913f41d4",
+              "leftValue": "={{ $json.delivery_status.toString() }}",
+              "rightValue": "false",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1328,
+        176
+      ],
+      "id": "35d3f050-986c-4a53-b0fc-fff2cd8223ee",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "2b987fc6-7c70-479d-ba52-ce576845e648",
+              "leftValue": "={{ $json.delivery_status.toString() }}",
+              "rightValue": "pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "6d53c263-1412-4fdc-ab26-d3ba913f41d4",
+              "leftValue": "={{ $json.delivery_status.toString() }}",
+              "rightValue": "false",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1328,
+        -240
+      ],
+      "id": "c2ffa2bc-0be1-4f48-bff6-b886f64334c8",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "aharonguedezdev@gmail.com",
+        "subject": "Tu cambio ha sido realizado correctamente",
+        "emailType": "text",
+        "message": "=Hola, ya el reembolso sera procesado.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        4112,
+        48
+      ],
+      "id": "9da3c857-e0dd-447d-b95a-d269080556bb",
+      "name": "Send a message6",
+      "webhookId": "793dd403-5bf5-4b51-b133-89e8780222f9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "T1obqSA51w6I58aY",
+          "name": "lotovazquezsimon@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "aharonguedezdev@gmail.com",
+        "subject": "Tu cambio ha sido realizado correctamente",
+        "emailType": "text",
+        "message": "=Hola, su direccion ha sido modificada.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        3120,
+        -256
+      ],
+      "id": "a3e341a0-10e2-4b48-9746-02ce3ffeda75",
+      "name": "Send a message7",
+      "webhookId": "793dd403-5bf5-4b51-b133-89e8780222f9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "T1obqSA51w6I58aY",
+          "name": "lotovazquezsimon@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get many items",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many items": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Get an item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an item": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an item": {
+      "main": [
+        [
+          {
+            "node": "Get a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many items1": {
+      "main": [
+        [
+          {
+            "node": "Get many items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many items2": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Update an item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create an item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an item": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an item1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Get an item1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an item2": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain2": {
+      "main": [
+        [
+          {
+            "node": "Get an item2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain2",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a contact": {
+      "main": [
+        [
+          {
+            "node": "Send a message7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Get many items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many items4": {
+      "main": [
+        [
+          {
+            "node": "Get an item4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an item4": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an item2": {
+      "main": [
+        [
+          {
+            "node": "Get many items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many items3": {
+      "main": [
+        [
+          {
+            "node": "Update an item3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an item3": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an item4": {
+      "main": [
+        [
+          {
+            "node": "Update an item2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Update an item4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Get many items5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many items5": {
+      "main": [
+        [
+          {
+            "node": "Get an item5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an item5": {
+      "main": [
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an item5": {
+      "main": [
+        [
+          {
+            "node": "Get many items6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many items6": {
+      "main": [
+        [
+          {
+            "node": "Update an item6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an item7": {
+      "main": [
+        [
+          {
+            "node": "Update an item5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Update an item7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain3": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an item6": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message2": {
+      "main": [
+        []
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get many items1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Send a message6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "agentes-hawimi-n8n.c0kulq.easypanel.host",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 OPR/121.0.0.0",
+            "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "es-ES,es;q=0.9,en;q=0.8",
+            "cookie": "rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX19L6tvAZQf7%2BuE63Ed7PiJXO%2FcoGigolMA%3D; rl_page_init_referring_domain=RudderEncrypt%3AU2FsdGVkX19A6nDDZuB8jeeBXKU5gAbF4ix%2BSRQEiAQ%3D; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX19vNB1JXz4naETnb8TG6Ys1rtlwPFZfmIE3sVcafrWaVDntK%2FkDibDNVGUe3GgmZnUgkoQBShg5OA%3D%3D; rl_user_id=RudderEncrypt%3AU2FsdGVkX18ugIy9uz%2BNSuh3XJvs%2F2KZiV7TMMf5LwiiYyKly%2F%2BqlBOTocDTgNfI0dXrvklFEkRJEWvvRJKtWV8%2FL6hLqMxSf19J3CuFnFdnmlH2C16MNAYNXhcreAm7rrQbMvZvB%2BolLz3slcxwpgRDl7pSAy3L9CSRXvfOjWM%3D; rl_trait=RudderEncrypt%3AU2FsdGVkX1%2By2xxAPrRxxWkfdS7vj3D1RB4mlcE1isV4ywP1fGorArlh4W25BLYDKQ%2FGDGzEmvzYl569bC%2BzSxFPbirH%2BtpPYbS%2FX%2FsXlq74UWYk%2B4dHo6NtLEZHzMsR2PlUy7iQKRK8JK5zfv%2BdWQ%3D%3D; ph_phc_4URIAm1uYfJO7j8kWSe0J8lc8IqnstRLS7Jx8NcakHo_posthog=%7B%22distinct_id%22%3A%22dbdf099e5985afac798a4097b409ce241105f956b9421624dc3f5c95ab998993%239f5c2103-e1d8-4523-85c1-e30fe3493d51%22%2C%22%24sesid%22%3A%5Bnull%2C%2201995b16-fdda-74e5-b5f8-9f5e78dee043%22%2C1758169857498%5D%2C%22%24epp%22%3Atrue%2C%22%24initial_person_info%22%3A%7B%22r%22%3A%22%24direct%22%2C%22u%22%3A%22https%3A%2F%2Fagentes-hawimi-n8n.c0kulq.easypanel.host%2Fsignin%3Fredirect%3D%25252F%22%7D%7D; rl_session=RudderEncrypt%3AU2FsdGVkX1%2BuopX6nk6DAKsSUqvGTH3OMQVLtykY0uQLBQPQzpIDIYKdp%2FSDZXslE3y19Z%2BybPN%2BOeSn4MTMAluapnP%2F5vVpt34h%2F0sG%2F3yW%2F66%2Fsj99B3mL%2BRvFR9cvuR8qY43bSg0mFgxy%2BD6L9Q%3D%3D",
+            "priority": "u=0, i",
+            "referer": "https://demo169.odoo.com/",
+            "sec-ch-ua": "\"Opera GX\";v=\"121\", \"Chromium\";v=\"137\", \"Not/A)Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "document",
+            "sec-fetch-mode": "navigate",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-user": "?1",
+            "upgrade-insecure-requests": "1",
+            "x-forwarded-for": "137.184.199.252",
+            "x-forwarded-host": "agentes-hawimi-n8n.c0kulq.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "c39c23ebe130",
+            "x-real-ip": "137.184.199.252"
+          },
+          "params": {},
+          "query": {},
+          "body": {},
+          "webhookUrl": "https://agentes-hawimi-n8n.c0kulq.easypanel.host/webhook-test/ticket",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "f6881377-9c03-4ebd-b28c-31b0a4e8b161",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-15T01:14:57.696Z",
+      "updatedAt": "2025-09-15T01:14:57.696Z",
+      "role": "workflow:owner",
+      "workflowId": "bYwE3toJFDMTWTYc",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
