@@ -1,0 +1,569 @@
+{
+  "createdAt": "2025-09-18T01:03:42.444Z",
+  "updatedAt": "2025-09-19T06:48:02.000Z",
+  "id": "Wu9Q0XbsyUTbQPTO",
+  "name": "Billing_Odoo_Bot",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=✅ ¡Listo! Tu asiento contable se registró correctamente en Odoo.\n🔢 Número de asiento: {{ $json.id }}",
+        "additionalFields": {}
+      },
+      "id": "62571f73-4c57-4700-9128-4913a75f9f19",
+      "name": "Send Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        -16
+      ],
+      "webhookId": "8c017c1f-6118-45dd-bdd4-f56daad89f6a",
+      "credentials": {
+        "telegramApi": {
+          "id": "qcUDl6MxkkAzOur1",
+          "name": "BillingOdoo_Credencials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('Telegram Trigger').item.json.message.document.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -176,
+        0
+      ],
+      "id": "c5f248a0-9862-4120-bb3e-e043569f5a08",
+      "name": "Get a file",
+      "webhookId": "30d1b86f-b22d-44db-b7e6-966d24a93e54",
+      "credentials": {
+        "telegramApi": {
+          "id": "qcUDl6MxkkAzOur1",
+          "name": "BillingOdoo_Credencials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "66059cdc-19b0-4013-9e1e-1d7c14d66d56",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"auto_post\": \"no\",\n  \"currency_id\": 2,\n  \"date\": \"2025-09-17\",\n  \"journal_id\": 1,\n  \"state\": \"draft\",\n  \"partner_id\": 23,\n  \"ref\": \"pago de servicios\", \n  \"invoice_line_ids\":  [\n  [0, 0, {\n    \"account_id\": 200,\n    \"name\": \"Servicio consultoría\",\n    \"debit\": 1000,\n    \"credit\": 0,\n    \"partner_id\": 6\n  }],\n  [0, 0, {\n    \"account_id\": 300,\n    \"name\": \"Pago servicio consultoría\",\n    \"debit\": 0,\n    \"credit\": 1000,\n    \"partner_id\": 6\n  }]\n]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1360,
+        160
+      ],
+      "id": "8b9d0500-dc5b-4b0c-a7fb-83138aa885ea",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "account.move",
+        "operation": "update",
+        "customResourceId": "={{ $json.id }}",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "state",
+              "fieldValue": "posted"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        -16
+      ],
+      "id": "17a75372-7a8b-4aa9-bbfc-f39b28327df1",
+      "name": "Update an item",
+      "retryOnFail": false,
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "account.move",
+        "fieldsToCreateOrUpdate": {
+          "fields": [
+            {
+              "fieldName": "journal_id",
+              "fieldValue": "8"
+            },
+            {
+              "fieldName": "auto_post",
+              "fieldValue": "={{ $json.output.auto_post }}"
+            },
+            {
+              "fieldName": "currency_id",
+              "fieldValue": "={{ $json.output.currency_id }}"
+            },
+            {
+              "fieldName": "state",
+              "fieldValue": "=draft"
+            },
+            {
+              "fieldName": "invoice_date",
+              "fieldValue": "={{ $json.output.date }}"
+            },
+            {
+              "fieldName": "invoice_line_ids",
+              "fieldValue": "={{ $json.output.invoice_line_ids }}"
+            },
+            {
+              "fieldName": "ref",
+              "fieldValue": "={{ $json.output.ref }}"
+            },
+            {
+              "fieldName": "partner_id",
+              "fieldValue": "={{ $json.output.partner_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        1552,
+        -16
+      ],
+      "id": "7fc217eb-0c52-421e-8fc8-d65d51cd2756",
+      "name": "Create an item1",
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=saca el nombre del proveedor, {{ $json.text }}. solo devuelve el nombre del proveedor\n, si no logras sacar el nombre asignale \"sin nombre\"",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        160,
+        0
+      ],
+      "id": "5e21c81d-ef20-4c78-92b6-e5f6dd6541a3",
+      "name": "Basic LLM Chain1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        144
+      ],
+      "id": "ebca0538-0961-4729-b507-20d44fa3a187",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contactName": "={{ $('Basic LLM Chain1').item.json.text }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        816,
+        48
+      ],
+      "id": "31577fa0-0f0b-4b35-bcaf-8587e1c02096",
+      "name": "Create a contact1",
+      "executeOnce": true,
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a07e869a-01ee-4869-8407-884f4125b5db",
+              "leftValue": "={{ $('Basic LLM Chain1').item.json.text }}",
+              "rightValue": "={{ $json.display_name }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "816b018a-50d6-48b7-80cd-2fb6c292bec0",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "resource": "custom",
+        "customResource": "res.partner",
+        "operation": "getAll",
+        "options": {},
+        "filterRequest": {
+          "filter": [
+            {
+              "fieldName": "display_name",
+              "operator": "like",
+              "value": "={{ $json.text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.odoo",
+      "typeVersion": 1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "a891a586-4614-4fec-81f9-2c16fea4dc76",
+      "name": "Get many items",
+      "alwaysOutputData": true,
+      "credentials": {
+        "odooApi": {
+          "id": "jBTbIKDS0xMkK2ug",
+          "name": "Odoo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e8368dc2-48dd-4490-8f96-d39b7b52cc9c",
+              "name": "partner_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        -16
+      ],
+      "id": "b316c3cf-409b-4e89-b66a-d0c5e4848e7b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -368,
+        0
+      ],
+      "id": "2ef096bb-b86e-448e-a45b-52516de60929",
+      "name": "Telegram Trigger",
+      "webhookId": "e2b0c6f0-c33c-47ab-892b-a014c8279b79",
+      "credentials": {
+        "telegramApi": {
+          "id": "qcUDl6MxkkAzOur1",
+          "name": "BillingOdoo_Credencials"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=##TAREA:\nVas a recibir un texto, quiero que transformes ese texto a un texto en formato json {{ $('Extract from File').item.json.text }}. al hacer el invoice_line_ids que es el asiento contable vas a seguir estas instrucciones y pasos:\n-saca el monto total de la factura\n-saca el asiento con el monto total (has el asiento solo con monto total y costo)\n-arma la estructura del invoice_line_ids como se marco en el output parser\n\n##INSTRUCIONES DE invoice_line_ids\n--recuerda que en un asiento contable solo se manejan dos cuentas, entonces debes poner todos debitos en la account_id: 200 y todos los creditos en la account_id: 300\n--tiene que estar balanceado el asiento\n\n\n#IMPORTANTE\nSi la suma de debitos no son iguales a los de creditos te equivocaste al decidir en el tipo de cuenta de algun movimiento del asiento, revisa y arreglalo. tienes que colocar todos los movimientos del asiento\n\n\n##DESCRIPCIONES DE LOS FIELDS DEL JSON:\n----------------------------------------------------------------------\nsolo haz el json de estas variables y con siguiendo sus descripciones:\n\n  -Journal Id: Es el ID del diario contable donde se registrará la transacción. Es un campo de tipo many2one que se relaciona con el modelo account.journal. Para una factura de venta, este ID debe corresponder a un diario de tipo \"Ventas\".\n\n  -Auto Post: Es un campo de tipo selection que define si la factura se valida automáticamente.Valores típicos: \"no\" → No autopostar. \"at_date\" → Se postea automáticamente en la fecha indicada. \"month\" → Se postea mensualmente. 👉 Para una factura normal, casi siempre \"no\".\n\n  -Currency Id: Es el ID de la divisa que se usará en la factura. Es un campo de tipo many2one que se relaciona con el modelo res.currency. Es el ID de la moneda. Ejemplo: 1 = EUR, 2 = USD, 👉 Lo normal: currency_id: 2 para bolívares\n\n  -State: Es el estado de la factura. Es un campo de tipo selection. Al crear una factura, el valor suele ser draft (borrador). \n\n  -Invoice Date: La fecha de la factura. Se utiliza para determinar en qué periodo contable se registrará la transacción. El formato debe ser YYYY-MM-DD.\n\n  -Invoice Line Ids: Es la lista de líneas de la factura. Es un campo de tipo one2many que contiene los detalles de los productos o servicios facturados. Cada línea es un objeto que debe incluir el producto (product_id), la cantidad (quantity) y el precio unitario (price_unit).\n\n  -Ref: Un campo de texto para una referencia interna o un número de documento que ayuda a identificar la factura. Es opcional y no afecta el registro contable.\n\n  -Partner: Es el cliente o proveedor al que se le emite la factura. Es un campo de tipo many2one que se relaciona con el modelo res.partner. Para este campo, debes proporcionar el ID del contacto {{ $json.partner_id }}.\n\n  -move_type (selection): Tipo de movimiento. Valores más comunes:\n\"out_invoice\" → Factura de cliente, \"out_refund\" → Nota de crédito de cliente, \"in_invoice\" → Factura de proveedor, \"in_refund\" → Nota de crédito de proveedor\n-------------------------------------------------------------------------\n\n\n------------------------------------------------------\nEJEMPLO DE INVOICE LINE IDS:\n  \"invoice_line_ids\":  [\n  [0, 0, {\n    \"account_id\": 200,\n    \"name\": \"Servicio consultoría\",\n    \"debit\": 1000,\n    \"credit\": 0,\n    \"partner_id\": 6\n  }],\n  [0, 0, {\n    \"account_id\": 300,\n    \"name\": \"Pago servicio consultoría\",\n    \"debit\": 0,\n    \"credit\": 1000\n  }]\n]\n\n\nEsto es un asiento contable y lo tiene que hacer asi\n--------------------------------------------\n\n\n\nREQUISITOS:\n-devuelve siempre un journal id de 8.\n-la fecha tiene que tener el formato %Y-%m-%d.\n-el partner id siempre va a ser {{ $json.partner_id }}, en el json pon el partner. id correcto.\n-LO MAS IMPORTANTE ES QUE EL ASIENTO ESTE BALANCEADO\n\n\n\n",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1216,
+        -16
+      ],
+      "id": "2317c159-a774-4fcd-97cd-d4d412944346",
+      "name": "Basic LLM Chain5"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1216,
+        160
+      ],
+      "id": "9f481ba2-87f6-4bc5-a27a-471ae236f448",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lfcl7qo2bx0aQmQ6",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Message": {
+      "main": [
+        []
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain5",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an item": {
+      "main": [
+        [
+          {
+            "node": "Send Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an item1": {
+      "main": [
+        [
+          {
+            "node": "Update an item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a contact1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a contact1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Get many items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many items": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain5": {
+      "main": [
+        [
+          {
+            "node": "Create an item1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain5",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "cce92beb-8403-4f95-b097-773e9777337b",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "createdAt": "2025-09-18T01:03:42.450Z",
+      "updatedAt": "2025-09-18T01:03:42.450Z",
+      "role": "workflow:owner",
+      "workflowId": "Wu9Q0XbsyUTbQPTO",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "tags": []
+}
