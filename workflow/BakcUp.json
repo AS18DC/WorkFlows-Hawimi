@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-11-20T21:16:32.950Z",
-  "updatedAt": "2025-11-20T23:03:54.000Z",
+  "updatedAt": "2025-11-20T23:33:27.000Z",
   "id": "NVsH2fdeFvnBMNNQ",
   "name": "BakcUp",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -508,7 +508,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:1dia": {
+      "recurrenceRules": []
+    }
+  },
   "meta": {
     "templateCredsSetupCompleted": true
   },
@@ -532,7 +536,7 @@
     ]
   },
   "versionId": "f19e51b9-3403-412d-97df-57290fe770a8",
-  "triggerCount": 0,
+  "triggerCount": 1,
   "shared": [
     {
       "createdAt": "2025-11-20T21:16:32.954Z",
