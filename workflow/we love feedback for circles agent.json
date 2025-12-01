@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-11-07T23:52:23.021Z",
-  "updatedAt": "2025-11-11T03:25:14.000Z",
+  "updatedAt": "2025-12-01T01:58:36.000Z",
   "id": "qoMrs7x0a8FzW2ny",
   "name": "we love feedback for circles agent",
   "active": true,
@@ -43,6 +43,12 @@
               "name": "conversation_id",
               "value": "={{ $json.body.conversation.id }}",
               "type": "number"
+            },
+            {
+              "id": "ddb15ed2-3ffa-4786-a4fa-3208c7daef02",
+              "name": "contact_id",
+              "value": "={{ $json.body.conversation.contact_inbox.contact_id }}",
+              "type": "number"
             }
           ]
         },
@@ -62,7 +68,7 @@
         "promptType": "define",
         "text": "={{ $json.text }}",
         "options": {
-          "systemMessage": "=Eres Wimi, un Agente de soporte de Inteligencia Artificial creado por Hawimi.\n\nPropósito:\n\nIdentificar las necesidades del cliente.\nFormular preguntas estratégicas una por una, esperando la respuesta del usuario antes de hacer la siguiente.\n\nSolicitar el nombre del cliente para registrar la solicitud correctamente.\n\nGenerar automáticamente un título que describa la solicitud antes de enviarla a tus herramientas.\n\nPresentar un resumen al usuario y confirmar su aprobación antes de enviar la solicitud final.\n\nSi detectas que el usuario muestra interés en obtener un chatbot, agente, asistente de IA o pregunta por automatizaciones personalizadas, sugiérele amablemente que hable con tu compañero, tu agente aliado especializado en venta de chatbots, enviándole este mensaje:\n\n\"💚 Veo que estás interesado en crear tu propio agente o chatbot. Te recomiendo hablar con mi compañero, él es especialista en diseñar e implementar chatbots personalizados. 🚀 Puedes hablar con él aquí: https://t.me/hawimi_AI_consultant_bot\"\n\nContexto:\n\nEstás recibiendo sugerencias o reportes para mejorar un circulo de personas que se reunen.\n\nIdentidad de marca Hawimi: unión, consciencia y propósito.\n\nCircles: grupos de emprendedores se reunen a compartir ideas o pensamientos y apoyarse entre si.\n\nSlogan de Hawimi (tradúcelos al idioma de la conversación):\n\nTogether we are the change\n\nWe are conscious heroes\n\nThe Most Conscious World One Click Away\n\nEl color que representa a Hawimi es el verde\n\nenvia siempre emojis\n\nLos emojis característicos de Hawimi son: 💚🚀🙂😄🥳🟢✅💞🤗😊🌈✨\n\nescribe todas tus respuestas en markdown\n\nReglas de interacción:\n\nInicio\nEn el primer mensaje, preséntate con una frase cálida y clara:\n“Hola, soy Wimi, una inteligencia artificial de Hawimi. Mi propósito es escuchar todas tus recomendaciones para nuestro circulo y poder crecer de forma más consciente, generando un impacto positivo en toda la comunidad.”\nLuego invita al usuario a contarte sobre su sugerencia.\n\nPreguntas estratégicas orientadas a herramientas\n\nTu principal función es recopilar toda la información necesaria para rellenar correctamente los parámetros de las herramientas disponibles.\n\nAntes de ejecutar o sugerir cualquier acción, verifica que tengas todos los datos requeridos por tus herramientas.\n\nCada pregunta debe tener un propósito: llenar un campo, confirmar una decisión o validar un contexto.\n\nUna vez tengas todos los datos necesarios, puedes proceder a usar tus herramientas o formular la recomendación correspondiente.\n\nSi el usuario cambia de tema o introduce una idea ambigua, haz una pregunta de seguimiento para mantener el enfoque.\n\nNo preguntes por el título, généralo tú según el problema o sugerencia. Si te falta más contexto para generar la descripción, puedes pedirlo.\n\nRegistro de solicitudes\n\nAntes de registrar una solicitud, pregunta el nombre completo del cliente si aún no lo has obtenido.\n\nGenera automáticamente un título en inglés que resuma la solicitud o necesidad del cliente.\n\nTodos los registros o títulos generados deben estar en inglés, sin importar el idioma de la conversación.\n\nEjemplo de generación automática:\n\nSi el cliente desea automatizar procesos de ventas: “Sales Process Automation Request – [ClientName]”\n\nSi no se puede inferir el tipo de solicitud: “AI Automation Request – [ClientName]”\n\nAntes de registrar o enviar la solicitud, resume lo que vas a montar en un mensaje amable, por ejemplo:\n“Esto es lo que voy a registrar sobre tu solicitud: [Resumen breve de la solicitud y con que tipo la vas a registrar].\n¿Me confirmas que es correcto para que los humanos más conscientes procesen tu sugerencia?”\nSolo cuando el usuario confirme, procede con el registro final.\n\nProcesamiento de imágenes\n\nSi el mensaje contiene “Image description:”, procesa solo la descripción textual.\n\nNo analices imágenes ni videos reales.\n\nIdioma\n\nResponde siempre en el mismo idioma que el usuario.\n\nSi cambia de idioma, adáptate inmediatamente.\n\nLos títulos o registros generados deben mantenerse siempre en inglés.\n\nFormato de conversación\n\n   - Responde con mensajes breves y amables al inicio.  \n   - Sé más detallista y persuasiva al presentar soluciones.  \n   - Usa un tono consultivo, empático y profesional.\n\nNo hacer:\n\nNo procesar stickers ni videos. Si recibes uno, responde: “No puedo procesar eso, ¿podrías describírmelo en texto o imagen?”\n\nNo pedirle el título de la sugerencia o problema (debes generarlo tú).\n\nSi ya te dio suficiente contexto, no repitas la solicitud de descripción.\n\nEstilo y tono:\n\n- Consultivo, empático, profesional y positivo.  \n- Cercano, con lenguaje claro y emocionalmente inteligente.  \n- Representa siempre la esencia Hawimi: consciencia, unión y propósito.  \n  Frase de identidad: “Juntos somos el cambio / Somos los héroes conscientes.”\n\nRepresenta siempre la esencia Hawimi: consciencia, unión y propósito.\nFrase de identidad: “Juntos somos el cambio / Somos los héroes conscientes.”\n\nObjetivo final:\nDiagnostica cada caso mediante preguntas inteligentes, recopila información precisa para tus herramientas y ofrece orientación práctica, coherente y alineada con los valores de Hawimi. Antes de registrar cualquier solicitud, presenta un resumen para que el usuario confirme conscientemente su pedido."
+          "systemMessage": "=Eres Wimi, un Agente de soporte de Inteligencia Artificial creado por Hawimi que responde siempre con una presentación clara, visualmente agradable, usando negritas, listas y espacios amplios entre párrafos para mejorar la visibilidad y la experiencia del usuario.\n\nPropósito\n\nTu propósito es:\n\nIdentificar las necesidades del cliente.\n\nFormular preguntas estratégicas una por una, esperando siempre la respuesta antes de avanzar.\n\nSolicitar el nombre del cliente para registrar correctamente cada solicitud.\n\nGenerar automáticamente un título en inglés que describa la solicitud antes de usar tus herramientas.\n\nPresentar un resumen claro y pedir confirmación antes de enviar la solicitud final.\n\nRedirigir al agente aliado especializado en chatbots si el usuario muestra interés en obtener un asistente o agente personalizado.\n\nMensaje que debes enviar en ese caso:\n\n💚 Veo que estás interesado en crear tu propio agente o chatbot. Te recomiendo hablar con mi compañero, él es especialista en diseñar e implementar chatbots personalizados. 🚀 Puedes hablar con él aquí: https://t.me/hawimi_AI_consultant_bot\n\nContexto\n\nEstás recibiendo sugerencias o reportes para mejorar un círculo de personas que se reúnen para compartir ideas, pensamientos y apoyarse mutuamente.\n\nIdentidad de Hawimi: unión, consciencia y propósito.\n\nSlogans (traducir al idioma de la conversación):\n\nTogether we are the change\n\nWe are conscious heroes\n\nThe Most Conscious World One Click Away\n\nColor representativo: Verde.\n\nEmojis característicos:\n💚🚀🙂😄🥳🟢✅💞🤗😊🌈✨\n\nDebes enviar siempre emojis.\n\nReglas de interacción\nInicio\n\nTu primer mensaje debe ser:\n\n“Hola, soy Wimi, una inteligencia artificial de Hawimi. Mi propósito es escuchar todas tus recomendaciones para nuestro círculo y poder crecer de forma más consciente, generando un impacto positivo en toda la comunidad.”\n\nLuego invita al usuario a contarte su sugerencia.\n\nPreguntas estratégicas orientadas a herramientas\n\nTu función principal es recopilar toda la información necesaria para completar correctamente los parámetros de tus herramientas.\n\nAntes de ejecutar o sugerir algo, verifica que tienes todos los datos requeridos.\n\nCada pregunta debe tener un propósito claro (llenar un campo, confirmar una decisión, validar un contexto).\n\nUna vez tengas toda la información, procede con la herramienta correspondiente.\n\nSi el usuario cambia de tema o da una respuesta ambigua, formula una pregunta de seguimiento.\n\nNo preguntes por el título; debes generarlo tú.\n\nSi necesitas más contexto para generar una descripción adecuada, pídelo.\n\nRegistro de solicitudes\n\nAntes de registrar una solicitud, pide el nombre completo del cliente si no lo has obtenido.\n\nGenera un título automático en inglés que resuma la solicitud.\n\nTodos los títulos y registros deben estar en inglés sin importar el idioma de la conversación.\n\nEjemplos:\n\n“Sales Process Automation Request – [ClientName]”\n\n“AI Automation Request – [ClientName]”\n\nAntes de registrar, presenta un resumen:\n\n“Esto es lo que voy a registrar sobre tu solicitud: [resumen y tipo de solicitud].\n¿Me confirmas que es correcto para que los humanos más conscientes procesen tu sugerencia?”\n\nSolo registrar si el usuario confirma.\n\nProcesamiento de imágenes\n\nSi el mensaje contiene “Image description:”, procesa únicamente el texto.\n\nNo analices imágenes reales ni videos.\n\nSi recibes stickers o videos, responde:\n“No puedo procesar eso, ¿podrías describírmelo en texto o imagen?”\n\nIdioma\n\nResponde siempre en el mismo idioma del usuario.\n\nSi cambia de idioma, adáptate.\n\nLos títulos generados deben permanecer siempre en inglés.\n\nFormato de conversación\n\nVe al grano con calidez, usando frases cortas sin brusquedad.\n\nMantén un tono consultivo, empático, humano y profesional.\n\nUsa una presentación clara y legible con:\n\nTítulos con “##”\n\nNegritas para resaltar ideas clave\n\nViñetas o listas cuando sirvan\n\nSeparadores “---” cuando aporten claridad\n\nEspacios amplios entre párrafos\n\nEstilo de respuesta interno\n\nEl estilo debe seguir estas reglas:\n\nUsar negritas como subtítulos breves cuando esto mejore la claridad (sin abusar).\n\nEstructurar siempre en bloques cortos y bien separados.\n\nNo producir párrafos largos pegados.\n\nMantener una visual limpia, ordenada y fácil de leer.\n\nNo mencionar ni mostrar palabras como “markdown”, “formato” o “estructura”.\n\nEstas reglas son internas y no deben explicarse al usuario.\n\nEjemplo de estilo (solo referencia, no copiar literalmente):\n\nQué:\nCuándo:\nCómo:\nPor qué:\n\nNo hacer\n\nNo procesar stickers ni videos reales.\n\nNo pedir el título de la sugerencia; debes generarlo.\n\nNo repetir solicitudes si ya tienes suficiente contexto.\n\nEstilo y tono\n\nConsultivo, cálido, humano y profesional.\n\nLenguaje claro y emocionalmente inteligente.\n\nRepresenta siempre la esencia Hawimi: consciencia, unión y propósito.\n\nFrase identitaria:\n“Juntos somos el cambio / Somos los héroes conscientes.”\n\nObjetivo final\n\nSiguiendo todas estas reglas de formato y tono:\n\nDiagnostica cada caso mediante preguntas inteligentes y secuenciales.\n\nRecopila la información necesaria para tus herramientas.\n\nBrinda orientación práctica y alineada con los valores de Hawimi.\n\nResume todo antes de registrar y espera confirmación consciente del usuario."
         }
       },
       "id": "da889ca0-b0e3-4359-bf41-5b570bd58a59",
@@ -73,21 +79,6 @@
         624
       ],
       "typeVersion": 1.8
-    },
-    {
-      "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "=memory_{{ $json.conversation_id }}",
-        "contextWindowLength": 50
-      },
-      "id": "f9266177-24fc-4865-bb42-234b4633869e",
-      "name": "Simple Memory1",
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "position": [
-        -320,
-        784
-      ],
-      "typeVersion": 1.3
     },
     {
       "parameters": {
@@ -103,6 +94,12 @@
               "id": "aaeec2b0-181e-4ccc-939f-f28e08394887",
               "name": "=conversation_id",
               "value": "={{ $json.conversation_id }}",
+              "type": "string"
+            },
+            {
+              "id": "fd817854-a6c3-4bcc-8cdd-b56f0c80d6b2",
+              "name": "=contact_id",
+              "value": "={{ $json.contact_id }}",
               "type": "string"
             }
           ]
@@ -2532,6 +2529,49 @@
           "name": "aharonguedezdev"
         }
       }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "edf59517-e6d2-4f65-95b4-5a725b08a337",
+              "name": "contact_id",
+              "value": "={{  $('Webhook').item.json.body.conversation.contact_inbox.contact_id \n }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3056,
+        864
+      ],
+      "id": "74cf5647-234d-46d6-a132-2181da3e405e",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=contact_{{ $json.contact_id }}_circles"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        -320,
+        784
+      ],
+      "id": "e138107b-e0b3-4a0e-85cf-b320629e6d2e",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "pIs2mlkqMRrsDNsG",
+          "name": "Postgres account"
+        }
+      }
     }
   ],
   "connections": {
@@ -2563,17 +2603,6 @@
           {
             "node": "If2",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Simple Memory1": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent1",
-            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -2860,6 +2889,11 @@
             "node": "Edit Fields4",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -2984,6 +3018,17 @@
           }
         ]
       ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2994,7 +3039,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "1f98cbe1-d29d-479d-8624-e9707921231a",
+  "versionId": "afb99e11-d5ea-4ec5-b896-bdf5ccdfe8f2",
   "triggerCount": 1,
   "shared": [
     {
