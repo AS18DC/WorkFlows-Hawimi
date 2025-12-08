@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-10-21T02:11:58.689Z",
   "updatedAt": "2025-11-08T15:48:34.000Z",
+  "createdAt": "2025-10-21T02:11:58.689Z",
   "id": "6QjYoURvSKH7wOw0",
   "name": "crear contacto",
   "active": false,
@@ -197,15 +197,17 @@
     ]
   },
   "versionId": "0c812e70-bc72-4d5f-aee1-79940f3d47ad",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-10-21T02:11:58.695Z",
       "updatedAt": "2025-10-21T02:11:58.695Z",
+      "createdAt": "2025-10-21T02:11:58.695Z",
       "role": "workflow:owner",
       "workflowId": "6QjYoURvSKH7wOw0",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
