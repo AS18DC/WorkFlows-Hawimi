@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-08-28T04:18:15.571Z",
   "updatedAt": "2025-11-08T15:49:47.000Z",
+  "createdAt": "2025-08-28T04:18:15.571Z",
   "id": "9EH78Vfs768BI4uu",
   "name": "Animacion de imagen",
   "active": false,
@@ -497,15 +497,17 @@
     ]
   },
   "versionId": "6495a179-26ea-4808-8535-2aae3eccfc3c",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-08-28T04:18:15.578Z",
       "updatedAt": "2025-08-28T04:18:15.578Z",
+      "createdAt": "2025-08-28T04:18:15.578Z",
       "role": "workflow:owner",
       "workflowId": "9EH78Vfs768BI4uu",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
