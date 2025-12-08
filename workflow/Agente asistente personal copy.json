@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-08-25T23:28:03.397Z",
   "updatedAt": "2025-08-25T23:39:03.000Z",
+  "createdAt": "2025-08-25T23:28:03.397Z",
   "id": "BAH3Y2FeTsHslDeF",
   "name": "Agente asistente personal copy",
   "active": false,
@@ -2512,15 +2512,17 @@
   },
   "pinData": {},
   "versionId": "8d52f78c-2cd4-4555-9d2d-0ca243da04a6",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-08-25T23:28:03.403Z",
       "updatedAt": "2025-08-25T23:28:03.403Z",
+      "createdAt": "2025-08-25T23:28:03.403Z",
       "role": "workflow:owner",
       "workflowId": "BAH3Y2FeTsHslDeF",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
