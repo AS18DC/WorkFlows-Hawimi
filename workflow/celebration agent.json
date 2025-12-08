@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-10-13T23:29:13.860Z",
   "updatedAt": "2025-11-08T15:48:38.000Z",
+  "createdAt": "2025-10-13T23:29:13.860Z",
   "id": "9igCGPCcJvNsf5dz",
   "name": "celebration agent",
   "active": false,
@@ -755,15 +755,17 @@
   },
   "pinData": {},
   "versionId": "bad7d8fd-1780-4933-8982-e7592a31e5f8",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-10-13T23:29:13.865Z",
       "updatedAt": "2025-10-13T23:29:13.865Z",
+      "createdAt": "2025-10-13T23:29:13.865Z",
       "role": "workflow:owner",
       "workflowId": "9igCGPCcJvNsf5dz",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
