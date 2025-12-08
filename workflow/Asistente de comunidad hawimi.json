@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-08-27T00:00:40.737Z",
   "updatedAt": "2025-11-08T15:50:17.000Z",
+  "createdAt": "2025-08-27T00:00:40.737Z",
   "id": "iq7EF3owfG7lDsCC",
   "name": "Asistente de comunidad hawimi",
   "active": true,
@@ -1203,15 +1203,1154 @@
     ]
   },
   "versionId": "0eff3575-968f-44c3-82d7-9f8c7f32b2d7",
+  "activeVersionId": "0eff3575-968f-44c3-82d7-9f8c7f32b2d7",
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-08-27T00:00:40.742Z",
       "updatedAt": "2025-08-27T00:00:40.742Z",
+      "createdAt": "2025-08-27T00:00:40.742Z",
       "role": "workflow:owner",
       "workflowId": "iq7EF3owfG7lDsCC",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-12-04T23:46:15.789Z",
+    "createdAt": "2025-12-04T23:46:15.789Z",
+    "versionId": "0eff3575-968f-44c3-82d7-9f8c7f32b2d7",
+    "workflowId": "iq7EF3owfG7lDsCC",
+    "nodes": [
+      {
+        "parameters": {
+          "updates": [
+            "message"
+          ],
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegramTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          144,
+          80
+        ],
+        "id": "39c719d6-875f-4d38-ad78-a9f852522e8d",
+        "name": "Telegram Trigger",
+        "webhookId": "4a2d4a45-e9a2-404f-a8b2-eb43b784eee4",
+        "credentials": {
+          "telegramApi": {
+            "id": "GA0xlVuI2hGLPTp0",
+            "name": "Community Hawimi AI Employee"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.message.text }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "string",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      },
+                      "id": "7f8d5f76-1aa2-41b1-9e28-ee0a5633c882"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Mensajes"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "69132c7d-e875-4b7e-94e1-4327caca10de",
+                      "leftValue": "={{ $json.message.voice.mime_type }}",
+                      "rightValue": "audio/ogg",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Audios"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "a1d0e14b-8684-4cd5-a16b-1b3556e4bda8",
+                      "leftValue": "={{ $json.message.photo }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "array",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Imagenes"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.2,
+        "position": [
+          1008,
+          352
+        ],
+        "id": "46de8086-5c0a-4f88-b8ba-292f199b2009",
+        "name": "Switch1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+                "name": "=message",
+                "value": "={{ $json.message.text }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1744,
+          176
+        ],
+        "id": "aa3205a9-7fa0-4c1a-94df-72c9c5b7a589",
+        "name": "Edit Fields3"
+      },
+      {
+        "parameters": {
+          "resource": "image",
+          "operation": "analyze",
+          "modelId": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "GPT-4O-MINI"
+          },
+          "text": "Entiende que tiene esta imagen y describelo detalladamente y no preguntes nunca si necesito algo mas",
+          "inputType": "base64",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          1520,
+          560
+        ],
+        "id": "772591c0-8f26-4297-a3c3-e676dab24590",
+        "name": "Analyze image1",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "file",
+          "fileId": "={{ $json.message.voice.file_id }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1296,
+          368
+        ],
+        "id": "46cc2223-01f5-4ada-b212-98e1f0f8eb0c",
+        "name": "Get a file2",
+        "webhookId": "06daf5bb-deb6-4bcf-83ed-c70aa5b063fd",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "file",
+          "fileId": "={{ $json.message.photo[3].file_id }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1296,
+          560
+        ],
+        "id": "9fc19d1b-aa35-4063-8e7e-90535a5238c3",
+        "name": "Get a file3",
+        "webhookId": "06daf5bb-deb6-4bcf-83ed-c70aa5b063fd",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+                "name": "=message",
+                "value": "=Loto te acaba de enviar una imagen y esta es la descripcion que realizo una IA:\n{{ $json.content }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1744,
+          560
+        ],
+        "id": "78a12349-7c66-460c-a25a-cfe4a874b22e",
+        "name": "Edit Fields4"
+      },
+      {
+        "parameters": {
+          "resource": "audio",
+          "operation": "transcribe",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          1520,
+          368
+        ],
+        "id": "383fa08e-e561-4b18-ae2b-b50358c9afdb",
+        "name": "Transcribe a recording1",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+                "name": "=message",
+                "value": "={{ $json.text }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1744,
+          368
+        ],
+        "id": "32b09ea8-d1b6-4220-a6c9-2ac26e55ee9b",
+        "name": "Edit Fields5"
+      },
+      {
+        "parameters": {},
+        "id": "f2c593dc-bc65-4408-bed0-3e9fe1f1730f",
+        "name": "think1",
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "position": [
+          2448,
+          640
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "contextWindowLength": 10
+        },
+        "id": "f6b7bf99-5624-4b95-bc29-10a1b3da436e",
+        "name": "simple-memory1",
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "position": [
+          2320,
+          640
+        ],
+        "typeVersion": 1.3
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          2048,
+          640
+        ],
+        "id": "9f79fb74-3ee5-4896-8c22-052b8a9846b2",
+        "name": "OpenAI Chat Model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "text": "={{ $json.output }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "message_thread_id": "={{ $('Telegram Trigger').item.json.message.message_thread_id }}"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          3072,
+          416
+        ],
+        "id": "ffab1fa6-06b8-4ea0-8393-81589b43463c",
+        "name": "Send a text message1",
+        "webhookId": "d2d057a5-9065-491e-b716-0421ff2734c6",
+        "credentials": {
+          "telegramApi": {
+            "id": "GA0xlVuI2hGLPTp0",
+            "name": "Community Hawimi AI Employee"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+        "typeVersion": 1,
+        "position": [
+          2576,
+          640
+        ],
+        "id": "ff67db8b-dd06-43da-b094-204a85c4b224",
+        "name": "SerpAPI1",
+        "credentials": {
+          "serpApi": {
+            "id": "l6zroHtSyDRQjH5P",
+            "name": "SerpAPI account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.message }}",
+          "options": {
+            "systemMessage": "=#Role\nEres una asistente personal llamada Anastasia altamente eficiente, proactiva y empática 💛. Tu principal objetivo es recibir las peticiones de los clientes, amigos o socios de Loto, gestionando su comunicación y agenda de manera inteligente 🧠✨. Siempre debes ser respetuosa, clara y concisa en tus respuestas, con un estilo de comunicación similar al de Loto Vazquez. Cuando actúes, hazlo de forma proactiva, anticipándote a las necesidades del usuario.\n\n#Objetivo\nAyudar al usuario a agendar reuniones o darle informacion sobre eventos de loto y asegurando que no se pierda información importante ni se olvide de compromisos.\n\n#Instrucciones\nEvalúa la petición del usuario. Determina si la solicitud requiere agendar una reunion o solicitar informacion de algun evento 👀.\n\nAntes de actuar, confirma la acción. Siempre pregunta al usuario si la información que le has dado es suficiente o si desea realizar la acción que has sugerido. Por ejemplo, \"Entendi que quieres informacion sobre un evento, ¿es este? ✅\" o \"Puedo enviarte un link para agendar con loto,¿Te gustaria? 🗓️\"\n\n\nSé proactivo. Si el usuario menciona algo que podría indicar a estar interesado sobre un evento o agendar una reunion, adelantate y pregunta si le gustaria saber o que le envies el link de agenda 🙏🏼.\n\nUsa estos emojis en tus respuestas para mantener el estilo: 🤔🤩🌅😢🙌🏼🙏🏼🌈💛🌏🏃🏽‍♀️📣👈🏼🚀🎁⏰🪷♾️🐯✨💪💯🪄🌟💥💩👀✅.\n\n#Herramientas disponibles\n\n- buscar informacion en internet\n- extraer informacion sobre hawimi.ai\n\n#ESPECIFICACIONES\n##GENERALES\n- Debes tener en cuenta que la fecha actual es {{ $now }}\n- El enlace de reunion con loto es este: https://tidycal.com/lotovazquez/30-min-with-loto\n"
+          }
+        },
+        "id": "20c26ef2-6f10-4dc2-b26b-1e16ed3552fc",
+        "name": "asisstant_agent",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "position": [
+          2448,
+          416
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "Con esta herramienta puedes extraer informacion sobre hawimi.ai",
+          "memoryKey": {
+            "__rl": true,
+            "value": "vector_store_key",
+            "mode": "list",
+            "cachedResultName": "vector_store_key"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+        "typeVersion": 1.3,
+        "position": [
+          2704,
+          640
+        ],
+        "id": "62163c10-c2e9-4389-bc9a-bd6fd7a103d4",
+        "name": "Simple Vector Store"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          2784,
+          848
+        ],
+        "id": "0925fa79-a9eb-4ba1-9441-a0e9ad07e204",
+        "name": "Embeddings OpenAI",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "inputText": "={{ $json.message }}\n",
+          "categories": {
+            "categories": [
+              {
+                "category": "se debe responder",
+                "description": "=este mensaje es de un grupo de telegran. Debes ir por esta categoria consideras que un bot debe responder a esta pregunta"
+              },
+              {
+                "category": "no se debe responder",
+                "description": "=este mensaje es de un grupo de telegran. Debes ir por esta categoria consideras que no es neceesario que un bot responda a este mensaje"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.textClassifier",
+        "typeVersion": 1.1,
+        "position": [
+          1968,
+          416
+        ],
+        "id": "1d7b6d98-3efd-4b3b-ac45-d8d81211e161",
+        "name": "Text Classifier"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "cb177a37-f8cb-4c80-b648-21a3a1846cc9",
+                "leftValue": "={{ $json.message.new_chat_member}}",
+                "rightValue": "",
+                "operator": {
+                  "type": "object",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          368,
+          80
+        ],
+        "id": "5b308266-1ae6-41eb-bdb8-79ccbcf97ab7",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=crea una oracion muy muy corta de bienvenida al grupo al nuevo usuario llamado: {{ $json.message.new_chat_participant.first_name }}.\n\ndebes usar emojis en el mensaje, al menos 2 o 3 emojis\n",
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.7,
+        "position": [
+          944,
+          48
+        ],
+        "id": "227b5fa5-14ab-4439-939e-49f6e62de28f",
+        "name": "Basic LLM Chain"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          1024,
+          -128
+        ],
+        "id": "2694fd19-5a25-4df3-b429-67fb3636fa1c",
+        "name": "OpenAI Chat Model2",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "text": "=<a href=\"tg://user?id={{ $('Telegram Trigger').item.json.message?.new_chat_member?.id ?? $('Telegram Trigger').item.json.message?.new_chat_members[0]?.id }}\">\n  {{ $('Telegram Trigger').item.json.message?.new_chat_member?.first_name ?? $('Telegram Trigger').item.json.message?.new_chat_members[0]?.first_name }}\n</a> {{ $json.text }}",
+          "additionalFields": {
+            "appendAttribution": false,
+            "parse_mode": "HTML"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1296,
+          -96
+        ],
+        "id": "8538b143-4988-48c3-81f0-f283d8e8ff52",
+        "name": "Send a text message",
+        "webhookId": "94fd9963-d326-4bda-b195-1b12d027385d",
+        "credentials": {
+          "telegramApi": {
+            "id": "GA0xlVuI2hGLPTp0",
+            "name": "Community Hawimi AI Employee"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "inputText": "={{ $json.message.new_chat_participant.first_name }}",
+          "categories": {
+            "categories": [
+              {
+                "category": "ingles",
+                "description": "usa esta categoria por defecto si consideras que por su nombre habla cualquier otro idioma que no sea español"
+              },
+              {
+                "category": "español",
+                "description": "usa esta categoria si consideras que por su nombre habla en español"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.textClassifier",
+        "typeVersion": 1.1,
+        "position": [
+          592,
+          -96
+        ],
+        "id": "80864373-3303-4c45-850f-01989d77f43c",
+        "name": "Text Classifier1"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Create a very short welcome sentence to the group for the new user named: {{$json.message.new_chat_participant.first_name}}.\n\nYou must use emojis in the message, at least 2 or 3 emojis.",
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.7,
+        "position": [
+          944,
+          -352
+        ],
+        "id": "9eb7d2d3-8043-4a6f-a88e-6d453f492d6c",
+        "name": "Basic LLM Chain1"
+      },
+      {
+        "parameters": {
+          "chatId": "=-1001994184790",
+          "text": "=🌿 NEXT UBUD ENTREPRENEURS MASTERMIND & CIRCLE | FREE ENTRY WEEKLY GATHERING\n📅 Next Friday August 29th\n🕒 3.33pm sharp – 5.33pm\n📍 Moksa\n🔗 Group Online https://t.me/+OsvvuCXhcLhiY2E1\n\nA space for women & men entrepreneurs in Ubud to ground, align and get supported to achieve your truest goals.\n\nWe begin by practicing presence — in our bodies, in the space, with each other.\nThen we get Biz:\n\n🤓 What did you actually do last week?\n🔥 What do you focuse on for this week?\n✨ What’s alive in your business — and where do you need feedback, clarity or support?\n😍 Set your weekly SMART goal + define your KPIs.\n🌟 Leverage the power of external aligned accountability!\n\n\nThis is a circle of committed creators — we grow faster and easier and with more enjoyment because we don’t do it alone.\n\n✨ Free Entry \n🔥 High-performance meets presence\n🌿 Impact driven entrepreneurship.\n💫 Every Friday at 3.33pm.\n\nCome as you are. Leave present and on 🔥 \n🤍 Please share it, Invite fellow entrepreneurs who are done playing small or alone.\n\n\n#UbudEntrepreneurs #ConsciousExecution\n#BusinessWithHeart #HawimiLeadership",
+          "additionalFields": {
+            "appendAttribution": false,
+            "disable_web_page_preview": false,
+            "parse_mode": "HTML",
+            "message_thread_id": 771
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          368,
+          880
+        ],
+        "id": "7e2b1ffc-1873-4e01-8d56-ee047e296c55",
+        "name": "Send MASTERMIND",
+        "webhookId": "94fd9963-d326-4bda-b195-1b12d027385d",
+        "credentials": {
+          "telegramApi": {
+            "id": "GA0xlVuI2hGLPTp0",
+            "name": "Community Hawimi AI Employee"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "chatId": "=-1001994184790",
+          "text": "=<a href=\"https://docs.google.com/document/d/1X1XxZgrDch7Dx8ST-Ea6WuZWv1Tc3Pj90-LvwdqxSq4/edit?usp=drivesdk\">DailyProgressCheck-InLoto{{ $json['Day of month'] }}.{{ $json.timestamp.toDateTime().month }} ✅</a> ",
+          "additionalFields": {
+            "appendAttribution": false,
+            "disable_web_page_preview": false,
+            "parse_mode": "HTML",
+            "message_thread_id": 761
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          368,
+          1072
+        ],
+        "id": "08ccac62-cc13-4ad7-a78a-686da3dc40ca",
+        "name": "Send DailyProgressCheck",
+        "webhookId": "94fd9963-d326-4bda-b195-1b12d027385d",
+        "credentials": {
+          "telegramApi": {
+            "id": "GA0xlVuI2hGLPTp0",
+            "name": "Community Hawimi AI Employee"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "triggerAtHour": 20
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          144,
+          1072
+        ],
+        "id": "deb42800-8fd8-48cf-a556-e4049519622d",
+        "name": "8pm",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "daysInterval": 3,
+                "triggerAtHour": 19
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          144,
+          880
+        ],
+        "id": "97dbdc02-e272-44cf-a45a-57d993bdd00e",
+        "name": "7pm",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "chatId": "=-1001994184790",
+          "text": "=🌿 PRÓXIMO MASTERMIND DE EMPRENDEDORES CONSCIENCES ONLINE | ENCUENTRO SEMANAL | ENTRADA GRATUITA\n📅 Próximo encuentro Jueves 21 de agosto\n🕒 3:33 pm en punto – 5:33 pm (Hora de Madrid/Berlin)\n📍 Zoom\n🔗 Grupo online: https://t.me/+OsvvuCXhcLhiY2E1\n\nUn espacio para mujeres y hombres emprendedores del mundo entero, que deseamos aterrizar, alinearnos y recibir apoyo para lograr nuestras metas más auténticas.\n\nEmpezamos practicando presencia — en nuestros cuerpos, en el espacio, y entre nosotros.\nY luego vamos al grano:\n\n🤓 ¿Qué hiciste realmente la semana pasada?\n🔥 ¿En qué te vas a enfocar esta semana?\n✨ ¿Qué está vivo en tu negocio — y dónde necesitas feedback, claridad o apoyo?\n😍 Establece tu meta SMART semanal + define tus KPIs.\n🌟 Aprovecha el poder de la responsabilidad externa alineada.\n\nEste es un círculo de creadores comprometidos — crecemos más rápido, con más facilidad y disfrute, porque no lo hacemos solos.\n\n✨ Entrada Gratuita\n🔥 Alto rendimiento con presencia\n🌿 Emprendimiento con impacto\n💫 Cada Jueves a las 3:33 pm (hora de Madrid / Berlín)\n\nVen tal como eres. Sal presente y en 🔥.\n🤍 Compártelo. Invita a emprendedores que ya no quieren jugar en pequeño o en soledad.\n\n#EmprendedoresOnline\n#EjecuciónConsciente\n#NegociosConCorazón #LiderazgoHawimi",
+          "additionalFields": {
+            "appendAttribution": false,
+            "disable_web_page_preview": false,
+            "parse_mode": "HTML"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          368,
+          688
+        ],
+        "id": "68b26292-c1b8-4b15-a4cb-3a73387b45c6",
+        "name": "Send MASTERMIND1",
+        "webhookId": "94fd9963-d326-4bda-b195-1b12d027385d",
+        "credentials": {
+          "telegramApi": {
+            "id": "GA0xlVuI2hGLPTp0",
+            "name": "Community Hawimi AI Employee"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "daysInterval": 3,
+                "triggerAtHour": 19,
+                "triggerAtMinute": 23
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          144,
+          688
+        ],
+        "id": "3c818a15-d4a1-4b12-8eb6-ae050760e0f3",
+        "name": "7pm1",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "482aa49c-3f09-4405-85b4-69c6bc37f651",
+                "leftValue": "={{ $json.message.from.first_name }}",
+                "rightValue": "Aharon",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "da5bb47c-3d07-4084-ab09-4cd849997fc9",
+                "leftValue": "={{ $json.message.chat.first_name }}",
+                "rightValue": "Loto",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          656,
+          368
+        ],
+        "id": "44ccdadd-90c2-4511-b3ec-a10884b66c79",
+        "name": "If"
+      }
+    ],
+    "connections": {
+      "Telegram Trigger": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields3",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get a file2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get a file3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields3": {
+        "main": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Analyze image1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a file2": {
+        "main": [
+          [
+            {
+              "node": "Transcribe a recording1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a file3": {
+        "main": [
+          [
+            {
+              "node": "Analyze image1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields4": {
+        "main": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Transcribe a recording1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields5": {
+        "main": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "think1": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "simple-memory1": {
+        "ai_memory": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_languageModel",
+              "index": 0
+            },
+            {
+              "node": "Text Classifier",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a text message1": {
+        "main": [
+          []
+        ]
+      },
+      "SerpAPI1": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "asisstant_agent": {
+        "main": [
+          [
+            {
+              "node": "Send a text message1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Vector Store": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI": {
+        "ai_embedding": [
+          [
+            {
+              "node": "Simple Vector Store",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Text Classifier": {
+        "main": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Text Classifier1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model2": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "ai_languageModel",
+              "index": 0
+            },
+            {
+              "node": "Text Classifier1",
+              "type": "ai_languageModel",
+              "index": 0
+            },
+            {
+              "node": "Basic LLM Chain1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Basic LLM Chain": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Text Classifier1": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Basic LLM Chain1": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "8pm": {
+        "main": [
+          [
+            {
+              "node": "Send DailyProgressCheck",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "7pm": {
+        "main": [
+          [
+            {
+              "node": "Send MASTERMIND",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "7pm1": {
+        "main": [
+          [
+            {
+              "node": "Send MASTERMIND1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Switch1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Switch1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
   "tags": []
 }
