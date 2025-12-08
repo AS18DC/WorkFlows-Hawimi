@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-03T03:07:39.012Z",
   "updatedAt": "2025-11-08T15:49:22.000Z",
+  "createdAt": "2025-09-03T03:07:39.012Z",
   "id": "7b6GPNJl26pzj47A",
   "name": "agent seller",
   "active": false,
@@ -1086,15 +1086,17 @@
   },
   "pinData": {},
   "versionId": "ea35a3bf-82d5-4ec4-bd96-fc6ee2a10b40",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-09-03T03:07:39.018Z",
       "updatedAt": "2025-09-03T03:07:39.018Z",
+      "createdAt": "2025-09-03T03:07:39.018Z",
       "role": "workflow:owner",
       "workflowId": "7b6GPNJl26pzj47A",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
