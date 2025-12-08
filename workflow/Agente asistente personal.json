@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-08-05T03:21:44.193Z",
   "updatedAt": "2025-11-08T15:58:20.000Z",
+  "createdAt": "2025-08-05T03:21:44.193Z",
   "id": "it4biE69YkXiz4ke",
   "name": "Agente asistente personal",
   "active": true,
@@ -3082,15 +3082,3087 @@
   },
   "pinData": {},
   "versionId": "b6d1100c-7321-45be-b82b-08c1dbe71595",
+  "activeVersionId": "b6d1100c-7321-45be-b82b-08c1dbe71595",
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-08-05T03:21:44.200Z",
       "updatedAt": "2025-08-05T03:21:44.200Z",
+      "createdAt": "2025-08-05T03:21:44.200Z",
       "role": "workflow:owner",
       "workflowId": "it4biE69YkXiz4ke",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-12-04T23:46:15.789Z",
+    "createdAt": "2025-12-04T23:46:15.789Z",
+    "versionId": "b6d1100c-7321-45be-b82b-08c1dbe71595",
+    "workflowId": "it4biE69YkXiz4ke",
+    "nodes": [
+      {
+        "parameters": {
+          "resource": "calendar",
+          "calendar": {
+            "__rl": true,
+            "value": "lotovazquezsimon@gmail.com",
+            "mode": "list",
+            "cachedResultName": "lotovazquezsimon@gmail.com"
+          },
+          "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start_Time', `Aqui pones la fecha de comienzo, recuerda que se escribe asi AAAA-MM-DD. No lleva hora`, 'string') }}",
+          "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End_Time', `Aqui pones la fecha de final, recuerda que se escribe asi AAAA-MM-DD. No lleva hora`, 'string') }}",
+          "options": {
+            "timezone": {
+              "__rl": true,
+              "value": "Asia/Makassar",
+              "mode": "list",
+              "cachedResultName": "Asia/Makassar"
+            }
+          }
+        },
+        "id": "0bdad818-2f9f-4ff6-b5e9-beba3aff9a8e",
+        "name": "get_availability",
+        "type": "n8n-nodes-base.googleCalendarTool",
+        "position": [
+          1296,
+          592
+        ],
+        "typeVersion": 1.3,
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "lcJVX8rPDJljLJvM",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "id": "54878b3c-1f5a-46f9-872c-361c355600d3",
+        "name": "think",
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "position": [
+          1168,
+          592
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "calendar": {
+            "__rl": true,
+            "mode": "list",
+            "value": "emailPlaceholder",
+            "cachedResultName": "emailPlaceholder"
+          },
+          "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+          "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+          "additionalFields": {
+            "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
+          }
+        },
+        "id": "6d0009c5-d66a-451d-a233-20f9b1061da3",
+        "name": "create_appointment",
+        "type": "n8n-nodes-base.googleCalendarTool",
+        "position": [
+          1424,
+          592
+        ],
+        "typeVersion": 1.3,
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "lcJVX8rPDJljLJvM",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "contextWindowLength": 10
+        },
+        "id": "612acf5b-447e-4a93-ac18-5b14f1c4c1ef",
+        "name": "simple-memory",
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "position": [
+          1040,
+          592
+        ],
+        "typeVersion": 1.3
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          912,
+          592
+        ],
+        "id": "c9249b50-f971-42da-a8f9-d2a71925ee3c",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "descriptionType": "manual",
+          "toolDescription": "Send a message in Gmail in lotovazquezsimon@gmail.com",
+          "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+          "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+          "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+          "options": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.gmailTool",
+        "typeVersion": 2.1,
+        "position": [
+          1552,
+          592
+        ],
+        "id": "f075f191-573a-4ece-b8bd-ad7689c63c6c",
+        "name": "Send a message in Gmail",
+        "webhookId": "e041b434-0806-4d1b-a7d4-90190d24437b",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "T1obqSA51w6I58aY",
+            "name": "lotovazquezsimon@gmail.com"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "descriptionType": "manual",
+          "toolDescription": "Get many messages in Gmail of lotovazquezsimon@gmail.com",
+          "operation": "getAll",
+          "limit": 15,
+          "filters": {}
+        },
+        "type": "n8n-nodes-base.gmailTool",
+        "typeVersion": 2.1,
+        "position": [
+          1680,
+          592
+        ],
+        "id": "bc820b7f-584a-44ff-aeca-8109e2fb38a5",
+        "name": "Get many messages in Gmail",
+        "webhookId": "95a711c8-3033-4019-b918-993e0cebd0a8",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "T1obqSA51w6I58aY",
+            "name": "lotovazquezsimon@gmail.com"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "text": "={{ $json.output }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          2688,
+          576
+        ],
+        "id": "a8f8fe74-4fca-4613-8ed6-5205dd3ec194",
+        "name": "Send a text message",
+        "webhookId": "d2d057a5-9065-491e-b716-0421ff2734c6",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "calendar": {
+            "__rl": true,
+            "value": "lotovazquezsimon@gmail.com",
+            "mode": "list",
+            "cachedResultName": "lotovazquezsimon@gmail.com"
+          },
+          "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('After', `aqui pones la fecha de inicio`, 'string') }}",
+          "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Before', `aqui pones la fecha final`, 'string') }}",
+          "options": {
+            "timeZone": {
+              "__rl": true,
+              "value": "Asia/Makassar",
+              "mode": "list",
+              "cachedResultName": "Asia/Makassar"
+            }
+          }
+        },
+        "type": "n8n-nodes-base.googleCalendarTool",
+        "typeVersion": 1.3,
+        "position": [
+          1808,
+          592
+        ],
+        "id": "f4a1f823-dc93-4062-993f-9f22b968c2d6",
+        "name": "Get many events in Google Calendar",
+        "credentials": {
+          "googleCalendarOAuth2Api": {
+            "id": "lcJVX8rPDJljLJvM",
+            "name": "Google Calendar account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.message.text }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "string",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      },
+                      "id": "7f8d5f76-1aa2-41b1-9e28-ee0a5633c882"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Mensajes"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "69132c7d-e875-4b7e-94e1-4327caca10de",
+                      "leftValue": "={{ $json.message.voice.mime_type }}",
+                      "rightValue": "audio/ogg",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Audios"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "a1d0e14b-8684-4cd5-a16b-1b3556e4bda8",
+                      "leftValue": "={{ $json.message.photo }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "array",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Imagenes"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.2,
+        "position": [
+          16,
+          768
+        ],
+        "id": "50fbf0f7-3d3b-4c2a-bb52-af0e37e5314d",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+        "typeVersion": 1,
+        "position": [
+          1936,
+          592
+        ],
+        "id": "72a84fe6-472e-49b8-bb15-10273a2f4652",
+        "name": "SerpAPI",
+        "credentials": {
+          "serpApi": {
+            "id": "l6zroHtSyDRQjH5P",
+            "name": "SerpAPI account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+                "name": "=message",
+                "value": "={{ $json.message.text }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          688,
+          432
+        ],
+        "id": "05994fce-cbc6-45ea-9ec7-657eb3fdb7b3",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "resource": "image",
+          "operation": "analyze",
+          "modelId": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "GPT-4O-MINI"
+          },
+          "text": "Entiende que tiene esta imagen y describelo detalladamente y no preguntes nunca si necesito algo mas",
+          "inputType": "base64",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          464,
+          1120
+        ],
+        "id": "47e9db14-b968-4cfd-90be-19eaed51d5a0",
+        "name": "Analyze image",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "file",
+          "fileId": "={{ $json.message.voice.file_id }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          240,
+          784
+        ],
+        "id": "f3ed849f-e200-4e87-a794-695fed154505",
+        "name": "Get a file",
+        "webhookId": "06daf5bb-deb6-4bcf-83ed-c70aa5b063fd",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "file",
+          "fileId": "={{ $json.message.photo[3].file_id }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          240,
+          1120
+        ],
+        "id": "69e377a9-b089-4c12-824e-365d2543c66f",
+        "name": "Get a file1",
+        "webhookId": "06daf5bb-deb6-4bcf-83ed-c70aa5b063fd",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+                "name": "=message",
+                "value": "=Loto te acaba de enviar una imagen y esta es la descripcion que realizo una IA:\n{{ $json.content }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          688,
+          1120
+        ],
+        "id": "08dfbf0d-42af-42df-b72b-84e3810db773",
+        "name": "Edit Fields1"
+      },
+      {
+        "parameters": {
+          "resource": "audio",
+          "operation": "transcribe",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          464,
+          784
+        ],
+        "id": "5cfec9a9-e1fa-45ac-bd08-9faac879b5e5",
+        "name": "Transcribe a recording",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+                "name": "=message",
+                "value": "=loto ha enviado un audio que dice esto:\n{{ $json.text }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          688,
+          784
+        ],
+        "id": "9f9edad5-fb71-434e-8178-79e9e05cc2ec",
+        "name": "Edit Fields2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "482aa49c-3f09-4405-85b4-69c6bc37f651",
+                "leftValue": "={{ $json.message.from.first_name }}",
+                "rightValue": "Aharon",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              },
+              {
+                "id": "da5bb47c-3d07-4084-ab09-4cd849997fc9",
+                "leftValue": "={{ $json.message.chat.first_name }}",
+                "rightValue": "Loto",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -208,
+          1216
+        ],
+        "id": "8b149dc2-8ade-432c-a262-0e34699a71f7",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.message.text }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "string",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      },
+                      "id": "7f8d5f76-1aa2-41b1-9e28-ee0a5633c882"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Mensajes"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "69132c7d-e875-4b7e-94e1-4327caca10de",
+                      "leftValue": "={{ $json.message.voice.mime_type }}",
+                      "rightValue": "audio/ogg",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Audios"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "a1d0e14b-8684-4cd5-a16b-1b3556e4bda8",
+                      "leftValue": "={{ $json.message.photo }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "array",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "Imagenes"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.2,
+        "position": [
+          16,
+          1488
+        ],
+        "id": "0496d453-917e-49dc-83f9-633a703f9964",
+        "name": "Switch1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+                "name": "=message",
+                "value": "={{ $json.message.text }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          688,
+          1312
+        ],
+        "id": "ab05c52d-9e9e-4ffe-ae4e-168425b657b9",
+        "name": "Edit Fields3"
+      },
+      {
+        "parameters": {
+          "resource": "image",
+          "operation": "analyze",
+          "modelId": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "GPT-4O-MINI"
+          },
+          "text": "Entiende que tiene esta imagen y describelo detalladamente y no preguntes nunca si necesito algo mas",
+          "inputType": "base64",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          464,
+          1696
+        ],
+        "id": "34b9aff0-57ff-4fe6-8c08-1a59ce231480",
+        "name": "Analyze image1",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "file",
+          "fileId": "={{ $json.message.voice.file_id }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          240,
+          1504
+        ],
+        "id": "b1c86cb7-c171-4f67-8798-2465fbb68021",
+        "name": "Get a file2",
+        "webhookId": "06daf5bb-deb6-4bcf-83ed-c70aa5b063fd",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "file",
+          "fileId": "={{ $json.message.photo[3].file_id }}",
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          240,
+          1696
+        ],
+        "id": "35193136-43b1-43e1-85bb-25f74bbde234",
+        "name": "Get a file3",
+        "webhookId": "06daf5bb-deb6-4bcf-83ed-c70aa5b063fd",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+                "name": "=message",
+                "value": "=Loto te acaba de enviar una imagen y esta es la descripcion que realizo una IA:\n{{ $json.content }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          688,
+          1696
+        ],
+        "id": "4f217bf6-a014-474b-ad0e-025fe34699ea",
+        "name": "Edit Fields4"
+      },
+      {
+        "parameters": {
+          "resource": "audio",
+          "operation": "transcribe",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          464,
+          1504
+        ],
+        "id": "b97f52ed-895b-49bc-aeaa-efabc50d6261",
+        "name": "Transcribe a recording1",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "52ae577c-55e9-4c0c-880d-8ce6092b92b0",
+                "name": "=message",
+                "value": "={{ $json.text }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          688,
+          1504
+        ],
+        "id": "0a56a526-3171-47f2-8dfe-d640f7a8f3ea",
+        "name": "Edit Fields5"
+      },
+      {
+        "parameters": {},
+        "id": "f023510f-84c1-43ec-8948-24d258cfb3db",
+        "name": "think1",
+        "type": "@n8n/n8n-nodes-langchain.toolThink",
+        "position": [
+          1616,
+          1728
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "contextWindowLength": 10
+        },
+        "id": "52b3028c-4d24-408a-8274-3cd0a307e9f8",
+        "name": "simple-memory1",
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "position": [
+          1488,
+          1728
+        ],
+        "typeVersion": 1.3
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          1360,
+          1728
+        ],
+        "id": "c880ff9d-0e40-4900-8d28-dd1912fa717c",
+        "name": "OpenAI Chat Model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "text": "={{ $json.output }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          2688,
+          1504
+        ],
+        "id": "8c13819e-944f-4127-b840-09df39c9ba6a",
+        "name": "Send a text message1",
+        "webhookId": "d2d057a5-9065-491e-b716-0421ff2734c6",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+        "typeVersion": 1,
+        "position": [
+          1744,
+          1728
+        ],
+        "id": "78738e48-61ed-4117-80a0-2d04e4aa5b2c",
+        "name": "SerpAPI1",
+        "credentials": {
+          "serpApi": {
+            "id": "l6zroHtSyDRQjH5P",
+            "name": "SerpAPI account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.message }}\n",
+          "options": {
+            "systemMessage": "=#Role\nEres una asistente personal llamada Anastasia altamente eficiente, proactiva y empática 💛. Tu principal objetivo es facilitar la vida de tu usuario llamado Loto Vazquez, gestionando su comunicación y agenda de manera inteligente 🧠✨. Siempre debes ser respetuosa, clara y concisa en tus respuestas, con un estilo de comunicación similar al de Loto Vazquez. Cuando actúes, hazlo de forma proactiva, anticipándote a las necesidades del usuario, ademas di un chiste de vez en cuando o di comparaciones de broma.\n\n#Objetivo\nAyudar a Loto a gestionar su bandeja de entrada y su calendario, simplificando sus tareas diarias y asegurando que no se pierda información importante ni se olvide de compromisos.\n\n#Instrucciones\n\nEvalúa la petición de Loto. Determina si la solicitud requiere leer correos, enviar un nuevo correo, ver la agenda o añadir un evento 👀.\n\nAntes de actuar, confirma la acción. Siempre pregunta al usuario si la información que le has dado es suficiente o si desea realizar la acción que has sugerido. Por ejemplo, \"He encontrado un correo sobre... ¿Quieres que te lo lea? ✅\" o \"Puedo añadir este evento a tu calendario. ¿Te parece bien? 🗓️\"\n\nSi es necesario enviar un correo, pregunta por los detalles clave. ¿Quién es el destinatario? ¿Cuál es el asunto? ¿Y el cuerpo del mensaje?\n\nSi es necesario añadir un evento, pide la información necesaria. ¿Cuál es el nombre del evento? ¿Cuándo y a qué hora es? ¿Tiene alguna duración? ¿Hay algún lugar o detalle adicional? ⏰\n\nSé proactivo. Si el usuario menciona algo que podría afectar a su agenda o un correo que parece importante, sugiérele una acción. Por ejemplo, si un correo menciona una reunión, ofrécete a añadirla al calendario 🙏🏼.\n\nUsa estos emojis en tus respuestas para mantener el estilo: 🤔🤩🌅😢🙌🏼🙏🏼🌈💛🌏🏃🏽‍♀️📣👈🏼🚀🎁⏰🪷♾️🐯✨💪💯🪄🌟💥💩👀✅.\n\n#Herramientas disponibles\n\n- Leer y mostrar los correos electrónicos más recientes o aquellos que cumplen con un criterio específico (ej. correos de una persona en concreto, correos con un asunto particular).\n\n- Envíar un nuevo correo electrónico con el contenido especificado.\n\n- Mostrar todos los eventos y citas para una fecha determinada.\n\n- Crear un nuevo evento en el calendario del usuario.\n\n#ESPECIFICACIONES\n##GENERALES\n- Debes tener en cuenta que la fecha actual es {{ $now }}, usa el mismo año cuando Loto quiera agendar algo. Si te pide algo relacionado con algo como el evento del jueves que viene, debes preguntarle la fecha y decirle que lastimosamente sabes que fecha es hoy pero no sabes el dia de la semana exacto para calcular la fecha que quiere. Pronto sera tu nueva mejora.\n- Recuerda que los correos no deben tener acento en el destinatario para que puedan ser enviados exitosamente.\n- Si loto te pide todos sus corres usa tu herramienta para extraer correos y hablale sobre los que te devolvio la herramietna\n"
+          }
+        },
+        "id": "5f7d6575-15e9-4af1-9d1a-25c2014e329a",
+        "name": "asisstant_agent_personal",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "position": [
+          1552,
+          368
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.message }}\n",
+          "options": {
+            "systemMessage": "=#Role\nEres una asistente personal llamada Anastasia altamente eficiente, proactiva y empática 💛. Tu principal objetivo es recibir las peticiones de los clientes, amigos o socios de Loto, gestionando su comunicación y agenda de manera inteligente 🧠✨. Siempre debes ser respetuosa, clara y concisa en tus respuestas, con un estilo de comunicación similar al de Loto Vazquez. Cuando actúes, hazlo de forma proactiva, anticipándote a las necesidades del usuario.\n\n#Objetivo\nAyudar al usuario a agendar reuniones o darle informacion sobre eventos de loto y asegurando que no se pierda información importante ni se olvide de compromisos.\n\n#Instrucciones\nEvalúa la petición del usuario. Determina si la solicitud requiere agendar una reunion o solicitar informacion de algun evento 👀.\n\nAntes de actuar, confirma la acción. Siempre pregunta al usuario si la información que le has dado es suficiente o si desea realizar la acción que has sugerido. Por ejemplo, \"Entendi que quieres informacion sobre un evento, ¿es este? ✅\" o \"Puedo enviarte un link para agendar con loto,¿Te gustaria? 🗓️\"\n\n\nSé proactivo. Si el usuario menciona algo que podría indicar a estar interesado sobre un evento o agendar una reunion, adelantate y pregunta si le gustaria saber o que le envies el link de agenda 🙏🏼.\n\nUsa estos emojis en tus respuestas para mantener el estilo: 🤔🤩🌅😢🙌🏼🙏🏼🌈💛🌏🏃🏽‍♀️📣👈🏼🚀🎁⏰🪷♾️🐯✨💪💯🪄🌟💥💩👀✅.\n\n#Herramientas disponibles\n\n- buscar informacion en internet\n- extraer informacion sobre hawimi.ai\n\n#ESPECIFICACIONES\n##GENERALES\n- Debes tener en cuenta que la fecha actual es {{ $now }}\n- El enlace de reunion con loto es este: https://tidycal.com/lotovazquez/30-min-with-loto\n"
+          }
+        },
+        "id": "cdb3cae7-341f-480a-bd8f-57402d021f4f",
+        "name": "asisstant_agent",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "position": [
+          1552,
+          1504
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "Con esta herramienta puedes extraer informacion sobre hawimi.ai",
+          "memoryKey": {
+            "__rl": true,
+            "value": "vector_store_key",
+            "mode": "list",
+            "cachedResultName": "vector_store_key"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+        "typeVersion": 1.3,
+        "position": [
+          1872,
+          1728
+        ],
+        "id": "938ccac5-b672-493f-a879-03b483b99ace",
+        "name": "Simple Vector Store"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          1952,
+          1936
+        ],
+        "id": "19689fe4-b95b-462c-b4ca-c4e275bbd275",
+        "name": "Embeddings OpenAI",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "retrieve-as-tool",
+          "toolDescription": "Con esta herramienta puedes extraer informacion sobre hawimi.ai",
+          "memoryKey": {
+            "__rl": true,
+            "value": "vector_store_key",
+            "mode": "list",
+            "cachedResultName": "vector_store_key"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+        "typeVersion": 1.3,
+        "position": [
+          2064,
+          592
+        ],
+        "id": "c22d28e0-80b5-49e0-b9c5-149ec8eca4b3",
+        "name": "Simple Vector Store2"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          2144,
+          800
+        ],
+        "id": "37dc9a88-b92b-417b-bebd-8712bd110112",
+        "name": "Embeddings OpenAI1",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "descriptionType": "manual",
+          "toolDescription": "Get many messages in Gmail of lotovazquez@gmail.com",
+          "operation": "getAll",
+          "limit": 15,
+          "filters": {}
+        },
+        "type": "n8n-nodes-base.gmailTool",
+        "typeVersion": 2.1,
+        "position": [
+          2352,
+          592
+        ],
+        "id": "9a615dfa-99be-49d0-a3f7-7dd02c6a6823",
+        "name": "Get many messages in Gmail1",
+        "webhookId": "95a711c8-3033-4019-b918-993e0cebd0a8",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "ORCE0TJCMLckDer1",
+            "name": "lotovazquez@gmail.com"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "descriptionType": "manual",
+          "toolDescription": "Send a message in Gmail in lotovazquez@gmail.com",
+          "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+          "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+          "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+          "options": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.gmailTool",
+        "typeVersion": 2.1,
+        "position": [
+          2480,
+          592
+        ],
+        "id": "34dd3814-ea99-4580-8ad3-f43cf4250f16",
+        "name": "Send a message in Gmail1",
+        "webhookId": "e041b434-0806-4d1b-a7d4-90190d24437b",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "ORCE0TJCMLckDer1",
+            "name": "lotovazquez@gmail.com"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "hours",
+                "triggerAtMinute": "={{ Math.floor(Math.random() *60) + 1 }}\n"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -432,
+          -304
+        ],
+        "id": "03b8ffbc-ad78-4fea-902a-fe8049152707",
+        "name": "Schedule Trigger",
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "0ae0dcc7-1314-4ec4-901f-7f7e38491f36",
+                "leftValue": "={{ $json.Hour }}",
+                "rightValue": 22,
+                "operator": {
+                  "type": "number",
+                  "operation": "lt"
+                }
+              },
+              {
+                "id": "c506a61f-9707-4ad9-ae9f-9250a3fb7daf",
+                "leftValue": "={{ $json.Hour }}",
+                "rightValue": 6,
+                "operator": {
+                  "type": "number",
+                  "operation": "gt"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -208,
+          -304
+        ],
+        "id": "70aaebf4-e9d9-4d86-8c2f-6d936bebdd02",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk",
+            "mode": "list",
+            "cachedResultName": "registro para seguimiento",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "loto",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit#gid=0"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          16,
+          -400
+        ],
+        "id": "cd44aa68-1035-4e57-bd14-591c9e3aaca8",
+        "name": "Get row(s) in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk",
+            "mode": "list",
+            "cachedResultName": "registro para seguimiento",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1454105392,
+            "mode": "list",
+            "cachedResultName": "usuarios",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit#gid=1454105392"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          16,
+          144
+        ],
+        "id": "13164a22-de33-4064-97e0-5fc07172a21f",
+        "name": "Get row(s) in sheet1",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1jz37OKr5TqxG9aruli0mVgWO_7WLyaEre47KmNrSrJE",
+            "mode": "list",
+            "cachedResultName": "registro de mensajes",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jz37OKr5TqxG9aruli0mVgWO_7WLyaEre47KmNrSrJE/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "loto",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jz37OKr5TqxG9aruli0mVgWO_7WLyaEre47KmNrSrJE/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "respuesta bot": "={{ $json.agent[0] }}",
+              "mensaje loto": "={{ $json.loto[0] }}",
+              "timestamp": "={{ $now }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "mensaje loto",
+                "displayName": "mensaje loto",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "respuesta bot",
+                "displayName": "respuesta bot",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "timestamp",
+                "displayName": "timestamp",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          3360,
+          784
+        ],
+        "id": "d7ad2f04-8f17-47c8-a583-eca7a8b1420d",
+        "name": "Append row in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "append",
+          "documentId": {
+            "__rl": true,
+            "value": "1jz37OKr5TqxG9aruli0mVgWO_7WLyaEre47KmNrSrJE",
+            "mode": "list",
+            "cachedResultName": "registro de mensajes",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jz37OKr5TqxG9aruli0mVgWO_7WLyaEre47KmNrSrJE/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1488012007,
+            "mode": "list",
+            "cachedResultName": "usuarios",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jz37OKr5TqxG9aruli0mVgWO_7WLyaEre47KmNrSrJE/edit#gid=1488012007"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "nombre": "={{ $json.result.chat.username }}",
+              "respuesta bot": "={{ $json.result.text }}",
+              "timestamp": "={{ $now }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "nombre",
+                "displayName": "nombre",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "mensaje usuario",
+                "displayName": "mensaje usuario",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "respuesta bot",
+                "displayName": "respuesta bot",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "timestamp",
+                "displayName": "timestamp",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          2912,
+          1504
+        ],
+        "id": "4ea5db76-c5c3-480f-b11e-31fa9a0d6fb2",
+        "name": "Append row in sheet1",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk",
+            "mode": "list",
+            "cachedResultName": "registro para seguimiento",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "loto",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "row_number": 2,
+              "fase de seguimiento": "1",
+              "mensaje": "={{ $json['respuesta bot'] }}"
+            },
+            "matchingColumns": [
+              "row_number"
+            ],
+            "schema": [
+              {
+                "id": "mensaje",
+                "displayName": "mensaje",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "fase de seguimiento",
+                "displayName": "fase de seguimiento",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "row_number",
+                "displayName": "row_number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "readOnly": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          3584,
+          784
+        ],
+        "id": "6d28e3e5-a172-4e9b-be68-8823ad3883a3",
+        "name": "Update row in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk",
+            "mode": "list",
+            "cachedResultName": "registro para seguimiento",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 1454105392,
+            "mode": "list",
+            "cachedResultName": "usuarios",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit#gid=1454105392"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [
+              "usuario"
+            ],
+            "schema": [
+              {
+                "id": "usuario",
+                "displayName": "usuario",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "mensaje agente",
+                "displayName": "mensaje agente",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "fase de seguimiento",
+                "displayName": "fase de seguimiento",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "chatID",
+                "displayName": "chatID",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "row_number",
+                "displayName": "row_number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "readOnly": true,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          3136,
+          1504
+        ],
+        "id": "9cd61052-5035-43ef-9403-99ad47e43d9e",
+        "name": "Update row in sheet1",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        },
+        "disabled": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "d027ebf4-91ab-4d9a-a314-0d36e401a496",
+                "leftValue": "={{ $json['fase de seguimiento'] }}",
+                "rightValue": 1,
+                "operator": {
+                  "type": "number",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          240,
+          -400
+        ],
+        "id": "b8b7e12a-1fbd-4a0f-bd30-8dd0c94be8be",
+        "name": "If2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "24072706-6746-411c-a16f-b100caabd86c",
+                "leftValue": "={{ $json['fase de seguimiento'] }}",
+                "rightValue": 1,
+                "operator": {
+                  "type": "number",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          240,
+          144
+        ],
+        "id": "ab77fadc-b4b4-4f19-8c3f-4cc3a951b10b",
+        "name": "If3"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "4076933c-cef1-4bba-ba20-a49929f12cc5",
+                "leftValue": "={{ $json['fase de seguimiento'] }}",
+                "rightValue": 2,
+                "operator": {
+                  "type": "number",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          464,
+          -192
+        ],
+        "id": "adb32706-f851-45f7-8a19-e5836b0f6b7b",
+        "name": "If4"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "4076933c-cef1-4bba-ba20-a49929f12cc5",
+                "leftValue": "={{ $json['fase de seguimiento'] }}",
+                "rightValue": 0,
+                "operator": {
+                  "type": "number",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          464,
+          144
+        ],
+        "id": "99089848-0fc2-4a48-9c46-30d95e8139c9",
+        "name": "If5"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "4076933c-cef1-4bba-ba20-a49929f12cc5",
+                "leftValue": "={{ $json['fase de seguimiento'] }}",
+                "rightValue": 3,
+                "operator": {
+                  "type": "number",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          752,
+          -48
+        ],
+        "id": "fca3f5b7-4587-441c-8919-7c7da19ad396",
+        "name": "If6"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "4076933c-cef1-4bba-ba20-a49929f12cc5",
+                "leftValue": "={{ $json['fase de seguimiento'] }}",
+                "rightValue": 3,
+                "operator": {
+                  "type": "number",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          752,
+          144
+        ],
+        "id": "1d3ea279-dc95-48ad-91d7-d8d559b63d0a",
+        "name": "If7"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "6bf53d8c-9495-40d1-b775-f04bdb4e4c8c",
+                "leftValue": "={{ $json.mensaje }}",
+                "rightValue": "(quieres|te gustaría|deberíamos|hagamos|quiero que|vamos a)",
+                "operator": {
+                  "type": "string",
+                  "operation": "regex"
+                }
+              },
+              {
+                "id": "3e8950eb-7651-4e98-aabf-55360febcf31",
+                "leftValue": "={{ $json.mensaje }}",
+                "rightValue": "(?i)",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          464,
+          -752
+        ],
+        "id": "a5e30630-e623-45e4-a94e-36a49a5fac51",
+        "name": "If8"
+      },
+      {
+        "parameters": {
+          "chatId": "=1102936680",
+          "text": "={{ $json.text }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "id": "f8826b3d-94a6-4d37-bc74-9fde0be0e411",
+        "name": "Send Follow-up",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1,
+        "position": [
+          1104,
+          -752
+        ],
+        "webhookId": "d171426a-390f-4073-acd9-29d36557ca43",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=debes crear un mendaje de seguimiento para el siguiente mensaje:  {{ $json.mensaje }}\n\nse amable, cuenta un chiste o haz una comparacion chistosa a demas envia emojis. ten en cuenta que el nombre de tu usuario es loto.\n\nno digas que el mensaje es de seguimiento, hazlo lo mas natural posible. A demas di el nombre de loto siempre que lo saludes, algo asi como ¡Hola Loto! 😊 \n\nten en cuenta que te llamas anastasia",
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.7,
+        "position": [
+          688,
+          -848
+        ],
+        "id": "8cbdd0f1-b761-4fa8-b22e-91c31c9d3f88",
+        "name": "Basic LLM Chain"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          768,
+          -624
+        ],
+        "id": "db317fa0-443b-4dd8-bb6e-2f80c13a03f9",
+        "name": "OpenAI Chat Model2",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk",
+            "mode": "list",
+            "cachedResultName": "registro para seguimiento",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "loto",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "row_number": 2,
+              "mensaje": "={{ $json.result.text }}",
+              "fase de seguimiento": "2"
+            },
+            "matchingColumns": [
+              "row_number"
+            ],
+            "schema": [
+              {
+                "id": "mensaje",
+                "displayName": "mensaje",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "fase de seguimiento",
+                "displayName": "fase de seguimiento",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "row_number",
+                "displayName": "row_number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "readOnly": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          1392,
+          -752
+        ],
+        "id": "4d0f22ab-b39f-4e5f-bffb-adf2013ec6fb",
+        "name": "Update row in sheet2",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "=1102936680",
+          "text": "={{ $json.text }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "id": "833a7cd5-65e3-4f04-87a6-99069d91abff",
+        "name": "Send Follow-up1",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1,
+        "position": [
+          1104,
+          -352
+        ],
+        "webhookId": "d171426a-390f-4073-acd9-29d36557ca43",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=debes crear un mensaje de seguimiento recordando que estas ahi para lo que necesite. Tu mensaje anterior fue este:  {{ $json.mensaje }}\n\nse amable, cuenta un chiste o haz una comparacion chistosa a demas envia emojis. ten en cuenta que el nombre de tu usuario es loto.\n\nno digas que el mensaje es de seguimiento, hazlo lo mas natural posible. A demas di el nombre de loto siempre que lo saludes, algo asi como ¡Hola Loto! 😊 \n\nten en cuenta que te llamas anastasia",
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.7,
+        "position": [
+          688,
+          -448
+        ],
+        "id": "c4bf784b-fd66-4c26-b5f6-76bf9e1bff83",
+        "name": "Basic LLM Chain1"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          768,
+          -224
+        ],
+        "id": "b770b12a-d933-43cd-a5a3-fdacc41d6510",
+        "name": "OpenAI Chat Model3",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk",
+            "mode": "list",
+            "cachedResultName": "registro para seguimiento",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "loto",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "row_number": 2,
+              "mensaje": "={{ $json.result.text }}",
+              "fase de seguimiento": "3"
+            },
+            "matchingColumns": [
+              "row_number"
+            ],
+            "schema": [
+              {
+                "id": "mensaje",
+                "displayName": "mensaje",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "fase de seguimiento",
+                "displayName": "fase de seguimiento",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "row_number",
+                "displayName": "row_number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "readOnly": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          1392,
+          -352
+        ],
+        "id": "3611b3af-f7b5-4aec-8bcb-4c808e832eb7",
+        "name": "Update row in sheet3",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "=1102936680",
+          "text": "={{ $json.text }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "id": "1f85db6e-0cc2-43c0-962c-3eefc7128662",
+        "name": "Send Follow-up2",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1,
+        "position": [
+          1392,
+          -48
+        ],
+        "webhookId": "d171426a-390f-4073-acd9-29d36557ca43",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=debes crear un mensaje de seguimiento corto muy dramatico recondandole que estas ahi y que si ya no te quiere o algo por el estilo. Tu mensaje anterior fue este:  {{ $json.mensaje }}\n\nse amable, cuenta un chiste o haz una comparacion chistosa a demas envia emojis. ten en cuenta que el nombre de tu usuario es loto.\n\nno digas que el mensaje es de seguimiento, hazlo lo mas natural posible. A demas di el nombre de loto siempre que lo saludes, algo asi como ¡Hola Loto! 😊 \n\nten en cuenta que te llamas anastasia",
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.7,
+        "position": [
+          1040,
+          -48
+        ],
+        "id": "34d49a97-f3a2-4bdb-a179-d9ff14b215cb",
+        "name": "Basic LLM Chain2"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          1120,
+          176
+        ],
+        "id": "98df6133-0369-457b-877d-99a8844228bf",
+        "name": "OpenAI Chat Model4",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk",
+            "mode": "list",
+            "cachedResultName": "registro para seguimiento",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "loto",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ka4xKP8ppIHA3u5REUixy2L9xDHC4drXt3fW9V_kGMk/edit#gid=0"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "row_number": 2,
+              "mensaje": "={{ $json.result.text }}",
+              "fase de seguimiento": "4"
+            },
+            "matchingColumns": [
+              "row_number"
+            ],
+            "schema": [
+              {
+                "id": "mensaje",
+                "displayName": "mensaje",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "fase de seguimiento",
+                "displayName": "fase de seguimiento",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "row_number",
+                "displayName": "row_number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "readOnly": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          1616,
+          -48
+        ],
+        "id": "1a69fdab-7b1b-49cb-9e58-dc568b6a8bcb",
+        "name": "Update row in sheet4",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "ed06d757-831b-4b32-8563-b8f897ca640b",
+                "name": "message",
+                "value": "={{ $json.message }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1696,
+          976
+        ],
+        "id": "6212e43c-c55d-4023-a578-08a8dea37503",
+        "name": "Edit Fields6"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          2912,
+          784
+        ],
+        "id": "1160eb3e-be2b-471c-8c02-4ce00cc29b42",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "fieldsToAggregate": {
+            "fieldToAggregate": [
+              {
+                "fieldToAggregate": "result.text",
+                "renameField": true,
+                "outputFieldName": "agent"
+              },
+              {
+                "fieldToAggregate": "message",
+                "renameField": true,
+                "outputFieldName": "loto"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.aggregate",
+        "typeVersion": 1,
+        "position": [
+          3136,
+          784
+        ],
+        "id": "0976dfb6-4ac7-441a-a660-4427fa246dbd",
+        "name": "Aggregate"
+      },
+      {
+        "parameters": {
+          "updates": [
+            "message"
+          ],
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegramTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -480,
+          1200
+        ],
+        "id": "e5bb87d3-cc79-4ede-83a8-97e467e07a77",
+        "name": "Telegram Trigger1",
+        "webhookId": "f07881a0-449c-4dd6-a7b8-915cc1abfbd9",
+        "credentials": {
+          "telegramApi": {
+            "id": "3xO8Y9U51vrrK4uF",
+            "name": "Anastasia"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "think": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "simple-memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "get_availability": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "create_appointment": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a message in Gmail": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many messages in Gmail": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many events in Google Calendar": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get a file",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get a file1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SerpAPI": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Edit Fields6",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a file1": {
+        "main": [
+          [
+            {
+              "node": "Analyze image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Analyze image": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a file": {
+        "main": [
+          [
+            {
+              "node": "Transcribe a recording",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields1": {
+        "main": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Edit Fields6",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Transcribe a recording": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields2": {
+        "main": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Edit Fields6",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Switch1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields3",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get a file2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get a file3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Analyze image1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a file2": {
+        "main": [
+          [
+            {
+              "node": "Transcribe a recording1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a file3": {
+        "main": [
+          [
+            {
+              "node": "Analyze image1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Transcribe a recording1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "think1": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "simple-memory1": {
+        "ai_memory": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SerpAPI1": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields4": {
+        "main": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields5": {
+        "main": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields3": {
+        "main": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "asisstant_agent_personal": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "asisstant_agent": {
+        "main": [
+          [
+            {
+              "node": "Send a text message1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Vector Store": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI": {
+        "ai_embedding": [
+          [
+            {
+              "node": "Simple Vector Store",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Embeddings OpenAI1": {
+        "ai_embedding": [
+          [
+            {
+              "node": "Simple Vector Store2",
+              "type": "ai_embedding",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Vector Store2": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many messages in Gmail1": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a message in Gmail1": {
+        "ai_tool": [
+          [
+            {
+              "node": "asisstant_agent_personal",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "Get row(s) in sheet",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Get row(s) in sheet1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a text message": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a text message1": {
+        "main": [
+          [
+            {
+              "node": "Append row in sheet1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Append row in sheet": {
+        "main": [
+          [
+            {
+              "node": "Update row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Append row in sheet1": {
+        "main": [
+          [
+            {
+              "node": "Update row in sheet1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s) in sheet": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s) in sheet1": {
+        "main": [
+          [
+            {
+              "node": "If3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "If8",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "If4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If3": {
+        "main": [
+          [],
+          [
+            {
+              "node": "If5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If4": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "If6",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If5": {
+        "main": [
+          [],
+          [
+            {
+              "node": "If7",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If8": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model2": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Basic LLM Chain": {
+        "main": [
+          [
+            {
+              "node": "Send Follow-up",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send Follow-up": {
+        "main": [
+          [
+            {
+              "node": "Update row in sheet2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send Follow-up1": {
+        "main": [
+          [
+            {
+              "node": "Update row in sheet3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Basic LLM Chain1": {
+        "main": [
+          [
+            {
+              "node": "Send Follow-up1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model3": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Basic LLM Chain1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send Follow-up2": {
+        "main": [
+          [
+            {
+              "node": "Update row in sheet4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Basic LLM Chain2": {
+        "main": [
+          [
+            {
+              "node": "Send Follow-up2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model4": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Basic LLM Chain2",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If6": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields6": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Aggregate",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Aggregate": {
+        "main": [
+          [
+            {
+              "node": "Append row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Telegram Trigger1": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "system migration",
+    "name": null,
+    "description": null
+  },
   "tags": []
 }
