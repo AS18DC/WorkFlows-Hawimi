@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-11-01T18:13:47.358Z",
   "updatedAt": "2025-11-08T15:48:36.000Z",
+  "createdAt": "2025-11-01T18:13:47.358Z",
   "id": "G3tNgyz2wNL5dYGR",
   "name": "hawimi scraping",
   "active": false,
@@ -355,15 +355,17 @@
   },
   "pinData": {},
   "versionId": "d6c28702-9bdb-459c-ba09-93dbe101cdd9",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-11-01T18:13:47.364Z",
       "updatedAt": "2025-11-01T18:13:47.364Z",
+      "createdAt": "2025-11-01T18:13:47.364Z",
       "role": "workflow:owner",
       "workflowId": "G3tNgyz2wNL5dYGR",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
