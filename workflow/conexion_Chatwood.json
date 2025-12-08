@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-10-03T21:59:14.254Z",
   "updatedAt": "2025-10-04T18:13:00.000Z",
+  "createdAt": "2025-10-03T21:59:14.254Z",
   "id": "2B2SDV974dmhmUjT",
   "name": "conexion_Chatwood",
   "active": false,
@@ -38,15 +38,17 @@
   "meta": null,
   "pinData": {},
   "versionId": "bd15da67-7a56-4764-a1c0-d99f4e66c291",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-10-03T21:59:14.258Z",
       "updatedAt": "2025-10-03T21:59:14.258Z",
+      "createdAt": "2025-10-03T21:59:14.258Z",
       "role": "workflow:owner",
       "workflowId": "2B2SDV974dmhmUjT",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
