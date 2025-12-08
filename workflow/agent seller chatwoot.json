@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-10-03T03:20:22.062Z",
   "updatedAt": "2025-12-03T04:30:43.000Z",
+  "createdAt": "2025-10-03T03:20:22.062Z",
   "id": "hKqcv4qxqQZZZ02F",
   "name": "agent seller chatwoot",
   "active": true,
@@ -1580,15 +1580,1591 @@
   },
   "pinData": {},
   "versionId": "c3f30716-b8a9-4713-8bb3-e4641271f2ed",
+  "activeVersionId": "c3f30716-b8a9-4713-8bb3-e4641271f2ed",
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-10-03T03:20:22.068Z",
       "updatedAt": "2025-10-03T03:20:22.068Z",
+      "createdAt": "2025-10-03T03:20:22.068Z",
       "role": "workflow:owner",
       "workflowId": "hKqcv4qxqQZZZ02F",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": {
+    "updatedAt": "2025-12-03T04:30:43.354Z",
+    "createdAt": "2025-12-03T04:30:43.354Z",
+    "versionId": "c3f30716-b8a9-4713-8bb3-e4641271f2ed",
+    "workflowId": "hKqcv4qxqQZZZ02F",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "ventas",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -1296,
+          -48
+        ],
+        "id": "0520b96e-6e59-4981-a9f5-00023b21f2ea",
+        "name": "Webhook",
+        "webhookId": "45b9d1e7-a903-4363-a2fc-f5f78cdb30f5"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "8d2178dc-2b78-49aa-acfc-ae49d3200ecb",
+                "name": "labels",
+                "value": "={{ $json.body.conversation.labels[0] }}",
+                "type": "string"
+              },
+              {
+                "id": "ce9da550-bf9b-4790-b811-43448f2f0081",
+                "name": "content",
+                "value": "={{ $json.body.conversation.messages[0].content }}",
+                "type": "string"
+              },
+              {
+                "id": "f297f823-4963-4286-9396-3bf7f8534669",
+                "name": "conversation_id",
+                "value": "={{ $json.body.conversation.id }}",
+                "type": "number"
+              },
+              {
+                "id": "3195e31f-fe56-4e47-a4a4-5f23ec67d64f",
+                "name": "contact_id",
+                "value": "={{ $json.body.conversation.contact_inbox.contact_id }}",
+                "type": "number"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          720,
+          -528
+        ],
+        "id": "412778ce-41be-483f-b666-b3cb1f0ff3ed",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.text }}",
+          "options": {
+            "systemMessage": "=1. Rol y Objetivo Principal\nEres: Un Agente de Ventas de IA experto. Te llamas Ha.\n\nTu Especialidad: Vender agentes de inteligencia artificial personalizados, desarrollados sobre la plataforma n8n.\n\nTu Objetivo: Identificar las necesidades de los clientes potenciales, explicarles cómo tus agentes pueden optimizar sus operaciones y guiarlos en el proceso de compra.\n\n2. Contexto del Producto\nProducto Principal: Agentes de IA personalizables creados con n8n.\n\nPropuesta de Valor Clave: La integración total. Debes subrayar que estos agentes se pueden conectar y sincronizar con prácticamente cualquier plataforma, software o API que el cliente ya utilice (CRMs, ERPs, redes sociales, bases de datos, herramientas de marketing, etc.).\n\nFuncionalidades: Los agentes pueden automatizar tareas, gestionar comunicaciones con clientes, analizar datos en tiempo real, calificar leads, y mucho más.\n\n3. Protocolo de Interacción Obligatorio\nAquí se definen las reglas que debes seguir sin excepción en tu conversación.\n\nRegla #0: Preguntas estrategicas\nFuncion: hacer preguntas con el fin de obtener información clave, analizar una situación compleja o guiar una conversación o proceso de toma de decisiones.\n    Respuesta Ambiguous o Incompleta: El agente recibe una respuesta que carece de claridad, detalles cruciales, o no aborda completamente el tema. Ejemplo: El usuario dice \"Quiero mejorar el rendimiento\", sin especificar si es de ventas, software, o personal.\n    Declaración de un Objetivo o Problema: El usuario establece una meta, un desafío, o una necesidad. El agente necesita profundizar para entender el \"por qué,\" \"cómo,\" o \"para quién.\" Ejemplo: \"Necesito comprar una nueva herramienta de software.\"\n    Cambio de Tema o Dirección: La conversación se desvía, y el agente necesita re-enfocarla o validar el nuevo camino.\n    Solicitud de Ayuda para la Toma de Decisiones: El usuario pide consejo o una recomendación, obligando al agente a recopilar los criterios de decisión.\n\nRegla #2: Descargo de Responsabilidad (Disclaimer)\nDisparador: En tu primer mensaje de la conversación. SOLO UNA VEZ\n\nAcción Obligatoria: Debes decir quien eres, y decir que estas para ayudar que su negocio crezca y sea mas conciente\n\nFrase de ejemplo:\n\n\"¡Hola! Es un gusto conocerte 😊.\n\nSoy Wimi👸, una inteligencia artificial de Hawimi, y estoy aquí para ser tu aliado estratégico.\n\nMi gran propósito es ayudarte a que tu negocio no solo crezca y alcance nuevas metas 🚀, sino que también lo haga de una manera más consciente, generando un impacto positivo en tu comunidad y en el mundo 💚.\n\nPiensa en mí como un compañero de ideas listo para explorar contigo nuevas oportunidades para implementar IA en tu negocio. Cuentame un poco de tu negocio, puedes hacerlo mediante audios o imageness si gustas.\n\n\n\n\n\nRegla #4: Procesamiento de imagenes\nDisparador: cuando el prompt del usuario contiene \"Image description:\". No tienes que analizar ninguna imagen ese mensaje ya contiene la descripcion de la imagen solo la tienes que procesar\n\nAcción Obligatoria: No intentes resolver el problema si está fuera de tu alcance. Inicia el proceso de transferencia a un humano.\n\nRegla #5: Idioma\nResponde siempre en el mismo idioma en el que el cliente te hable.\n\n4. Tono y Personalidad\nConsultivo: Actúa como un asesor experto. Haz preguntas para entender los desafíos del cliente antes de proponer una solución. Se super consciente y empatico, todo lo que digas tiene que ser coherente y que tenga calidez humana.\n\nProfesional y Servicial: Mantén un lenguaje cortés, claro y super amigable en todo momento.\n\nEficiente: Ve al grano, pero sin ser brusco. Valora el tiempo del cliente. Responde en oraciones relativamente casi cortas.\n\n5. Secuencia Comun:\nSiempre responde de manera breve amistosa buscando que el usuario hable de su negocio, cuando ya puedas plantearle algo al usuario ahi si extiendete y se lo mas detallista y convincente posible. Contesta con bastantes emojis y tono emocionado. Tienes que demostrar recurrentemente el hawimi brand guideline, que es buscar un mundo mas conciente y de union social por un bien (responde con la frase en el idioma de la conversacion)\n\nResponde siempre en el mismo idioma en el que el cliente te hable.\nSi el usuario cambia de idioma durante la conversación, cambia también tu idioma inmediatamente. No mezcles idiomas en una misma respuesta.\n\nSi te mandan un video o sticker di que no eres capaz de procesar eso.\n\n6. No hacer\n-no digas precios de los servicios, si lo preguntan sugiere pasar a un especialista\n-no digas medidas de tiempo para los proyecto, recomienda al usuario a hablar con un especialista\n\n7. Slogan de Hawimi (cambialos al idioma de la conversacion)\n-Together we are the change\n-We are concious heroes\n-The Most Conscious World One Click Away\n\n\n8. Formato y estilo de presentación (normas internas)\n\nEl agente debe presentar sus respuestas con buena estructura visual, utilizando:\n\ntexto claro y organizado;\n\ntítulos o subtítulos cuando sea útil;\n\nnegritas para resaltar ideas importantes;\n\nUtilizar negritas para crear subtítulos breves dentro del mensaje cuando eso mejore la claridad, pero sin abusar de ellas;\n\nlistas cuando aporten claridad;\n\nespacios amplios entre párrafos.\n\nEstas reglas son internas.\nEl agente no debe mencionar ni mostrar palabras como “markdown”, “formato”, “estructura” o cualquier referencia técnica al estilo que está utilizando.\n\nEl agente solo debe aplicar estas normas en silencio, produciendo texto limpio, claro y bien espaciado, sin explicar cómo está formateado.\n\n9. Detección de intención de contacto por WhatsApp\n\nSi el usuario expresa, insinúa o pregunta por comunicarse vía WhatsApp, envía este mensaje textual sin modificarlo:\n\n📲 ¡Aquí tienes nuestro número de WhatsApp! Escríbenos cuando quieras: wa.me/584122126081\n💬 ¡Te esperamos!\n\nDespués de enviarlo, debes enviar inmediatamente este segundo mensaje:\n\n🗓️ Si prefieres agendar una cita gratuita para conversar con un especialista con calma, haz clic en este enlace:\nhttps://cal.com/hawimi.ai/booking\n\nNo debes enviar ninguno de ambos mensajes si el usuario no lo solicita o no lo sugiere explícitamente.\n\n10. Detección de intención de contacto por Telegram\n\nSi el usuario expresa, insinúa o pregunta por comunicarse vía Telegram, envía este mensaje textual sin modificarlo:\n\n📨 ¡Aquí tienes nuestro enlace de Telegram! Puedes escribirnos o interactuar con nuestro bot cuando quieras: https://t.me/hawimi_consultant_bot\n\n🤝 ¡Estamos aquí para ayudarte!\n\nDespués de enviarlo, debes enviar inmediatamente este segundo mensaje:\n\n🗓️ Si prefieres agendar una cita gratuita para conversar con un especialista con calma, haz clic en este enlace:\nhttps://cal.com/hawimi.ai/booking\n\nNo debes enviar ninguno de ambos mensajes si el usuario no lo solicita o no lo sugiere explícitamente."
+          }
+        },
+        "id": "76d56339-25fa-48f1-a0d9-97dff02934b9",
+        "name": "AI Agent1",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "position": [
+          1776,
+          112
+        ],
+        "typeVersion": 1.8
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "c53cd9f9-77c1-4331-98ff-bfc9bdf95a3c",
+                "name": "text",
+                "type": "string",
+                "value": "={{ $json.content }}"
+              },
+              {
+                "id": "aaeec2b0-181e-4ccc-939f-f28e08394887",
+                "name": "=conversation_id",
+                "value": "={{ $json.conversation_id }}",
+                "type": "string"
+              },
+              {
+                "id": "9eb652b8-fa87-4dd2-bbb2-df8f79e654da",
+                "name": "=contact_id",
+                "value": "={{ $json.contact_id }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "82cb9a07-ee20-4e48-bd22-6ac58adf864a",
+        "name": "Text",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          1168,
+          -528
+        ],
+        "typeVersion": 3.4
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.url }}",
+          "options": {}
+        },
+        "id": "76e5f93e-2db5-463a-803a-626633d118ad",
+        "name": "Download Image",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          720,
+          -144
+        ],
+        "typeVersion": 4.2
+      },
+      {
+        "parameters": {
+          "resource": "image",
+          "operation": "analyze",
+          "modelId": {
+            "__rl": true,
+            "mode": "list",
+            "value": "gpt-4o-mini",
+            "cachedResultName": "GPT-4O-MINI"
+          },
+          "text": "=You are an advanced image description AI assistant . Your primary function is to provide detailed, accurate descriptions of images submitted through WhatsApp.\n\nCORE FUNCTIONALITY:\n- When presented with an image, you will analyze it thoroughly and provide a comprehensive description in English.\n- Your descriptions should capture both the obvious and subtle elements within the image.\n\nIMAGE DESCRIPTION GUIDELINES:\n- Begin with a broad overview of what the image contains\n- Describe key subjects, people, objects, and their relationships\n- Note significant visual elements such as colors, lighting, composition, and perspective\n- Identify any text visible in the image\n- Describe the setting or environment\n- Mention any notable actions or events taking place\n- Comment on mood, tone, or atmosphere when relevant\n- If applicable, identify landmarks, famous people, or cultural references\n\nRESPONSE FORMAT:\n- Start with \"Image Description:\" followed by your analysis\n- Structure your description in a logical manner (general to specific)\n- Use clear, precise language appropriate for visual description\n- Format longer descriptions with paragraphs to enhance readability\n- End with any notable observations that might require special attention\n\nLIMITATIONS:\n- If the image is blurry, low resolution, or difficult to interpret, acknowledge these limitations\n- If an image contains potentially sensitive content, provide a factual description without judgment\n- Do not make assumptions about elements that cannot be clearly determined\n\nYour descriptions should be informative, objective, and thorough, enabling someone who cannot see the image to form an accurate mental picture of its contents.",
+          "inputType": "base64",
+          "options": {
+            "detail": "auto"
+          }
+        },
+        "id": "9e1e8f81-b304-4a68-92a0-4b0a1ded4fc7",
+        "name": "Analyze Image",
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "position": [
+          944,
+          -144
+        ],
+        "typeVersion": 1.8,
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.str }}",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "options": {}
+        },
+        "id": "96a55c40-d068-42cd-b6e5-2e4a24f7960f",
+        "name": "Download Audio",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [
+          720,
+          -336
+        ],
+        "typeVersion": 4.2,
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "EaTYSKoX0hYQ90Yk",
+            "name": "whatsapp"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "audio",
+          "operation": "transcribe",
+          "options": {}
+        },
+        "id": "0a26c24c-c135-478d-bf0f-fabbd9dea22e",
+        "name": "Transcribe Audio",
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "position": [
+          944,
+          -336
+        ],
+        "typeVersion": 1.8,
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "219577d5-b028-48fc-90be-980f4171ab68",
+                "name": "text",
+                "type": "string",
+                "value": "={{ $json.text }}"
+              },
+              {
+                "id": "7c6fcbe8-ce9f-44d3-93c1-97e9c60b9ba9",
+                "name": "conversation_id",
+                "value": "={{ $('Edit Fields3').item.json.conversation_id }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "db5e5612-e24e-4191-81a3-caa33dae0135",
+        "name": "Audio",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          1168,
+          -336
+        ],
+        "typeVersion": 3.4
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "67552183-de2e-494a-878e-c2948e8cb6bb",
+                "name": "text",
+                "type": "string",
+                "value": "=User request on the image:\n{{ $('Webhook').item.json.body.conversation.messages[0].content }}\n\nImage description:\n{{ $json.content }}"
+              },
+              {
+                "id": "3133d0ee-d672-45ae-af0c-a018131b58ab",
+                "name": "conversation_id",
+                "value": "={{ $('Edit Fields3').item.json.conversation_id }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "id": "85aea351-a738-471e-bb20-1b3911aeb27b",
+        "name": "Image",
+        "type": "n8n-nodes-base.set",
+        "position": [
+          1168,
+          -144
+        ],
+        "typeVersion": 3.4
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "ce6ab5b8-d223-440b-ad91-90330ba55754",
+                "name": "url",
+                "value": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].data_url }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          272,
+          -336
+        ],
+        "id": "cbb5db7f-a9d8-4acc-8e94-670d67500c96",
+        "name": "Edit Fields1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "2059ee12-fc94-43a8-b599-62cdd33e90c9",
+                "name": "url",
+                "value": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].data_url }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          272,
+          -144
+        ],
+        "id": "10381fb8-0d2d-4837-bc8b-d7ed8176ed0c",
+        "name": "Edit Fields2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "7831f595-a4fb-415e-a878-0688941c7281",
+                "leftValue": "={{ $json.labels }}",
+                "rightValue": "agente_fase_1",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          944,
+          -528
+        ],
+        "id": "b55705ef-4114-4347-b08e-78d8ed868a9e",
+        "name": "If"
+      },
+      {
+        "parameters": {
+          "jsCode": "let url = $input.first().json.url;\nurl = url.slice(52)\nurl = 'http://funnel_ventas_chatwoot:3000' + url\nreturn {url};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          496,
+          -144
+        ],
+        "id": "81fdadf7-12f2-4f46-869b-c50a789d937a",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "jsCode": "let str = $input.first().json.url;\nstr = str.slice(52)\nstr = 'http://funnel_ventas_chatwoot:3000' + str\nreturn {str};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          496,
+          -336
+        ],
+        "id": "c69d93e9-16fa-40e6-bf32-cf963a28a427",
+        "name": "Code in JavaScript1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "8d2178dc-2b78-49aa-acfc-ae49d3200ecb",
+                "name": "labels",
+                "value": "={{ $json.body.conversation.labels[0] }}",
+                "type": "string"
+              },
+              {
+                "id": "f297f823-4963-4286-9396-3bf7f8534669",
+                "name": "conversation_id",
+                "value": "={{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}",
+                "type": "number"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -624,
+          -192
+        ],
+        "id": "876013c8-c926-495b-80fd-169306cfab77",
+        "name": "Edit Fields3"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.body.conversation.messages[0].attachments }}",
+                      "rightValue": "=image",
+                      "operator": {
+                        "type": "boolean",
+                        "operation": "exists",
+                        "singleValue": true
+                      },
+                      "id": "4fd26877-8f92-4e5e-bdb4-8a99658de37c"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "image"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "437826be-4018-4f1d-87b6-ac3c07811611",
+                      "leftValue": "={{ $json.body.content }}",
+                      "rightValue": "=text",
+                      "operator": {
+                        "type": "boolean",
+                        "operation": "exists",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "text"
+              }
+            ]
+          },
+          "looseTypeValidation": true,
+          "options": {
+            "allMatchingOutputs": false
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3,
+        "position": [
+          -848,
+          -240
+        ],
+        "id": "9743fd6a-f1e5-4969-a54a-6ab4f6e8b468",
+        "name": "Switch1"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "43705b74-e745-4a1c-9c19-b6e2b718395e",
+                      "leftValue": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].file_type }}",
+                      "rightValue": "audio",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "audio"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "loose",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].file_type }}",
+                      "rightValue": "=image",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "4fd26877-8f92-4e5e-bdb4-8a99658de37c"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "image"
+              }
+            ]
+          },
+          "looseTypeValidation": true,
+          "options": {
+            "allMatchingOutputs": true
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3,
+        "position": [
+          48,
+          -192
+        ],
+        "id": "db8d89b1-6b0f-49d2-816d-3ea49d35463d",
+        "name": "Switch2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "7831f595-a4fb-415e-a878-0688941c7281",
+                "leftValue": "={{ $json.labels }}",
+                "rightValue": "agente_fase_1",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -400,
+          -192
+        ],
+        "id": "2a56e27f-3fbb-4cf5-9e25-529949ce2d92",
+        "name": "If1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "f297f823-4963-4286-9396-3bf7f8534669",
+                "name": "conversation_id",
+                "value": "={{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}",
+                "type": "number"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -848,
+          0
+        ],
+        "id": "7bd19c03-a684-4b43-a42e-aadbc8cc01be",
+        "name": "Edit Fields4"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "mode": "list",
+            "value": "gpt-4.1-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          1760,
+          336
+        ],
+        "id": "5b1497bc-4e39-4e8b-9631-16ac251d76cb",
+        "name": "OpenAI Chat Model",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "6ec969df-0df2-4072-8f53-9f953c02a3d3",
+                "leftValue": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].file_type }}",
+                "rightValue": "audio",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          2096,
+          112
+        ],
+        "id": "3f5329a4-ba1f-43cd-bdf6-5a21d0535fcf",
+        "name": "If2"
+      },
+      {
+        "parameters": {
+          "inputText": "={{ $json.text }}",
+          "categories": {
+            "categories": [
+              {
+                "category": "cambio de operador",
+                "description": "quiero cambiar a un especialista/humano/persona"
+              },
+              {
+                "category": "whatsapp",
+                "description": "el usuario quiere hablar por whatsapp"
+              },
+              {
+                "category": "otro",
+                "description": "aqui es para una secuencia normal de chatbot"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.textClassifier",
+        "typeVersion": 1.1,
+        "position": [
+          1392,
+          -288
+        ],
+        "id": "c60ee8df-23b9-487a-a429-81a47082c44d",
+        "name": "Text Classifier"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "content",
+                "value": "=🌟 ¡Un heroe conciente ya fue informado, pronto se va a poner en contacto contigo 🌟"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1808,
+          -432
+        ],
+        "id": "6f168bc9-6a6c-4244-9b7a-76353f5ba180",
+        "name": "HTTP Request2"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $json.conversation_id }}/labels",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "{\n  \"labels\": [\n    \"humano\"\n  ]\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1072,
+          -752
+        ],
+        "id": "cbc65bff-d238-455b-937d-8a36df1a2e1a",
+        "name": "HTTP Request4",
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "ghazJYlCzZBPngtY",
+            "name": "Header Auth account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "d892e887-98c7-4fbe-9754-8e27eda75562",
+                "leftValue": "={{ $json.body.conversation.messages[0].sender_type }}",
+                "rightValue": "User",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -1072,
+          -48
+        ],
+        "id": "c7398751-776c-429f-81c2-5a4f9a6d3ec0",
+        "name": "If3"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/3/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "content",
+                "value": "=🔸 {{ $('Webhook').item.json.body.conversation.messages[0].sender.name }} solicito hablar contigo 🔸"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -848,
+          -752
+        ],
+        "id": "e1cdb42f-9b25-4971-8f7b-70551661dd49",
+        "name": "HTTP Request3"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          1472,
+          -32
+        ],
+        "id": "77aa9fca-e383-4e23-866e-4c54c4019e3b",
+        "name": "OpenAI Chat Model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "content",
+                "value": "=¡Procesando tu imagen/audio! 🤔 Dame un segundito y te respondo. ⏳"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -176,
+          -192
+        ],
+        "id": "3ea99203-7897-45e8-a1e4-6c9c624d7779",
+        "name": "HTTP Request5"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "content",
+                "value": "=¡Listo! Un momento y hablarás con alguien del equipo. ⏳🤝"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1296,
+          -752
+        ],
+        "id": "804959ad-5418-4ddb-b8df-688f8ce8cc68",
+        "name": "HTTP Request6"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "content",
+                "value": "=🗓️ Si prefieres agendar una cita gratuita para conversar con un especialista con calma, haz clic en este enlace: \nhttps://cal.com/hawimi.ai/booking"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2096,
+          -432
+        ],
+        "id": "21dd0019-8230-421d-a159-013d968c13a8",
+        "name": "HTTP Request7"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "content",
+                "value": "=📲 ¡Aquí tienes nuestro número de WhatsApp! Escríbenos cuando quieras: wa.me/584122126081\n💬 ¡Te esperamos!"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1808,
+          -240
+        ],
+        "id": "5fc1723b-1bc0-4f8d-8259-6b4dd7713d14",
+        "name": "HTTP Request8"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "content",
+                "value": "=🗓️ Si prefieres agendar una cita gratuita para conversar con un especialista con calma, haz clic en este enlace: \nhttps://cal.com/hawimi.ai/booking"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2096,
+          -240
+        ],
+        "id": "6bdb2d93-c721-48f5-9fd3-c75803721fe0",
+        "name": "HTTP Request9"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "content",
+                "value": "={{ $json.output }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2320,
+          208
+        ],
+        "id": "07a62f7d-1d14-44b7-8628-caaadaac4643",
+        "name": "HTTP Request10"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Webhook').item.json.body.conversation.messages[0].conversation_id }}/messages",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              }
+            ]
+          },
+          "sendBody": true,
+          "contentType": "multipart-form-data",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "parameterType": "formBinaryData",
+                "name": "attachments[]",
+                "inputDataFieldName": "data"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          2768,
+          16
+        ],
+        "id": "1dcac6a0-fa65-4b6f-9a22-4bc52b0fd2b3",
+        "name": "HTTP Request11"
+      },
+      {
+        "parameters": {
+          "jsCode": "for (const item of $input.all()) {\n  if (item.binary) {\n    const binaryPropertyNames = Object.keys(item.binary);\n    for (const propName of binaryPropertyNames) {\n      if (item.binary[propName].mimeType === 'audio/mp3') {\n        item.binary[propName].mimeType = 'audio/mpeg';\n      }\n    }\n  }\n}\n\nreturn $input.all();"
+        },
+        "id": "7c043aa9-ced4-4aaa-ae01-56436353d63f",
+        "name": "Fix mimeType for Audio",
+        "type": "n8n-nodes-base.code",
+        "position": [
+          2544,
+          16
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "resource": "audio",
+          "input": "={{ $json.output }}",
+          "voice": "nova",
+          "options": {
+            "speed": 1.1
+          }
+        },
+        "id": "cf20bf95-3689-4373-a626-90b6821e88c4",
+        "name": "Generate Audio Response",
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "position": [
+          2320,
+          16
+        ],
+        "typeVersion": 1.8,
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "edf59517-e6d2-4f65-95b4-5a725b08a337",
+                "name": "contact_id",
+                "value": "={{  $('Webhook').item.json.body.conversation.contact_inbox.contact_id \n }}",
+                "type": "number"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -848,
+          144
+        ],
+        "id": "c2eaa11d-c13c-4404-8aeb-9921ceb95d30",
+        "name": "Edit Fields5"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=memory_{{ $json.conversation_id }}"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+        "typeVersion": 1.3,
+        "position": [
+          2016,
+          336
+        ],
+        "id": "8f88ee4b-fccb-4548-80bf-468e63615f33",
+        "name": "by Conversation",
+        "credentials": {
+          "postgres": {
+            "id": "pIs2mlkqMRrsDNsG",
+            "name": "Postgres account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=contact_{{ $json.contact_id }}_seller"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+        "typeVersion": 1.3,
+        "position": [
+          1888,
+          336
+        ],
+        "id": "8fd3e45e-c65b-4d2a-8f10-3a3c81043ac8",
+        "name": "by Contact",
+        "credentials": {
+          "postgres": {
+            "id": "pIs2mlkqMRrsDNsG",
+            "name": "Postgres account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "If3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Text": {
+        "main": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent1": {
+        "main": [
+          [
+            {
+              "node": "If2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download Image": {
+        "main": [
+          [
+            {
+              "node": "Analyze Image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Analyze Image": {
+        "main": [
+          [
+            {
+              "node": "Image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download Audio": {
+        "main": [
+          [
+            {
+              "node": "Transcribe Audio",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Transcribe Audio": {
+        "main": [
+          [
+            {
+              "node": "Audio",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields1": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields2": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Audio": {
+        "main": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Image": {
+        "main": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "Text",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Download Image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript1": {
+        "main": [
+          [
+            {
+              "node": "Download Audio",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields3": {
+        "main": [
+          [
+            {
+              "node": "If1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch1": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields3",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If1": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request5",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "Switch2": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Edit Fields2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If2": {
+        "main": [
+          [
+            {
+              "node": "Generate Audio Response",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "HTTP Request10",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Text Classifier": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "HTTP Request8",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "AI Agent1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request2": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request7",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If3": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Switch1",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Edit Fields4",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Edit Fields5",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request4": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request3",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Text Classifier",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request5": {
+        "main": [
+          [
+            {
+              "node": "Switch2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request3": {
+        "main": [
+          []
+        ]
+      },
+      "HTTP Request6": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request4",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request8": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request9",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Fix mimeType for Audio": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request11",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Audio Response": {
+        "main": [
+          [
+            {
+              "node": "Fix mimeType for Audio",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "by Contact": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Aharon Guedez",
+    "name": null,
+    "description": null
+  },
   "tags": []
 }
