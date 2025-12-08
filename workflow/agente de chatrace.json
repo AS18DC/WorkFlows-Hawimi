@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-08-25T23:51:24.992Z",
   "updatedAt": "2025-10-13T23:19:01.000Z",
+  "createdAt": "2025-08-25T23:51:24.992Z",
   "id": "ssmCjz7uoO6VOczd",
   "name": "agente de chatrace",
   "active": false,
@@ -118,15 +118,17 @@
   },
   "pinData": {},
   "versionId": "79f75633-8c64-4459-b858-7486398125b1",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-08-25T23:51:24.996Z",
       "updatedAt": "2025-08-25T23:51:24.996Z",
+      "createdAt": "2025-08-25T23:51:24.996Z",
       "role": "workflow:owner",
       "workflowId": "ssmCjz7uoO6VOczd",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
