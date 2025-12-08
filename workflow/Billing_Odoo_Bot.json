@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-18T01:03:42.444Z",
   "updatedAt": "2025-09-19T06:48:02.000Z",
+  "createdAt": "2025-09-18T01:03:42.444Z",
   "id": "Wu9Q0XbsyUTbQPTO",
   "name": "Billing_Odoo_Bot",
   "active": false,
@@ -555,15 +555,17 @@
   },
   "pinData": {},
   "versionId": "cce92beb-8403-4f95-b097-773e9777337b",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-18T01:03:42.450Z",
       "updatedAt": "2025-09-18T01:03:42.450Z",
+      "createdAt": "2025-09-18T01:03:42.450Z",
       "role": "workflow:owner",
       "workflowId": "Wu9Q0XbsyUTbQPTO",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
