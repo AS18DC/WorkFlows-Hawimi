@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-08-06T00:48:44.720Z",
   "updatedAt": "2025-10-13T23:19:05.000Z",
+  "createdAt": "2025-08-06T00:48:44.720Z",
   "id": "Ht63ENg60cHPAWBB",
   "name": "Enviar correos newsletter",
   "active": false,
@@ -16,15 +16,17 @@
   },
   "pinData": {},
   "versionId": "9a8f49b5-e70e-4961-9cdb-91b8c0a94cbc",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-08-06T00:48:44.725Z",
       "updatedAt": "2025-08-06T00:48:44.725Z",
+      "createdAt": "2025-08-06T00:48:44.725Z",
       "role": "workflow:owner",
       "workflowId": "Ht63ENg60cHPAWBB",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
