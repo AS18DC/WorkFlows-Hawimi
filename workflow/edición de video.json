@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-08-28T04:35:09.435Z",
   "updatedAt": "2025-11-08T15:49:44.000Z",
+  "createdAt": "2025-08-28T04:35:09.435Z",
   "id": "P1A9XgBupr7MQEbK",
   "name": "edición de video",
   "active": false,
@@ -465,15 +465,17 @@
     ]
   },
   "versionId": "54fbdf89-8754-4857-b0e2-77e7e60369e6",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-08-28T04:35:09.441Z",
       "updatedAt": "2025-08-28T04:35:09.441Z",
+      "createdAt": "2025-08-28T04:35:09.441Z",
       "role": "workflow:owner",
       "workflowId": "P1A9XgBupr7MQEbK",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
