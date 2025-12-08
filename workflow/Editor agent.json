@@ -1,9 +1,9 @@
 {
+  "updatedAt": "2025-12-08T00:52:59.000Z",
   "createdAt": "2025-08-21T03:07:35.374Z",
-  "updatedAt": "2025-11-08T15:49:40.000Z",
   "id": "xKuC3UKBfgCm6WOV",
   "name": "Editor agent",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
@@ -794,15 +794,17 @@
   },
   "pinData": {},
   "versionId": "c922f8ad-f466-4368-9495-21ddbba2d6af",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-08-21T03:07:35.380Z",
       "updatedAt": "2025-08-21T03:07:35.380Z",
+      "createdAt": "2025-08-21T03:07:35.380Z",
       "role": "workflow:owner",
       "workflowId": "xKuC3UKBfgCm6WOV",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
