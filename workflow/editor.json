@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-08-21T04:29:01.046Z",
   "updatedAt": "2025-11-08T15:50:20.000Z",
+  "createdAt": "2025-08-21T04:29:01.046Z",
   "id": "QiIWghqEkIOt9qae",
   "name": "editor",
   "active": false,
@@ -176,15 +176,17 @@
   },
   "pinData": {},
   "versionId": "87239d4c-3cb2-4246-8792-c214bc59e8a8",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-08-21T04:29:01.051Z",
       "updatedAt": "2025-08-21T04:29:01.051Z",
+      "createdAt": "2025-08-21T04:29:01.051Z",
       "role": "workflow:owner",
       "workflowId": "QiIWghqEkIOt9qae",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
