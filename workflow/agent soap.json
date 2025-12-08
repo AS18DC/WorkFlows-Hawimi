@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-10-10T02:36:20.773Z",
   "updatedAt": "2025-11-08T15:50:29.000Z",
+  "createdAt": "2025-10-10T02:36:20.773Z",
   "id": "6sLFsVrQcBllreBE",
   "name": "agent soap",
   "active": false,
@@ -14,15 +14,17 @@
   "meta": null,
   "pinData": {},
   "versionId": "c4ed4b9c-5108-47ce-ab1e-63553f1a4867",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-10-10T02:36:20.777Z",
       "updatedAt": "2025-10-10T02:36:20.777Z",
+      "createdAt": "2025-10-10T02:36:20.777Z",
       "role": "workflow:owner",
       "workflowId": "6sLFsVrQcBllreBE",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
