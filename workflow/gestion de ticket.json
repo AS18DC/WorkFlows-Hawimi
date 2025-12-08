@@ -1,6 +1,6 @@
 {
-  "createdAt": "2025-09-15T01:14:57.687Z",
   "updatedAt": "2025-09-19T02:40:45.000Z",
+  "createdAt": "2025-09-15T01:14:57.687Z",
   "id": "bYwE3toJFDMTWTYc",
   "name": "gestion de ticket",
   "active": false,
@@ -2146,15 +2146,17 @@
     ]
   },
   "versionId": "f6881377-9c03-4ebd-b28c-31b0a4e8b161",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-09-15T01:14:57.696Z",
       "updatedAt": "2025-09-15T01:14:57.696Z",
+      "createdAt": "2025-09-15T01:14:57.696Z",
       "role": "workflow:owner",
       "workflowId": "bYwE3toJFDMTWTYc",
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
