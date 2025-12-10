@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-03T04:30:43.000Z",
+  "updatedAt": "2025-12-10T00:56:44.000Z",
   "createdAt": "2025-10-03T03:20:22.062Z",
   "id": "hKqcv4qxqQZZZ02F",
   "name": "agent seller chatwoot",
@@ -689,7 +689,7 @@
           "parameters": [
             {
               "name": "api_access_token",
-              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
             }
           ]
         },
@@ -905,7 +905,7 @@
           "parameters": [
             {
               "name": "api_access_token",
-              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
             }
           ]
         },
@@ -938,7 +938,7 @@
           "parameters": [
             {
               "name": "api_access_token",
-              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
             }
           ]
         },
@@ -971,7 +971,7 @@
           "parameters": [
             {
               "name": "api_access_token",
-              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
             }
           ]
         },
@@ -1004,7 +1004,7 @@
           "parameters": [
             {
               "name": "api_access_token",
-              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
             }
           ]
         },
@@ -1037,7 +1037,7 @@
           "parameters": [
             {
               "name": "api_access_token",
-              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
             }
           ]
         },
@@ -1138,8 +1138,8 @@
       "name": "by Conversation",
       "credentials": {
         "postgres": {
-          "id": "pIs2mlkqMRrsDNsG",
-          "name": "Postgres account"
+          "id": "udZYvswehqtQXINk",
+          "name": "agentes"
         }
       }
     },
@@ -1151,15 +1151,36 @@
       "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
       "typeVersion": 1.3,
       "position": [
-        1888,
-        336
+        2176,
+        512
       ],
       "id": "8fd3e45e-c65b-4d2a-8f10-3a3c81043ac8",
       "name": "by Contact",
       "credentials": {
         "postgres": {
-          "id": "pIs2mlkqMRrsDNsG",
-          "name": "Postgres account"
+          "id": "udZYvswehqtQXINk",
+          "name": "agentes"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=contact_{{ $json.contact_id }}_seller",
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        1888,
+        416
+      ],
+      "id": "f7958eb5-f27b-4311-9d94-7e3289b7df8d",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "udZYvswehqtQXINk",
+          "name": "agentes"
         }
       }
     }
@@ -1561,6 +1582,11 @@
     },
     "by Contact": {
       "ai_memory": [
+        []
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
         [
           {
             "node": "AI Agent1",
@@ -1579,8 +1605,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "c3f30716-b8a9-4713-8bb3-e4641271f2ed",
-  "activeVersionId": "c3f30716-b8a9-4713-8bb3-e4641271f2ed",
+  "versionId": "c4b9b3d3-3c4f-4974-bfda-ffdb091815a9",
+  "activeVersionId": "c4b9b3d3-3c4f-4974-bfda-ffdb091815a9",
   "triggerCount": 1,
   "shared": [
     {
@@ -1592,9 +1618,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-03T04:30:43.354Z",
-    "createdAt": "2025-12-03T04:30:43.354Z",
-    "versionId": "c3f30716-b8a9-4713-8bb3-e4641271f2ed",
+    "updatedAt": "2025-12-10T00:56:44.546Z",
+    "createdAt": "2025-12-10T00:56:44.546Z",
+    "versionId": "c4b9b3d3-3c4f-4974-bfda-ffdb091815a9",
     "workflowId": "hKqcv4qxqQZZZ02F",
     "nodes": [
       {
@@ -2280,7 +2306,7 @@
             "parameters": [
               {
                 "name": "api_access_token",
-                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+                "value": "zE26KUcBUe9PPkAt8SYi4wdF"
               }
             ]
           },
@@ -2496,7 +2522,7 @@
             "parameters": [
               {
                 "name": "api_access_token",
-                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+                "value": "zE26KUcBUe9PPkAt8SYi4wdF"
               }
             ]
           },
@@ -2529,7 +2555,7 @@
             "parameters": [
               {
                 "name": "api_access_token",
-                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+                "value": "zE26KUcBUe9PPkAt8SYi4wdF"
               }
             ]
           },
@@ -2562,7 +2588,7 @@
             "parameters": [
               {
                 "name": "api_access_token",
-                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+                "value": "zE26KUcBUe9PPkAt8SYi4wdF"
               }
             ]
           },
@@ -2595,7 +2621,7 @@
             "parameters": [
               {
                 "name": "api_access_token",
-                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+                "value": "zE26KUcBUe9PPkAt8SYi4wdF"
               }
             ]
           },
@@ -2628,7 +2654,7 @@
             "parameters": [
               {
                 "name": "api_access_token",
-                "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+                "value": "zE26KUcBUe9PPkAt8SYi4wdF"
               }
             ]
           },
@@ -2729,8 +2755,8 @@
         "name": "by Conversation",
         "credentials": {
           "postgres": {
-            "id": "pIs2mlkqMRrsDNsG",
-            "name": "Postgres account"
+            "id": "udZYvswehqtQXINk",
+            "name": "agentes"
           }
         }
       },
@@ -2742,15 +2768,36 @@
         "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
         "typeVersion": 1.3,
         "position": [
-          1888,
-          336
+          2176,
+          512
         ],
         "id": "8fd3e45e-c65b-4d2a-8f10-3a3c81043ac8",
         "name": "by Contact",
         "credentials": {
           "postgres": {
-            "id": "pIs2mlkqMRrsDNsG",
-            "name": "Postgres account"
+            "id": "udZYvswehqtQXINk",
+            "name": "agentes"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey",
+          "sessionKey": "=contact_{{ $json.contact_id }}_seller",
+          "contextWindowLength": 15
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+        "typeVersion": 1.3,
+        "position": [
+          1888,
+          416
+        ],
+        "id": "f7958eb5-f27b-4311-9d94-7e3289b7df8d",
+        "name": "Postgres Chat Memory",
+        "credentials": {
+          "postgres": {
+            "id": "udZYvswehqtQXINk",
+            "name": "agentes"
           }
         }
       }
@@ -3151,6 +3198,11 @@
         ]
       },
       "by Contact": {
+        "ai_memory": [
+          []
+        ]
+      },
+      "Postgres Chat Memory": {
         "ai_memory": [
           [
             {
