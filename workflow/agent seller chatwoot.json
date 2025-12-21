@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-10T23:12:02.567Z",
+  "updatedAt": "2025-12-20T23:09:44.532Z",
   "createdAt": "2025-10-03T03:20:22.062Z",
   "id": "hKqcv4qxqQZZZ02F",
   "name": "agent seller chatwoot",
@@ -1649,8 +1649,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "4184b84f-d783-41ba-928a-b39b5a997a0a",
-  "activeVersionId": "4184b84f-d783-41ba-928a-b39b5a997a0a",
+  "versionId": "4d0e4331-1e20-4618-8b57-c02f18f1ea53",
+  "activeVersionId": "4d0e4331-1e20-4618-8b57-c02f18f1ea53",
   "triggerCount": 1,
   "shared": [
     {
@@ -1662,9 +1662,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-10T23:12:02.570Z",
-    "createdAt": "2025-12-10T23:12:02.570Z",
-    "versionId": "4184b84f-d783-41ba-928a-b39b5a997a0a",
+    "updatedAt": "2025-12-20T23:09:44.533Z",
+    "createdAt": "2025-12-20T23:09:44.533Z",
+    "versionId": "4d0e4331-1e20-4618-8b57-c02f18f1ea53",
     "workflowId": "hKqcv4qxqQZZZ02F",
     "nodes": [
       {
