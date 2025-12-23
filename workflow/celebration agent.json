@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-11-08T15:48:38.000Z",
+  "updatedAt": "2025-12-23T01:56:32.314Z",
   "createdAt": "2025-10-13T23:29:13.860Z",
   "id": "9igCGPCcJvNsf5dz",
   "name": "celebration agent",
@@ -53,7 +53,7 @@
       "typeVersion": 4.2,
       "position": [
         656,
-        24
+        32
       ],
       "id": "0ce165b1-84d3-4978-a180-80b31881a584",
       "name": "HTTP Request",
@@ -86,7 +86,7 @@
       "typeVersion": 1.2,
       "position": [
         880,
-        24
+        32
       ],
       "id": "79fd59c2-77c1-4942-b81d-716dbb8a81ba",
       "name": "HTML",
@@ -116,7 +116,7 @@
       "typeVersion": 3.4,
       "position": [
         432,
-        24
+        32
       ],
       "id": "b1b600cd-8a0e-4960-b66c-5c61423ab4d4",
       "name": "Set Defaults"
@@ -130,8 +130,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        1480,
-        -152
+        1488,
+        -160
       ],
       "id": "f58c9c26-f0dc-4adf-a1c5-1ae8f5023f0d",
       "name": "AI Agent1"
@@ -150,7 +150,7 @@
       "typeVersion": 1.2,
       "position": [
         1408,
-        280
+        288
       ],
       "id": "b78aae7d-8a5f-42f2-b95b-262e55eba4a8",
       "name": "OpenAI Chat Model1",
@@ -173,7 +173,7 @@
       "typeVersion": 2.2,
       "position": [
         1328,
-        72
+        80
       ],
       "id": "b30467f6-679d-436c-815f-ec8388ffcdf4",
       "name": "AI Agent Tool"
@@ -188,7 +188,7 @@
       "typeVersion": 2.2,
       "position": [
         1616,
-        72
+        80
       ],
       "id": "6ee7bf83-cb37-49cf-abe7-8461bd4f8b75",
       "name": "AI Agent Tool1"
@@ -200,8 +200,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
       "typeVersion": 1,
       "position": [
-        1720,
-        280
+        1728,
+        288
       ],
       "id": "6488b5ba-ca11-4771-8884-e37f23fd5f6c",
       "name": "SerpAPI",
@@ -230,7 +230,8 @@
             "urlfacebook": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urlfacebook', `pon la url del facebook`, 'string') }}",
             "tlf": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tlf', `pon el numero de telefono, debes ponerlo en el formato e164. Solo manda 1 de los que aparezcan`, 'string') }}",
             "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `pon el email`, 'string') }}",
-            "urltwitter": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urltwitter', `pon la url del twitter`, 'string') }}"
+            "urltwitter": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urltwitter', `pon la url del twitter`, 'string') }}",
+            "hawimiScore": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('hawimiScore', `pon el puntaje hawimi score calculado`, 'string') }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -293,6 +294,16 @@
               "canBeUsedToMatch": true,
               "type": "string",
               "removed": false
+            },
+            {
+              "id": "hawimiScore",
+              "displayName": "hawimiScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -303,7 +314,7 @@
       "typeVersion": 2.2,
       "position": [
         1904,
-        72
+        80
       ],
       "id": "5f970e39-ef48-47fd-b6b5-7d33ac77b1c9",
       "name": "Call 'crear contacto'"
@@ -378,7 +389,7 @@
       "typeVersion": 2,
       "position": [
         208,
-        24
+        32
       ],
       "id": "1db52845-f9bb-4a69-b00b-46b8f948287f",
       "name": "Code in JavaScript"
@@ -544,7 +555,7 @@
       "typeVersion": 2.2,
       "position": [
         1104,
-        24
+        32
       ],
       "id": "bf8df118-23ce-4c3e-b8ac-d20ed8b660aa",
       "name": "If"
@@ -749,14 +760,18 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "bad7d8fd-1780-4933-8982-e7592a31e5f8",
+  "versionId": "fed8fb01-c285-4a74-8c2f-f60447984f29",
   "activeVersionId": null,
-  "triggerCount": 1,
+  "triggerCount": 2,
   "shared": [
     {
       "updatedAt": "2025-10-13T23:29:13.865Z",
