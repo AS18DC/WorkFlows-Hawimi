@@ -1,0 +1,256 @@
+{
+  "updatedAt": "2025-12-23T01:07:52.275Z",
+  "createdAt": "2025-12-22T22:49:53.892Z",
+  "id": "F1YyVD3VLIv5UFI1",
+  "name": "Tool - Human Handoff",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "22793879-7452-4ce5-b86d-2a6a91d4a1b6",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Execute Workflow Trigger').item.json.conversation_id }}/assignments",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "assignee_id",
+              "value": 9
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a761890b-a448-40c1-a564-790301377ecf",
+      "name": "Asignar al Agente 9",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        240
+      ],
+      "disabled": true,
+      "notes": "Asigna el ticket al humano (ID 9)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/11/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=🚨 *SOPORTE HUMANO SOLICITADO* 🚨\n\nEl usuario {{ $('Execute Workflow Trigger').item.json.name }} de la conversación #{{ $('Execute Workflow Trigger').item.json.conversation_id }} necesita ayuda.\n\n👉 *Haz clic aquí para responderle:*\nhttps://funnel-ventas-chatwoot.hyhaj5.easypanel.host/app/accounts/1/conversations/{{ $('Execute Workflow Trigger').item.json.conversation_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "48fb5c2a-34f3-4b8f-ab4f-31b36715518d",
+      "name": "Notificar al Chat ID",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        432
+      ],
+      "notes": "Envía alerta al chat_id 1102936680"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Execute Workflow Trigger').item.json.conversation_id }}/labels",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"labels\": [\n    \"humano\"\n  ]\n}",
+        "options": {}
+      },
+      "id": "257baeb4-f50d-4708-872b-832e857c42de",
+      "name": "Etiquetar Conversacion1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -48,
+        432
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $('Execute Workflow Trigger').item.json.conversation_id }}/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=🌟 ¡Un héroe consciente ya fue informado! Pronto se pondrá en contacto contigo directamente por aquí. 🌟\n\n🗓️ Si prefieres agendar una cita gratuita con calma, haz clic aquí:\nhttps://cal.com/hawimi.ai/booking"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5577c267-8767-4e73-a076-254b6081609e",
+      "name": "Responder al Usuario1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        416,
+        432
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "result",
+              "name": "result",
+              "value": "Humano notificado y asignado exitosamente",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9d3e7e43-f43f-4bf6-bda4-fb0fdd69d1af",
+      "name": "Set Result1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        432
+      ]
+    }
+  ],
+  "connections": {
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Etiquetar Conversacion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Asignar al Agente 9": {
+      "main": [
+        [
+          {
+            "node": "Responder al Usuario1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar al Chat ID": {
+      "main": [
+        [
+          {
+            "node": "Responder al Usuario1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Etiquetar Conversacion1": {
+      "main": [
+        [
+          {
+            "node": "Asignar al Agente 9",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notificar al Chat ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responder al Usuario1": {
+      "main": [
+        [
+          {
+            "node": "Set Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "7585998d-2386-4316-a706-aa85b01b7a41",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-12-22T22:49:53.899Z",
+      "createdAt": "2025-12-22T22:49:53.899Z",
+      "role": "workflow:owner",
+      "workflowId": "F1YyVD3VLIv5UFI1",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
