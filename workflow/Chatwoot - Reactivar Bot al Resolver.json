@@ -1,0 +1,268 @@
+{
+  "updatedAt": "2025-12-23T00:45:06.088Z",
+  "createdAt": "2025-12-23T00:13:01.208Z",
+  "id": "tsDWwsZDTcHLtbxz",
+  "name": "Chatwoot - Reactivar Bot al Resolver",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chatwoot-events",
+        "options": {}
+      },
+      "id": "641d4163-1066-4468-85aa-5d788168173c",
+      "name": "Webhook Chatwoot",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -480,
+        112
+      ],
+      "webhookId": "chatwoot-reactivate-bot"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "check_event",
+              "leftValue": "={{ $json.body.event }}",
+              "rightValue": "conversation_status_changed",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "check_status",
+              "leftValue": "={{ $json.body.status }}",
+              "rightValue": "resolved",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "45235e42-95b4-409a-b20e-aa3e7dddaee0",
+      "name": "Es evento Resolver?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $json.body.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"labels\": [\"agente_fase_1\"]\n}",
+        "options": {}
+      },
+      "id": "369c4af8-2af4-45c9-b58a-be260f125449",
+      "name": "Update etiqueta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -16,
+        96
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook Chatwoot": {
+      "main": [
+        [
+          {
+            "node": "Es evento Resolver?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es evento Resolver?": {
+      "main": [
+        [
+          {
+            "node": "Update etiqueta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update etiqueta": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "954bd80f-ee20-40f6-a664-5ac9483ba1bb",
+  "activeVersionId": "954bd80f-ee20-40f6-a664-5ac9483ba1bb",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-12-23T00:13:01.213Z",
+      "createdAt": "2025-12-23T00:13:01.213Z",
+      "role": "workflow:owner",
+      "workflowId": "tsDWwsZDTcHLtbxz",
+      "projectId": "vmy1v6GvUEx0NXtc"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2025-12-23T00:45:06.089Z",
+    "createdAt": "2025-12-23T00:45:06.089Z",
+    "versionId": "954bd80f-ee20-40f6-a664-5ac9483ba1bb",
+    "workflowId": "tsDWwsZDTcHLtbxz",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "chatwoot-events",
+          "options": {}
+        },
+        "id": "641d4163-1066-4468-85aa-5d788168173c",
+        "name": "Webhook Chatwoot",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          -480,
+          112
+        ],
+        "webhookId": "chatwoot-reactivate-bot"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "check_event",
+                "leftValue": "={{ $json.body.event }}",
+                "rightValue": "conversation_status_changed",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              },
+              {
+                "id": "check_status",
+                "leftValue": "={{ $json.body.status }}",
+                "rightValue": "resolved",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "45235e42-95b4-409a-b20e-aa3e7dddaee0",
+        "name": "Es evento Resolver?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -256,
+          112
+        ]
+      },
+      {
+        "parameters": {
+          "method": "PUT",
+          "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations/{{ $json.body.id }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "api_access_token",
+                "value": "zE26KUcBUe9PPkAt8SYi4wdF"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n\"labels\": [\"agente_fase_1\"]\n}",
+          "options": {}
+        },
+        "id": "369c4af8-2af4-45c9-b58a-be260f125449",
+        "name": "Update etiqueta",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -16,
+          96
+        ]
+      }
+    ],
+    "connections": {
+      "Webhook Chatwoot": {
+        "main": [
+          [
+            {
+              "node": "Es evento Resolver?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Es evento Resolver?": {
+        "main": [
+          [
+            {
+              "node": "Update etiqueta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update etiqueta": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "authors": "Aharon Guedez",
+    "name": null,
+    "description": null
+  },
+  "tags": []
+}
