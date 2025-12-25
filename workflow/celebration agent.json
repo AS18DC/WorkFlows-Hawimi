@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-23T01:56:32.314Z",
+  "updatedAt": "2025-12-24T21:34:44.756Z",
   "createdAt": "2025-10-13T23:29:13.860Z",
   "id": "9igCGPCcJvNsf5dz",
   "name": "celebration agent",
@@ -220,7 +220,7 @@
           "value": "6QjYoURvSKH7wOw0",
           "mode": "list",
           "cachedResultUrl": "/workflow/6QjYoURvSKH7wOw0",
-          "cachedResultName": "crear contacto"
+          "cachedResultName": "Enviar Correo Hawimi Score"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -231,7 +231,7 @@
             "tlf": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tlf', `pon el numero de telefono, debes ponerlo en el formato e164. Solo manda 1 de los que aparezcan`, 'string') }}",
             "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `pon el email`, 'string') }}",
             "urltwitter": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urltwitter', `pon la url del twitter`, 'string') }}",
-            "hawimiScore": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('hawimiScore', `pon el puntaje hawimi score calculado`, 'string') }}"
+            "hawimiScore": "={{ $('Loop Over Items').item.json['Hawimi score'] }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -769,7 +769,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "fed8fb01-c285-4a74-8c2f-f60447984f29",
+  "versionId": "471fb800-6d0f-40ad-9c6a-02a31afaeb4d",
   "activeVersionId": null,
   "triggerCount": 2,
   "shared": [
