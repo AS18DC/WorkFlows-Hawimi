@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-23T01:50:01.296Z",
+  "updatedAt": "2025-12-24T21:42:55.034Z",
   "createdAt": "2025-10-21T02:11:58.689Z",
   "id": "6QjYoURvSKH7wOw0",
   "name": "Enviar Correo Hawimi Score",
@@ -60,38 +60,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1104,
-        272
+        1312,
+        368
       ],
       "id": "03c5c8f3-e00f-413d-af7e-ccdf55a17455",
       "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/contacts",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "api_access_token",
-              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"inbox_id\": 2,\n  \"name\": \"{{ $json.nombre }}\",\n  \"email\": \"{{ $json.email }}\",\n  \"blocked\": false,\n  \"phone_number\": \"{{ $json.tlf }}\",\n  \"avatar_url\": \"https://example.com/avatar.png\",\n  \"identifier\": \"{{ $json.random }}\",\n  \"additional_attributes\": {\n    \"social_profiles\": \n    {\n      \"twitter\": \"{{ $json.urltwitter }}\",\n      \"facebook\": \"{{ $json.urlfacebook }}\",\n      \"instagram\": \"{{ $json.urlInstagram }}\" \n    }\n  },\n  \"custom_attributes\": {}\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        720,
-        352
-      ],
-      "id": "5b11a1d5-c6d4-4331-8de7-aa34faf2a2c7",
-      "name": "HTTP Request1"
     },
     {
       "parameters": {
@@ -115,7 +88,7 @@
           "parameters": [
             {
               "name": "api_access_token",
-              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
             }
           ]
         },
@@ -127,8 +100,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        880,
-        272
+        896,
+        112
       ],
       "id": "88211638-6843-49e3-a617-e80ef9402044",
       "name": "HTTP Request"
@@ -136,29 +109,82 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations",
+        "url": "http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/contacts",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
               "name": "api_access_token",
-              "value": "exzoCiPPLPWSJfbiPaP5hrs4"
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
             }
           ]
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"source_id\": \"{{ $('HTTP Request1').item.json.payload.contact.id }}\",\n  \"inbox_id\": 4,\n  \"status\": \"open\",\n  \"additional_attributes\": {\n    \"subject\": \"Congratulations! Your Business Hawimi Score 🌿🚀\"\n  },\n  \"message\": {\n    \"content\": \"Hello {{ $('When Executed by Another Workflow').item.json.nombre }}! 👋<br><br>We are thrilled to share your <b>Hawimi Score</b> with you.<br><br>🏆 <b>Your Score: {{ $('When Executed by Another Workflow').item.json.hawimiScore }}</b><br><br>This score reflects your commitment to a more conscious and impactful business. Keep up the amazing work!<br><br>Best regards,<br>The Hawimi Team 💚\",\n    \"message_type\": \"outgoing\",\n    \"private\": false\n  }\n}",
+        "jsonBody": "={\n  \"name\": \"{{ $json.nombre }}\",\n  \"email\": {{ $json.email && $json.email != \"\" ? JSON.stringify($json.email) : \"null\" }},\n  \"blocked\": false,\n  \"phone_number\": \"{{ $json.tlf }}\",\n  \"avatar_url\": \"https://example.com/avatar.png\",\n  \"identifier\": \"{{ $json.random }}\",\n  \"additional_attributes\": {\n    \"social_profiles\": \n    {\n      \"twitter\": \"{{ $json.urltwitter }}\",\n      \"facebook\": \"{{ $json.urlfacebook }}\",\n      \"instagram\": \"{{ $json.urlInstagram }}\" \n    }\n  },\n  \"custom_attributes\": {}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        672,
+        336
+      ],
+      "id": "5fc1fcd2-fb7d-42a7-b845-4ef1e91017b3",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/contacts/{{ $('HTTP Request3').item.json.payload.contact.id }}/labels",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"labels\": [\n    \"contactado\"\n  ]\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        880,
-        464
+        1136,
+        320
       ],
-      "id": "02e33fba-57b8-4e10-b0c5-7c4934a1f412",
-      "name": "Enviar Email (Chatwoot)"
+      "id": "91e38001-daf7-486e-8257-83ac69c869ed",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "url": "http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "api_access_token",
+              "value": "zE26KUcBUe9PPkAt8SYi4wdF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"source_id\": \"{{ $json.payload.contact.id }}\",\n  \"inbox_id\": 4,\n  \"status\": \"open\",\n  \"additional_attributes\": {\n    \"subject\": \"Congratulations! Your Business Hawimi Score 🌿🚀\"\n  },\n  \"message\": {\n    \"content\": \"Hello {{ $('When Executed by Another Workflow').item.json.nombre }}! 👋<br><br>We are thrilled to share your <b>Hawimi Score</b> with you.<br><br>🏆 <b>Your Score: {{ $('When Executed by Another Workflow').item.json.hawimiScore }}</b><br><br>This score reflects your commitment to a more conscious and impactful business. Keep up the amazing work!<br><br>Best regards,<br>The Hawimi Team 💚\",\n    \"message_type\": \"outgoing\",\n    \"private\": false\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        928,
+        320
+      ],
+      "id": "cd380ce8-9465-4645-a315-b66a04d3d790",
+      "name": "HTTP Request2"
     }
   ],
   "connections": {
@@ -177,7 +203,28 @@
       "main": [
         [
           {
-            "node": "HTTP Request1",
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request2",
             "type": "main",
             "index": 0
           }
@@ -188,23 +235,18 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Enviar Email (Chatwoot)",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTTP Request": {
+    "HTTP Request2": {
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "HTTP Request1",
             "type": "main",
             "index": 0
           }
@@ -221,17 +263,21 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "nombre": "The Chicago Diner",
-          "urlInstagram": "https://www.instagram.com/chicagodiner/",
-          "urlfacebook": "https://www.facebook.com/TheChicagoDiner",
-          "tlf": "+17739356696",
+          "nombre": "PLANTA Restaurants",
+          "urlInstagram": "https://www.instagram.com/planta/",
+          "urlfacebook": "",
+          "tlf": "",
           "email": "",
-          "urltwitter": "https://twitter.com/chicagodiner"
+          "urltwitter": "",
+          "hawimiScore": 95
+        },
+        "pairedItem": {
+          "item": 0
         }
       }
     ]
   },
-  "versionId": "2f8ed8a8-b2cc-4dd8-afa2-1c9b341e1141",
+  "versionId": "e5aa664c-f3f7-4662-bdd6-501f7839bece",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
