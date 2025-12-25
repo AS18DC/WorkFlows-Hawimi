@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-11-08T15:48:36.000Z",
+  "updatedAt": "2025-12-24T21:43:32.881Z",
   "createdAt": "2025-11-01T18:13:47.358Z",
   "id": "G3tNgyz2wNL5dYGR",
   "name": "hawimi scraping",
@@ -124,8 +124,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1712,
-        -48
+        1536,
+        -64
       ],
       "id": "66862341-1995-4b02-960f-9e48bae0fc26",
       "name": "Append row in sheet",
@@ -148,19 +148,6 @@
       ],
       "id": "315a1aca-082d-4589-8576-f84e999e3566",
       "name": "Loop Over Items"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        1456,
-        -64
-      ],
-      "id": "6bf95003-960d-44ab-90a8-6240b57cb3b4",
-      "name": "Loop Over Items1"
     },
     {
       "parameters": {
@@ -246,6 +233,110 @@
       ],
       "id": "e424fb09-a6a4-4adb-b8ff-bc6a24446bb6",
       "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1wpiuFweL6gbYvOQqiGmtzZmc2LvrgtLupIyEsvGiuYA",
+          "mode": "list",
+          "cachedResultName": "categorias de hawimi",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wpiuFweL6gbYvOQqiGmtzZmc2LvrgtLupIyEsvGiuYA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Hoja 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wpiuFweL6gbYvOQqiGmtzZmc2LvrgtLupIyEsvGiuYA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Loop Over Items').first().json.row_number }}",
+            "status": "ready"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Nº",
+              "displayName": "Nº",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Categoría",
+              "displayName": "Categoría",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Tipo / Enfoque Principal",
+              "displayName": "Tipo / Enfoque Principal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pais",
+              "displayName": "pais",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1744,
+        -64
+      ],
+      "id": "60cc0d80-655b-41ee-aafa-39454df47690",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "XsGaBYudmMFRftiq",
+          "name": "Google Sheets account"
+        }
+      }
     }
   ],
   "connections": {
@@ -276,25 +367,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items1": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Append row in sheet",
+            "node": "Update row in sheet",
             "type": "main",
             "index": 0
           }
@@ -305,7 +378,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items1",
+            "node": "Append row in sheet",
             "type": "main",
             "index": 0
           }
@@ -344,6 +417,17 @@
           }
         ]
       ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -354,7 +438,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "d6c28702-9bdb-459c-ba09-93dbe101cdd9",
+  "versionId": "c296c837-8255-471b-ab24-61e1ef9fffeb",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
