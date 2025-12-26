@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-24T21:42:55.034Z",
+  "updatedAt": "2025-12-26T03:15:18.694Z",
   "createdAt": "2025-10-21T02:11:58.689Z",
   "id": "6QjYoURvSKH7wOw0",
   "name": "Enviar Correo Hawimi Score",
@@ -184,7 +184,7 @@
         320
       ],
       "id": "cd380ce8-9465-4645-a315-b66a04d3d790",
-      "name": "HTTP Request2"
+      "name": "Send Email"
     }
   ],
   "connections": {
@@ -224,7 +224,7 @@
             "index": 0
           },
           {
-            "node": "HTTP Request2",
+            "node": "Send Email",
             "type": "main",
             "index": 0
           }
@@ -242,7 +242,7 @@
         ]
       ]
     },
-    "HTTP Request2": {
+    "Send Email": {
       "main": [
         [
           {
@@ -277,7 +277,7 @@
       }
     ]
   },
-  "versionId": "e5aa664c-f3f7-4662-bdd6-501f7839bece",
+  "versionId": "b89db34c-73bc-41b6-a404-761e9440bc94",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
