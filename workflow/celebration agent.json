@@ -1,34 +1,11 @@
 {
-  "updatedAt": "2025-12-24T21:34:44.756Z",
+  "updatedAt": "2025-12-26T03:12:55.384Z",
   "createdAt": "2025-10-13T23:29:13.860Z",
   "id": "9igCGPCcJvNsf5dz",
   "name": "celebration agent",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {
-        "updates": [
-          "message"
-        ],
-        "additionalFields": {}
-      },
-      "type": "n8n-nodes-base.telegramTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        -464,
-        192
-      ],
-      "id": "cd45f23f-8605-429b-a2d4-29ea700aaf71",
-      "name": "Telegram Trigger",
-      "webhookId": "86a84e59-181a-4bc0-84fb-7e213a692aac",
-      "credentials": {
-        "telegramApi": {
-          "id": "CkTlqQbItRiJ4WZt",
-          "name": "celebration agent"
-        }
-      }
-    },
     {
       "parameters": {
         "url": "={{ $json.inputUrl }}",
@@ -324,7 +301,6 @@
         "rule": {
           "interval": [
             {
-              "daysInterval": 7,
               "triggerAtMinute": 30
             }
           ]
@@ -333,8 +309,8 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -464,
-        0
+        -480,
+        96
       ],
       "id": "8c61e853-adca-4fe5-9373-39b1b0594646",
       "name": "Schedule Trigger"
@@ -562,17 +538,6 @@
     }
   ],
   "connections": {
-    "Telegram Trigger": {
-      "main": [
-        [
-          {
-            "node": "Get row(s) in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "HTTP Request": {
       "main": [
         [
@@ -769,9 +734,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "471fb800-6d0f-40ad-9c6a-02a31afaeb4d",
-  "activeVersionId": null,
-  "triggerCount": 2,
+  "versionId": "5b1b3b0e-b054-4291-a493-cfefe81bf21a",
+  "activeVersionId": "5b1b3b0e-b054-4291-a493-cfefe81bf21a",
+  "triggerCount": 1,
   "shared": [
     {
       "updatedAt": "2025-10-13T23:29:13.865Z",
@@ -781,6 +746,731 @@
       "projectId": "vmy1v6GvUEx0NXtc"
     }
   ],
-  "activeVersion": null,
+  "activeVersion": {
+    "updatedAt": "2025-12-26T03:12:55.385Z",
+    "createdAt": "2025-12-26T03:12:55.385Z",
+    "versionId": "5b1b3b0e-b054-4291-a493-cfefe81bf21a",
+    "workflowId": "9igCGPCcJvNsf5dz",
+    "nodes": [
+      {
+        "parameters": {
+          "url": "={{ $json.inputUrl }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "user-agent",
+                "value": "={{ $json.userAgent }}"
+              }
+            ]
+          },
+          "options": {
+            "redirect": {
+              "redirect": {
+                "maxRedirects": 10
+              }
+            }
+          }
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          656,
+          32
+        ],
+        "id": "0ce165b1-84d3-4978-a180-80b31881a584",
+        "name": "HTTP Request",
+        "alwaysOutputData": false,
+        "executeOnce": false,
+        "retryOnFail": false,
+        "notesInFlow": false,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "operation": "extractHtmlContent",
+          "extractionValues": {
+            "values": [
+              {
+                "key": "links",
+                "cssSelector": "a",
+                "returnValue": "attribute",
+                "attribute": "href"
+              },
+              {
+                "key": "body_text",
+                "cssSelector": "body"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.html",
+        "typeVersion": 1.2,
+        "position": [
+          880,
+          32
+        ],
+        "id": "79fd59c2-77c1-4942-b81d-716dbb8a81ba",
+        "name": "HTML",
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "daa0df63-225d-40aa-bbc5-3e234fbbb4ef",
+                "name": "inputUrl",
+                "value": "={{ $json.respuestas }}",
+                "type": "string"
+              },
+              {
+                "id": "5c951bbd-b348-4ba5-8b72-7a35363615b6",
+                "name": "userAgent",
+                "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123 Safari/537.36",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          432,
+          32
+        ],
+        "id": "b1b600cd-8a0e-4960-b66c-5c61423ab4d4",
+        "name": "Set Defaults"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Eres un agente orquestador dedicado a la extraccion de informacion de contacto de una empesa que debe usar sus 2 herramientas, las cuales son agentes tambien, tu no buscas informacion, tus herramientas te son los que revisan el codigo html y hacen la busqueda en la pagina para buscar toda la informacion de contacto. necesitas usar las 2 herramientas y consolidar sus respuestas para dar una respuesta final de la informacion completa. Al final debes usar tu herramienta crearContacto añadiendo todo lo que extragiste, si te falta algo dejalo vacio",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 2.2,
+        "position": [
+          1488,
+          -160
+        ],
+        "id": "f58c9c26-f0dc-4adf-a1c5-1ae8f5023f0d",
+        "name": "AI Agent1"
+      },
+      {
+        "parameters": {
+          "model": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "gpt-4o-mini"
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+        "typeVersion": 1.2,
+        "position": [
+          1408,
+          288
+        ],
+        "id": "b78aae7d-8a5f-42f2-b95b-262e55eba4a8",
+        "name": "OpenAI Chat Model1",
+        "credentials": {
+          "openAiApi": {
+            "id": "lfcl7qo2bx0aQmQ6",
+            "name": "OpenAi account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "toolDescription": "agente extractor de html",
+          "text": "={{ $json.body_text }}",
+          "options": {
+            "systemMessage": "Eres un extractor de redes sociales, emails y numeros de telefono, recibes un body_text de un html y debes devolver los link que sean de tiktok, instagram, facebook, etc, a demas de los correos electronicos y numeros de telefono"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.agentTool",
+        "typeVersion": 2.2,
+        "position": [
+          1328,
+          80
+        ],
+        "id": "b30467f6-679d-436c-815f-ec8388ffcdf4",
+        "name": "AI Agent Tool"
+      },
+      {
+        "parameters": {
+          "toolDescription": "agente buscador de informacion",
+          "text": "=necesito que extraigas la informacion de contacto del siguiente link {{ $('Set Defaults').item.json.inputUrl }} . Extrae redes sociales, emails y numeros de telefono",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agentTool",
+        "typeVersion": 2.2,
+        "position": [
+          1616,
+          80
+        ],
+        "id": "6ee7bf83-cb37-49cf-abe7-8461bd4f8b75",
+        "name": "AI Agent Tool1"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+        "typeVersion": 1,
+        "position": [
+          1728,
+          288
+        ],
+        "id": "6488b5ba-ca11-4771-8884-e37f23fd5f6c",
+        "name": "SerpAPI",
+        "credentials": {
+          "serpApi": {
+            "id": "l6zroHtSyDRQjH5P",
+            "name": "SerpAPI account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "description": "crearContacto: con esta herramienta puedes crear un contacto con toda la informacion que obtuviste y subirlo a nuestro crm",
+          "workflowId": {
+            "__rl": true,
+            "value": "6QjYoURvSKH7wOw0",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/6QjYoURvSKH7wOw0",
+            "cachedResultName": "Enviar Correo Hawimi Score"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "nombre": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('nombre', `pon el nombre de la empresa aqui`, 'string') }}",
+              "urlInstagram": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urlInstagram', `pon la url del instagram`, 'string') }}",
+              "urlfacebook": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urlfacebook', `pon la url del facebook`, 'string') }}",
+              "tlf": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tlf', `pon el numero de telefono, debes ponerlo en el formato e164. Solo manda 1 de los que aparezcan`, 'string') }}",
+              "email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('email', `pon el email`, 'string') }}",
+              "urltwitter": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('urltwitter', `pon la url del twitter`, 'string') }}",
+              "hawimiScore": "={{ $('Loop Over Items').item.json['Hawimi score'] }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "nombre",
+                "displayName": "nombre",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "urlInstagram",
+                "displayName": "urlInstagram",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "urlfacebook",
+                "displayName": "urlfacebook",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "tlf",
+                "displayName": "tlf",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "email",
+                "displayName": "email",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "urltwitter",
+                "displayName": "urltwitter",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "hawimiScore",
+                "displayName": "hawimiScore",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+        "typeVersion": 2.2,
+        "position": [
+          1904,
+          80
+        ],
+        "id": "5f970e39-ef48-47fd-b6b5-7d33ac77b1c9",
+        "name": "Call 'crear contacto'"
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "triggerAtMinute": 30
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -480,
+          96
+        ],
+        "id": "8c61e853-adca-4fe5-9373-39b1b0594646",
+        "name": "Schedule Trigger"
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1wpiuFweL6gbYvOQqiGmtzZmc2LvrgtLupIyEsvGiuYA",
+            "mode": "list",
+            "cachedResultName": "categorias de hawimi",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wpiuFweL6gbYvOQqiGmtzZmc2LvrgtLupIyEsvGiuYA/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 967700156,
+            "mode": "list",
+            "cachedResultName": "Hoja 2",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wpiuFweL6gbYvOQqiGmtzZmc2LvrgtLupIyEsvGiuYA/edit#gid=967700156"
+          },
+          "filtersUI": {
+            "values": [
+              {
+                "lookupColumn": "Status",
+                "lookupValue": "active"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          -240,
+          96
+        ],
+        "id": "751e0336-57f4-43a4-9af8-137c47cf27bb",
+        "name": "Get row(s) in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "const url = $input.item.json.respuestas;\n\n// Mantiene http(s) y www, elimina todo lo que venga después del dominio (.com, .net, etc.)\nconst match = url.match(/^(https?:\\/\\/[^\\/]+)(?:\\/.*)?$/i);\n\nif (match && match[1]) {\n  $input.item.json.respuestas = match[1];\n} else {\n  console.log(\"URL inválida:\", url);\n}\n\nreturn $input.item;\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          208,
+          32
+        ],
+        "id": "1db52845-f9bb-4a69-b00b-46b8f948287f",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -16,
+          96
+        ],
+        "id": "813624e6-190f-4a41-bc39-6abc699c650e",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {
+          "operation": "update",
+          "documentId": {
+            "__rl": true,
+            "value": "1wpiuFweL6gbYvOQqiGmtzZmc2LvrgtLupIyEsvGiuYA",
+            "mode": "list",
+            "cachedResultName": "categorias de hawimi",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wpiuFweL6gbYvOQqiGmtzZmc2LvrgtLupIyEsvGiuYA/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 967700156,
+            "mode": "list",
+            "cachedResultName": "Hoja 2",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wpiuFweL6gbYvOQqiGmtzZmc2LvrgtLupIyEsvGiuYA/edit#gid=967700156"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "row_number": "={{ $('Code in JavaScript').item.json.row_number }}",
+              "Status": "contacted"
+            },
+            "matchingColumns": [
+              "row_number"
+            ],
+            "schema": [
+              {
+                "id": "respuestas",
+                "displayName": "respuestas",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Hawimi score",
+                "displayName": "Hawimi score",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Wellbeing",
+                "displayName": "Wellbeing",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Humanity",
+                "displayName": "Humanity",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Planet",
+                "displayName": "Planet",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "Status",
+                "displayName": "Status",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "row_number",
+                "displayName": "row_number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "readOnly": true,
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheets",
+        "typeVersion": 4.7,
+        "position": [
+          2000,
+          368
+        ],
+        "id": "f176bee0-8c24-4e09-8529-ed31c69e08ba",
+        "name": "Update row in sheet",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "XsGaBYudmMFRftiq",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "27343513-12a0-4cad-8b0d-597c0bfcdbee",
+                "leftValue": "={{ $json.error }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notExists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1104,
+          32
+        ],
+        "id": "bf8df118-23ce-4c3e-b8ac-d20ed8b660aa",
+        "name": "If"
+      }
+    ],
+    "connections": {
+      "HTTP Request": {
+        "main": [
+          [
+            {
+              "node": "HTML",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTML": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Defaults": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "ai_languageModel",
+              "index": 0
+            },
+            {
+              "node": "AI Agent Tool",
+              "type": "ai_languageModel",
+              "index": 0
+            },
+            {
+              "node": "AI Agent Tool1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent Tool": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent Tool1": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SerpAPI": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent Tool1",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent1": {
+        "main": [
+          [
+            {
+              "node": "Update row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'crear contacto'": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Get row(s) in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s) in sheet": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Set Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "AI Agent1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Update row in sheet",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update row in sheet": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Aharon Guedez",
+    "name": null,
+    "description": null
+  },
   "tags": []
 }
