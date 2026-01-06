@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-12-26T03:15:18.694Z",
+  "updatedAt": "2026-01-06T00:21:22.151Z",
   "createdAt": "2025-10-21T02:11:58.689Z",
   "id": "6QjYoURvSKH7wOw0",
   "name": "Enviar Correo Hawimi Score",
@@ -60,8 +60,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1312,
-        368
+        1424,
+        320
       ],
       "id": "03c5c8f3-e00f-413d-af7e-ccdf55a17455",
       "name": "Edit Fields"
@@ -100,8 +100,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        896,
-        112
+        880,
+        208
       ],
       "id": "88211638-6843-49e3-a617-e80ef9402044",
       "name": "HTTP Request"
@@ -154,7 +154,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1136,
+        1248,
         320
       ],
       "id": "91e38001-daf7-486e-8257-83ac69c869ed",
@@ -162,6 +162,7 @@
     },
     {
       "parameters": {
+        "method": "POST",
         "url": "http://funnel_ventas_chatwoot:3000/api/v1/accounts/1/conversations",
         "sendHeaders": true,
         "headerParameters": {
@@ -174,17 +175,51 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"source_id\": \"{{ $json.payload.contact.id }}\",\n  \"inbox_id\": 4,\n  \"status\": \"open\",\n  \"additional_attributes\": {\n    \"subject\": \"Congratulations! Your Business Hawimi Score 🌿🚀\"\n  },\n  \"message\": {\n    \"content\": \"Hello {{ $('When Executed by Another Workflow').item.json.nombre }}! 👋<br><br>We are thrilled to share your <b>Hawimi Score</b> with you.<br><br>🏆 <b>Your Score: {{ $('When Executed by Another Workflow').item.json.hawimiScore }}</b><br><br>This score reflects your commitment to a more conscious and impactful business. Keep up the amazing work!<br><br>Best regards,<br>The Hawimi Team 💚\",\n    \"message_type\": \"outgoing\",\n    \"private\": false\n  }\n}",
+        "jsonBody": "={\n  \"contact_id\": {{ $json.payload.contact.id }},\n  \"inbox_id\": 4,\n  \"status\": \"open\",\n  \"additional_attributes\": {\n    \"mail_subject\": \"Your Hawimi Score Results Are Ready\"\n  },\n  \"message\": {\n    \"content\": \"Hello {{ $('When Executed by Another Workflow').item.json.nombre }},\\n\\nWe are pleased to share the results of your **Hawimi Score assessment**.\\n\\n🏆 **Your Hawimi Score: {{ $('When Executed by Another Workflow').item.json.hawimiScore }}**\\n\\nThis score provides a clear snapshot of how your business is currently positioned in terms of conscious decision-making, strategic alignment, and long-term impact. More than a number, it highlights both your strengths and the opportunities available to further optimize performance, resilience, and sustainable growth.\\n\\nAt Hawimi, we specialize in transforming insights like this into actionable strategies that help businesses strengthen their foundations, make smarter decisions, and create lasting value.\\n\\nIf you would like to better understand what your score means for your business — and how to improve it through tailored guidance — our team would be delighted to support you.\\n\\nKind regards,\\nThe Hawimi Team 💚\",\n    \"message_type\": \"outgoing\",\n    \"private\": false\n  }\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        928,
+        1072,
         320
       ],
       "id": "cd380ce8-9465-4645-a315-b66a04d3d790",
       "name": "Send Email"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5d518ded-f173-4f26-b5f8-09a6efa8babc",
+              "leftValue": "={{ $('When Executed by Another Workflow').item.json.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        880,
+        400
+      ],
+      "id": "cfd2c5de-1041-4266-a5e3-f2a620a63ce5",
+      "name": "If"
     }
   ],
   "connections": {
@@ -224,7 +259,7 @@
             "index": 0
           },
           {
-            "node": "Send Email",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -252,6 +287,17 @@
           }
         ]
       ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -263,21 +309,18 @@
     "When Executed by Another Workflow": [
       {
         "json": {
-          "nombre": "PLANTA Restaurants",
+          "nombre": "Prueba A",
           "urlInstagram": "https://www.instagram.com/planta/",
           "urlfacebook": "",
           "tlf": "",
-          "email": "",
+          "email": "marcoa13310+tttt@gmail.com",
           "urltwitter": "",
           "hawimiScore": 95
-        },
-        "pairedItem": {
-          "item": 0
         }
       }
     ]
   },
-  "versionId": "b89db34c-73bc-41b6-a404-761e9440bc94",
+  "versionId": "9aa1f36b-5a44-4743-ad47-672cefc3a758",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
