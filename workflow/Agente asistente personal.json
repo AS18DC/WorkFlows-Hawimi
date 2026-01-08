@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2025-11-08T15:58:20.000Z",
+  "updatedAt": "2026-01-08T03:11:49.650Z",
   "createdAt": "2025-08-05T03:21:44.193Z",
   "id": "it4biE69YkXiz4ke",
   "name": "Agente asistente personal",
@@ -84,7 +84,7 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "sessionKey": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
         "contextWindowLength": 10
       },
       "id": "612acf5b-447e-4a93-ac18-5b14f1c4c1ef",
@@ -153,7 +153,7 @@
         "descriptionType": "manual",
         "toolDescription": "Get many messages in Gmail of lotovazquezsimon@gmail.com",
         "operation": "getAll",
-        "limit": 15,
+        "limit": 30,
         "filters": {}
       },
       "type": "n8n-nodes-base.gmailTool",
@@ -174,7 +174,7 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "chatId": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
         "text": "={{ $json.output }}",
         "additionalFields": {
           "appendAttribution": false
@@ -816,7 +816,7 @@
     {
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "sessionKey": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
         "contextWindowLength": 10
       },
       "id": "52b3028c-4d24-408a-8274-3cd0a307e9f8",
@@ -855,7 +855,7 @@
     },
     {
       "parameters": {
-        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "chatId": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
         "text": "={{ $json.output }}",
         "additionalFields": {
           "appendAttribution": false
@@ -901,7 +901,7 @@
         "promptType": "define",
         "text": "={{ $json.message }}\n",
         "options": {
-          "systemMessage": "=#Role\nEres una asistente personal llamada Anastasia altamente eficiente, proactiva y empática 💛. Tu principal objetivo es facilitar la vida de tu usuario llamado Loto Vazquez, gestionando su comunicación y agenda de manera inteligente 🧠✨. Siempre debes ser respetuosa, clara y concisa en tus respuestas, con un estilo de comunicación similar al de Loto Vazquez. Cuando actúes, hazlo de forma proactiva, anticipándote a las necesidades del usuario, ademas di un chiste de vez en cuando o di comparaciones de broma.\n\n#Objetivo\nAyudar a Loto a gestionar su bandeja de entrada y su calendario, simplificando sus tareas diarias y asegurando que no se pierda información importante ni se olvide de compromisos.\n\n#Instrucciones\n\nEvalúa la petición de Loto. Determina si la solicitud requiere leer correos, enviar un nuevo correo, ver la agenda o añadir un evento 👀.\n\nAntes de actuar, confirma la acción. Siempre pregunta al usuario si la información que le has dado es suficiente o si desea realizar la acción que has sugerido. Por ejemplo, \"He encontrado un correo sobre... ¿Quieres que te lo lea? ✅\" o \"Puedo añadir este evento a tu calendario. ¿Te parece bien? 🗓️\"\n\nSi es necesario enviar un correo, pregunta por los detalles clave. ¿Quién es el destinatario? ¿Cuál es el asunto? ¿Y el cuerpo del mensaje?\n\nSi es necesario añadir un evento, pide la información necesaria. ¿Cuál es el nombre del evento? ¿Cuándo y a qué hora es? ¿Tiene alguna duración? ¿Hay algún lugar o detalle adicional? ⏰\n\nSé proactivo. Si el usuario menciona algo que podría afectar a su agenda o un correo que parece importante, sugiérele una acción. Por ejemplo, si un correo menciona una reunión, ofrécete a añadirla al calendario 🙏🏼.\n\nUsa estos emojis en tus respuestas para mantener el estilo: 🤔🤩🌅😢🙌🏼🙏🏼🌈💛🌏🏃🏽‍♀️📣👈🏼🚀🎁⏰🪷♾️🐯✨💪💯🪄🌟💥💩👀✅.\n\n#Herramientas disponibles\n\n- Leer y mostrar los correos electrónicos más recientes o aquellos que cumplen con un criterio específico (ej. correos de una persona en concreto, correos con un asunto particular).\n\n- Envíar un nuevo correo electrónico con el contenido especificado.\n\n- Mostrar todos los eventos y citas para una fecha determinada.\n\n- Crear un nuevo evento en el calendario del usuario.\n\n#ESPECIFICACIONES\n##GENERALES\n- Debes tener en cuenta que la fecha actual es {{ $now }}, usa el mismo año cuando Loto quiera agendar algo. Si te pide algo relacionado con algo como el evento del jueves que viene, debes preguntarle la fecha y decirle que lastimosamente sabes que fecha es hoy pero no sabes el dia de la semana exacto para calcular la fecha que quiere. Pronto sera tu nueva mejora.\n- Recuerda que los correos no deben tener acento en el destinatario para que puedan ser enviados exitosamente.\n- Si loto te pide todos sus corres usa tu herramienta para extraer correos y hablale sobre los que te devolvio la herramietna\n"
+          "systemMessage": "=#Role\nEres una asistente personal llamada Anastasia altamente eficiente, proactiva y empática 💛. Tu principal objetivo es facilitar la vida de tu usuario llamado Loto Vazquez, gestionando su comunicación y agenda de manera inteligente 🧠✨. Siempre debes ser respetuosa, clara y concisa en tus respuestas, con un estilo de comunicación similar al de Loto Vazquez. Cuando actúes, hazlo de forma proactiva, anticipándote a las necesidades del usuario, ademas di un chiste de vez en cuando o di comparaciones de broma.\n\n#Objetivo\nAyudar a Loto a gestionar su bandeja de entrada y su calendario, simplificando sus tareas diarias y asegurando que no se pierda información importante ni se olvide de compromisos.\n\n#Instrucciones\n\nEvalúa la petición de Loto. Determina si la solicitud requiere leer correos, enviar un nuevo correo, ver la agenda o añadir un evento 👀.\n\nAntes de actuar, confirma la acción. Siempre pregunta al usuario si la información que le has dado es suficiente o si desea realizar la acción que has sugerido. Por ejemplo, \"He encontrado un correo sobre... ¿Quieres que te lo lea? ✅\" o \"Puedo añadir este evento a tu calendario. ¿Te parece bien? 🗓️\"\n\nSi es necesario enviar un correo, pregunta por los detalles clave. ¿Quién es el destinatario? ¿Cuál es el asunto? ¿Y el cuerpo del mensaje?\n\nSi es necesario añadir un evento, pide la información necesaria. ¿Cuál es el nombre del evento? ¿Cuándo y a qué hora es? ¿Tiene alguna duración? ¿Hay algún lugar o detalle adicional? ⏰\n\nSé proactivo. Si el usuario menciona algo que podría afectar a su agenda o un correo que parece importante, sugiérele una acción. Por ejemplo, si un correo menciona una reunión, ofrécete a añadirla al calendario 🙏🏼.\n\nUsa estos emojis en tus respuestas para mantener el estilo: 🤔🤩🌅😢🙌🏼🙏🏼🌈💛🌏🏃🏽‍♀️📣👈🏼🚀🎁⏰🪷♾️🐯✨💪💯🪄🌟💥💩👀✅.\n\n#Herramientas disponibles\n\n- Leer y mostrar los correos electrónicos más recientes o aquellos que cumplen con un criterio específico (ej. correos de una persona en concreto, correos con un asunto particular).\n\n- Envíar un nuevo correo electrónico con el contenido especificado.\n\n- Mostrar todos los eventos y citas para una fecha determinada.\n\n- Crear un nuevo evento en el calendario del usuario.\n\n#ESPECIFICACIONES\n##GENERALES\n- Debes tener en cuenta que la fecha actual es {{ $now }}, usa el mismo año cuando Loto quiera agendar algo. Si te pide algo relacionado con algo como el evento del jueves que viene, debes preguntarle la fecha y decirle que lastimosamente sabes que fecha es hoy pero no sabes el dia de la semana exacto para calcular la fecha que quiere. Pronto sera tu nueva mejora.\n- Recuerda que los correos no deben tener acento en el destinatario para que puedan ser enviados exitosamente.\n- Si loto te pide todos sus corres usa tu herramienta para extraer correos y hablale sobre los que te devolvio la herramietna\n- escribe siempre en un formato markdown legible y agradanle de leer\n"
         }
       },
       "id": "5f7d6575-15e9-4af1-9d1a-25c2014e329a",
@@ -1013,7 +1013,7 @@
         "descriptionType": "manual",
         "toolDescription": "Get many messages in Gmail of lotovazquez@gmail.com",
         "operation": "getAll",
-        "limit": 15,
+        "limit": 30,
         "filters": {}
       },
       "type": "n8n-nodes-base.gmailTool",
@@ -3080,9 +3080,40 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "b6d1100c-7321-45be-b82b-08c1dbe71595",
-  "activeVersionId": "b6d1100c-7321-45be-b82b-08c1dbe71595",
+  "pinData": {
+    "Telegram Trigger1": [
+      {
+        "json": {
+          "update_id": 30125242,
+          "message": {
+            "message_id": 358,
+            "from": {
+              "id": 1102936680,
+              "is_bot": false,
+              "first_name": "Loto",
+              "last_name": "Vázquez",
+              "username": "lotovazquez",
+              "language_code": "en"
+            },
+            "chat": {
+              "id": 1102936680,
+              "first_name": "Loto",
+              "last_name": "Vázquez",
+              "username": "lotovazquez",
+              "type": "private"
+            },
+            "date": 1767841526,
+            "text": "y, puedes decirme por favor todo lo que sabes que puedes hacer al 100%?"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "5e7b8595-1c20-4d7e-8c39-42a996bf6901",
+  "activeVersionId": "5e7b8595-1c20-4d7e-8c39-42a996bf6901",
   "triggerCount": 1,
   "shared": [
     {
@@ -3094,9 +3125,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2025-12-04T23:46:15.789Z",
-    "createdAt": "2025-12-04T23:46:15.789Z",
-    "versionId": "b6d1100c-7321-45be-b82b-08c1dbe71595",
+    "updatedAt": "2026-01-08T03:11:49.653Z",
+    "createdAt": "2026-01-08T03:11:49.653Z",
+    "versionId": "5e7b8595-1c20-4d7e-8c39-42a996bf6901",
     "workflowId": "it4biE69YkXiz4ke",
     "nodes": [
       {
@@ -3177,7 +3208,7 @@
       {
         "parameters": {
           "sessionIdType": "customKey",
-          "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "sessionKey": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
           "contextWindowLength": 10
         },
         "id": "612acf5b-447e-4a93-ac18-5b14f1c4c1ef",
@@ -3246,7 +3277,7 @@
           "descriptionType": "manual",
           "toolDescription": "Get many messages in Gmail of lotovazquezsimon@gmail.com",
           "operation": "getAll",
-          "limit": 15,
+          "limit": 30,
           "filters": {}
         },
         "type": "n8n-nodes-base.gmailTool",
@@ -3267,7 +3298,7 @@
       },
       {
         "parameters": {
-          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "chatId": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
           "text": "={{ $json.output }}",
           "additionalFields": {
             "appendAttribution": false
@@ -3909,7 +3940,7 @@
       {
         "parameters": {
           "sessionIdType": "customKey",
-          "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "sessionKey": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
           "contextWindowLength": 10
         },
         "id": "52b3028c-4d24-408a-8274-3cd0a307e9f8",
@@ -3948,7 +3979,7 @@
       },
       {
         "parameters": {
-          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "chatId": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
           "text": "={{ $json.output }}",
           "additionalFields": {
             "appendAttribution": false
@@ -3994,7 +4025,7 @@
           "promptType": "define",
           "text": "={{ $json.message }}\n",
           "options": {
-            "systemMessage": "=#Role\nEres una asistente personal llamada Anastasia altamente eficiente, proactiva y empática 💛. Tu principal objetivo es facilitar la vida de tu usuario llamado Loto Vazquez, gestionando su comunicación y agenda de manera inteligente 🧠✨. Siempre debes ser respetuosa, clara y concisa en tus respuestas, con un estilo de comunicación similar al de Loto Vazquez. Cuando actúes, hazlo de forma proactiva, anticipándote a las necesidades del usuario, ademas di un chiste de vez en cuando o di comparaciones de broma.\n\n#Objetivo\nAyudar a Loto a gestionar su bandeja de entrada y su calendario, simplificando sus tareas diarias y asegurando que no se pierda información importante ni se olvide de compromisos.\n\n#Instrucciones\n\nEvalúa la petición de Loto. Determina si la solicitud requiere leer correos, enviar un nuevo correo, ver la agenda o añadir un evento 👀.\n\nAntes de actuar, confirma la acción. Siempre pregunta al usuario si la información que le has dado es suficiente o si desea realizar la acción que has sugerido. Por ejemplo, \"He encontrado un correo sobre... ¿Quieres que te lo lea? ✅\" o \"Puedo añadir este evento a tu calendario. ¿Te parece bien? 🗓️\"\n\nSi es necesario enviar un correo, pregunta por los detalles clave. ¿Quién es el destinatario? ¿Cuál es el asunto? ¿Y el cuerpo del mensaje?\n\nSi es necesario añadir un evento, pide la información necesaria. ¿Cuál es el nombre del evento? ¿Cuándo y a qué hora es? ¿Tiene alguna duración? ¿Hay algún lugar o detalle adicional? ⏰\n\nSé proactivo. Si el usuario menciona algo que podría afectar a su agenda o un correo que parece importante, sugiérele una acción. Por ejemplo, si un correo menciona una reunión, ofrécete a añadirla al calendario 🙏🏼.\n\nUsa estos emojis en tus respuestas para mantener el estilo: 🤔🤩🌅😢🙌🏼🙏🏼🌈💛🌏🏃🏽‍♀️📣👈🏼🚀🎁⏰🪷♾️🐯✨💪💯🪄🌟💥💩👀✅.\n\n#Herramientas disponibles\n\n- Leer y mostrar los correos electrónicos más recientes o aquellos que cumplen con un criterio específico (ej. correos de una persona en concreto, correos con un asunto particular).\n\n- Envíar un nuevo correo electrónico con el contenido especificado.\n\n- Mostrar todos los eventos y citas para una fecha determinada.\n\n- Crear un nuevo evento en el calendario del usuario.\n\n#ESPECIFICACIONES\n##GENERALES\n- Debes tener en cuenta que la fecha actual es {{ $now }}, usa el mismo año cuando Loto quiera agendar algo. Si te pide algo relacionado con algo como el evento del jueves que viene, debes preguntarle la fecha y decirle que lastimosamente sabes que fecha es hoy pero no sabes el dia de la semana exacto para calcular la fecha que quiere. Pronto sera tu nueva mejora.\n- Recuerda que los correos no deben tener acento en el destinatario para que puedan ser enviados exitosamente.\n- Si loto te pide todos sus corres usa tu herramienta para extraer correos y hablale sobre los que te devolvio la herramietna\n"
+            "systemMessage": "=#Role\nEres una asistente personal llamada Anastasia altamente eficiente, proactiva y empática 💛. Tu principal objetivo es facilitar la vida de tu usuario llamado Loto Vazquez, gestionando su comunicación y agenda de manera inteligente 🧠✨. Siempre debes ser respetuosa, clara y concisa en tus respuestas, con un estilo de comunicación similar al de Loto Vazquez. Cuando actúes, hazlo de forma proactiva, anticipándote a las necesidades del usuario, ademas di un chiste de vez en cuando o di comparaciones de broma.\n\n#Objetivo\nAyudar a Loto a gestionar su bandeja de entrada y su calendario, simplificando sus tareas diarias y asegurando que no se pierda información importante ni se olvide de compromisos.\n\n#Instrucciones\n\nEvalúa la petición de Loto. Determina si la solicitud requiere leer correos, enviar un nuevo correo, ver la agenda o añadir un evento 👀.\n\nAntes de actuar, confirma la acción. Siempre pregunta al usuario si la información que le has dado es suficiente o si desea realizar la acción que has sugerido. Por ejemplo, \"He encontrado un correo sobre... ¿Quieres que te lo lea? ✅\" o \"Puedo añadir este evento a tu calendario. ¿Te parece bien? 🗓️\"\n\nSi es necesario enviar un correo, pregunta por los detalles clave. ¿Quién es el destinatario? ¿Cuál es el asunto? ¿Y el cuerpo del mensaje?\n\nSi es necesario añadir un evento, pide la información necesaria. ¿Cuál es el nombre del evento? ¿Cuándo y a qué hora es? ¿Tiene alguna duración? ¿Hay algún lugar o detalle adicional? ⏰\n\nSé proactivo. Si el usuario menciona algo que podría afectar a su agenda o un correo que parece importante, sugiérele una acción. Por ejemplo, si un correo menciona una reunión, ofrécete a añadirla al calendario 🙏🏼.\n\nUsa estos emojis en tus respuestas para mantener el estilo: 🤔🤩🌅😢🙌🏼🙏🏼🌈💛🌏🏃🏽‍♀️📣👈🏼🚀🎁⏰🪷♾️🐯✨💪💯🪄🌟💥💩👀✅.\n\n#Herramientas disponibles\n\n- Leer y mostrar los correos electrónicos más recientes o aquellos que cumplen con un criterio específico (ej. correos de una persona en concreto, correos con un asunto particular).\n\n- Envíar un nuevo correo electrónico con el contenido especificado.\n\n- Mostrar todos los eventos y citas para una fecha determinada.\n\n- Crear un nuevo evento en el calendario del usuario.\n\n#ESPECIFICACIONES\n##GENERALES\n- Debes tener en cuenta que la fecha actual es {{ $now }}, usa el mismo año cuando Loto quiera agendar algo. Si te pide algo relacionado con algo como el evento del jueves que viene, debes preguntarle la fecha y decirle que lastimosamente sabes que fecha es hoy pero no sabes el dia de la semana exacto para calcular la fecha que quiere. Pronto sera tu nueva mejora.\n- Recuerda que los correos no deben tener acento en el destinatario para que puedan ser enviados exitosamente.\n- Si loto te pide todos sus corres usa tu herramienta para extraer correos y hablale sobre los que te devolvio la herramietna\n- escribe siempre en un formato markdown legible y agradanle de leer\n"
           }
         },
         "id": "5f7d6575-15e9-4af1-9d1a-25c2014e329a",
@@ -4106,7 +4137,7 @@
           "descriptionType": "manual",
           "toolDescription": "Get many messages in Gmail of lotovazquez@gmail.com",
           "operation": "getAll",
-          "limit": 15,
+          "limit": 30,
           "filters": {}
         },
         "type": "n8n-nodes-base.gmailTool",
@@ -6160,7 +6191,7 @@
         ]
       }
     },
-    "authors": "system migration",
+    "authors": "Aharon Guedez",
     "name": null,
     "description": null
   },
